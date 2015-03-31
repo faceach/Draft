@@ -12,21 +12,8 @@
 	</style>
 </head>
 <body>
-	<canvas id="canvas" class="canvas"></canvas>
+	<canvas id="canvas" class="canvas" width="600" height="400"></canvas>
 
-	<script type="text/javascript">
-		var canvas = document.getElementById('canvas');
-		if (canvas.getContext){
-			var ctx = canvas.getContext('2d');
-			// drawing code here
-			ctx.fillStyle = "rgb(200,0,0)";
-			ctx.fillRect (10, 10, 55, 50);
-
-			ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-			ctx.fillRect (30, 30, 55, 50);
-		} else {
-			// canvas-unsupported code here
-		}
-	</script>
+	<script src="main.js" type="text/javascript" charset="utf-8" async defer></script>
 </body>
 </html>
