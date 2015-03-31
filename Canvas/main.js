@@ -2,6 +2,9 @@
 	var canvas = document.getElementById('canvas');
 	if (canvas.getContext){
 		var ctx = canvas.getContext('2d');
+
+		ctx.imageSmoothingEnabled = true;
+
 		// drawing code here
 		ctx.fillStyle = "rgb(200,0,0)";
 		ctx.fillRect(30, 30, 55, 50);
@@ -21,6 +24,10 @@
 	    ctx.lineTo(140, 200);
 	    ctx.lineTo(200, 208);
 	    ctx.stroke();
+
+		ctx.font = "20px Arial";
+		ctx.fillStyle = "Black";
+		ctx.fillText("Sample String", 5, 250);
 	} else {
 		// canvas-unsupported code here
 	}
