@@ -15,7 +15,7 @@
 		ctx.strokeRect(10.5, 10.5, 120, 120);
 
 		ctx.strokeStyle = "#000";
-		ctx.lineWidth = 1;
+		ctx.lineWidth = 2;
 	    ctx.beginPath();
 	    ctx.moveTo(140.5, 5);
 	    ctx.lineTo(140.5, 200);
