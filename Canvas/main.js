@@ -17,9 +17,9 @@
 		ctx.strokeStyle = "#000";
 		ctx.lineWidth = 2;
 	    ctx.beginPath();
-	    ctx.moveTo(140.5, 5);
-	    ctx.lineTo(140.5, 200);
-	    ctx.lineTo(200.5, 208);
+	    ctx.moveTo(140, 5);
+	    ctx.lineTo(140, 200);
+	    ctx.lineTo(200, 208);
 	    ctx.stroke();
 	} else {
 		// canvas-unsupported code here
