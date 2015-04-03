@@ -1,4 +1,5 @@
 ! function function_name(argument) {
+
 	var PIXEL_RATIO = (function() {
 		var ctx = document.createElement("canvas").getContext("2d"),
 			dpr = window.devicePixelRatio || 1,
@@ -25,10 +26,26 @@
 		return can;
 	}
 
+	function getViewPortSize(){
+		var w = window,
+	    d = document,
+	    e = d.documentElement,
+	    g = d.getElementsByTagName('body')[0],
+	    x = w.innerWidth || e.clientWidth || g.clientWidth,
+	    y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+
+	    return {
+	    	"x": x,
+	    	"y": y
+	    };
+	}
+
+	var viewportSize = getViewPortSize();
+
 
 	//Create canvas with the device resolution.
 	//var canvas = document.getElementById('canvas');
-	var canvas = createHiDPICanvas(600, 400);
+	var canvas = createHiDPICanvas(viewportSize.x, viewportSize.y);
 
 	if (canvas.getContext) {
 		var ctx = canvas.getContext('2d');
