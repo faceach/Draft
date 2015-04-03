@@ -1,6 +1,36 @@
-!function function_name (argument) {
-	var canvas = document.getElementById('canvas');
-	if (canvas.getContext){
+! function function_name(argument) {
+	var PIXEL_RATIO = (function() {
+		var ctx = document.createElement("canvas").getContext("2d"),
+			dpr = window.devicePixelRatio || 1,
+			bsr = ctx.webkitBackingStorePixelRatio ||
+			ctx.mozBackingStorePixelRatio ||
+			ctx.msBackingStorePixelRatio ||
+			ctx.oBackingStorePixelRatio ||
+			ctx.backingStorePixelRatio || 1;
+
+		return dpr / bsr;
+	})();
+
+
+	function createHiDPICanvas(w, h, ratio) {
+		if (!ratio) {
+			ratio = PIXEL_RATIO;
+		}
+		var can = document.createElement("canvas");
+		can.width = w * ratio;
+		can.height = h * ratio;
+		can.style.width = w + "px";
+		can.style.height = h + "px";
+		can.getContext("2d").setTransform(ratio, 0, 0, ratio, 0, 0);
+		return can;
+	}
+
+
+	//Create canvas with the device resolution.
+	//var canvas = document.getElementById('canvas');
+	var canvas = createHiDPICanvas(600, 400);
+
+	if (canvas.getContext) {
 		var ctx = canvas.getContext('2d');
 
 		ctx.imageSmoothingEnabled = true;
@@ -18,12 +48,12 @@
 		ctx.strokeRect(10.5, 10.5, 120, 120);
 
 		ctx.strokeStyle = "#000";
-		ctx.lineWidth = 2;
-	    ctx.beginPath();
-	    ctx.moveTo(140, 5);
-	    ctx.lineTo(140, 200);
-	    ctx.lineTo(200, 208);
-	    ctx.stroke();
+		ctx.lineWidth = 1;
+		ctx.beginPath();
+		ctx.moveTo(140, 5);
+		ctx.lineTo(140, 200);
+		ctx.lineTo(200, 208);
+		ctx.stroke();
 
 		ctx.font = "20px Arial";
 		ctx.fillStyle = "Black";
@@ -31,4 +61,7 @@
 	} else {
 		// canvas-unsupported code here
 	}
+
+	var parent = document.getElementById("canvas-container");
+	parent.appendChild(canvas);
 }()
