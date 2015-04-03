@@ -18,10 +18,10 @@
 			ratio = PIXEL_RATIO;
 		}
 		var can = document.createElement("canvas");
-		can.width = w;
-		can.height = h;
-		can.style.width = w * ratio + "px";
-		can.style.height = h * ratio + "px";
+		can.width = w * ratio;
+		can.height = h * ratio;
+		can.style.width = w + "px";
+		can.style.height = h + "px";
 		can.getContext("2d").setTransform(ratio, 0, 0, ratio, 0, 0);
 		return can;
 	}
