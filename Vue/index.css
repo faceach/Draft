@@ -1,0 +1,11 @@
+* {
+  box-sizing: border-box;
+}
+
+#todos ul > li {
+	cursor: pointer;
+}
+.done {
+	color: #ccc;
+	text-decoration: line-through;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Getting Started with Component</title>
+    <link rel="stylesheet" href="build/build.css">
+  </head>
+  <body>
+    <h1>My First Component</h1>
+    <p class="blink">Woo!</p>
+
+    <div id="demo">
+    	<p>{{message}}</p>
+    	<input v-model="message">
+	</div>
+
+	<div id="todos">
+	    <h1>{{title | uppercase}}</h1>
+	    <ul>
+	        <li
+	            v-repeat="todos"
+	            v-on="click: done = !done"
+	            class="{{done ? 'done' : ''}}">
+	            {{content}}
+	        </li>
+	    </ul>
+	</div>
+
+    <script src="build/build.js"></script>
+  </body>
+</html>

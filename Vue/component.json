@@ -1,0 +1,9 @@
+{
+  "name": "vue",
+  "dependencies": {
+    "necolas/normalize.css": "^3.0.3",
+    "yyx990803/vue": "~0.11.5"
+  },
+  "scripts": ["index.js"],
+  "styles": ["index.css"]
+}

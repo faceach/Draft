@@ -1,0 +1,7 @@
+dist/vue.min.js.gz
+test/unit/specs.js
+explorations
+node_modules
+.DS_Store
+benchmarks/browser.js
+coverage
