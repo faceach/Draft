@@ -1,0 +1,49 @@
+html,
+body {
+	background-color: #eee;
+	font-size: 92%;
+	line-height: 1.6;
+	color: #333;
+	font-family: Tahoma, arial, "Microsoft Yahei", SimHei;
+}
+
+.chats-list {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.chats-item {
+	padding: 10px 0;
+	clear: both;
+}
+.chats-item.self {
+	text-align: right;
+}
+.chats-item .chats-avator > img {
+
+}
+.chats-item .chats-avator > img,
+.chats-item .chats-avator > .chats-avator-text {
+	vertical-align: middle;
+	display: inline-block;
+}
+.chats-item .chats-avator > .chats-avator-text > span {
+	text-align: left;
+	display: block;
+}
+.chats-item .chats-msg {
+	text-align: left;
+	display: inline-block;
+	border: 1px solid #ccc;
+	padding: 5px;
+	background-color: #fff;
+	border-radius: 5px;
+}
+.chats-item.self .chats-msg {
+	border-color: #5e9;
+	background-color: #6ea;
+}
+.chats-item.self .chats-msg-picture {
+	border-color: #ccc;
+	background-color: #fff;
+}

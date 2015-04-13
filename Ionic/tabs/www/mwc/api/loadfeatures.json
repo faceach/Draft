@@ -1,0 +1,133 @@
+[{
+  "id": "6",
+  "name": "Fashionable style",
+  "first_choice": "xx% of people and you agree that style shouldn\u2019t be ignored even when you are working up a sweat.",
+  "second_choice": "xx% of people believe that smart wearables should not compromise on style.",
+  "nick_name": "The Catwalk Athlete",
+  "sale_point": "Stylish design",
+  "poster1": "The Catwalk Athlete wants to look good while working up a sweat.",
+  "poster2": "xx% of casual athletes care about their style while working out.",
+  "product_id": "3",
+  "scene_id": "2"
+}, {
+  "id": "14",
+  "name": "High sound quality",
+  "first_choice": "You and xx% of casual athletes know the importance of good sound, because it keeps up your energy during workout.",
+  "second_choice": "xx% of casual athletes regard high sound quality as important for a good workout.",
+  "nick_name": "The Sneaker Rock-God",
+  "sale_point": "High-quality sound",
+  "poster1": "The Sneaker Rock-God loves doing sports with a high-quality soundtrack.",
+  "poster2": "xx% of modern professionals love working out to good sound quality.",
+  "product_id": "3",
+  "scene_id": "2"
+}, {
+  "id": "15",
+  "name": "Water-proof",
+  "first_choice": "xx% of athletes prefer their headphones can resist water, no matter how hard the workout is.",
+  "second_choice": "xx% of athletes also want to know that their devices are protected from rain and sweat.",
+  "nick_name": "The All-Weather Athlete",
+  "sale_point": "IP54 waterproof",
+  "poster1": "The All-Weather Athlete doesn't stop for rain, and doesn't want his equipment to stop either.",
+  "poster2": "xx% of respondents need their workout gear to be water-proof and sweat-proof.",
+  "product_id": "3",
+  "scene_id": "2"
+}, {
+  "id": "16",
+  "name": "Dust-proof",
+  "first_choice": "You and xx% of athletes want their wearables are resistant to dust and dirt.",
+  "second_choice": "xx% athletes like you also like using smart wearables that are dust-proof.",
+  "nick_name": "The Sand-Storm Runner",
+  "sale_point": "IP54 dust-proof",
+  "poster1": "The Sand-Storm Runner doesn't have time for dust-related stops to the work out, and wants the music to keep playing.",
+  "poster2": "xx% of respondents like having dust-proof equipment.",
+  "product_id": "3",
+  "scene_id": "2"
+}, {
+  "id": "17",
+  "name": "MP3 store",
+  "first_choice": "You and xx% of athletes wish to avoid having a bulky cellphone during workout, and just enjoy music.",
+  "second_choice": "xx% of athletes also want their headphones to play music without bringing a phone or mp3 player.",
+  "nick_name": "The Traveling DJ",
+  "sale_point": "4 GB of music storage",
+  "poster1": "The Traveling DJ doesn't need a phone to rock out for a workout.",
+  "poster2": "xx% of athletes want a headset with independent music storage.",
+  "product_id": "3",
+  "scene_id": "2"
+}, {
+  "id": "18",
+  "name": "Touch-screen",
+  "first_choice": "You want to get things done without breaking your stride, and xx% of respondents agree.",
+  "second_choice": "xx% of respondents also like having a touch-screen on their smart wearables.",
+  "nick_name": "The Touch of Inspiration",
+  "sale_point": "Touch-screen control",
+  "poster1": "The Touch of Inspiration loves smooth and responsive controls through their fingertips.",
+  "poster2": "xx% of modern professionals also love it.",
+  "product_id": "2",
+  "scene_id": "2"
+}, {
+  "id": "19",
+  "name": "Stylish design",
+  "first_choice": "You don't want to compromise your style when working out, and xx% of modern professionals agree with you.",
+  "second_choice": "xx% of modern professionals want to be fashionable while working out.",
+  "nick_name": "The Design Connoisseur",
+  "sale_point": "Metallic, stylish appearance",
+  "poster1": "The Design Connoisseur values style.",
+  "poster2": "xx% of modern professionals also love the metallic and stylish appearance.",
+  "product_id": "2",
+  "scene_id": "2"
+}, {
+  "id": "20",
+  "name": "Instant notifications",
+  "first_choice": "You want to receive notifications and keep in the know when you're exercising, xx% of modern professionals also agree with you.",
+  "second_choice": "xx% of modern professionals also want to stay notified when working out.",
+  "nick_name": "The Messenger",
+  "sale_point": "Instant notifications",
+  "poster1": "The Messenger likes to stay constantly connected. ",
+  "poster2": "xx% of business professionals share the same view.",
+  "product_id": "2",
+  "scene_id": "2"
+}, {
+  "id": "21",
+  "name": "Motion recognition",
+  "first_choice": "People in motion want to measure their moves, and xx% like knowing how much they move.",
+  "second_choice": "xx% of modern professionals like recording their movement throughout the day.",
+  "nick_name": "The Exercise Junkie",
+  "sale_point": "Intelligent motion monitoring",
+  "poster1": "The Exercise Junkie wants reliable metrics to go along with an intense gym workout.",
+  "poster2": "xx% of modern professionals share the same view.",
+  "product_id": "2",
+  "scene_id": "2"
+}, {
+  "id": "22",
+  "name": "Polysomnography",
+  "first_choice": "xx% of modern professionals know the importance of exercise and a good night's sleep.",
+  "second_choice": "xx% of modern professionals also care about the quality of their sleep.",
+  "nick_name": "The Sweet Dreamer",
+  "sale_point": "Accurate sleep management",
+  "poster1": "The Sweet Dreamer knows the importance of a good night's sleep.",
+  "poster2": "xx% of fit modern professionals also know the importance of it.",
+  "product_id": "2",
+  "scene_id": "2"
+}, {
+  "id": "22",
+  "name": "Polysomnography",
+  "first_choice": "xx% of modern professionals know the importance of exercise and a good night's sleep.",
+  "second_choice": "xx% of modern professionals also care about the quality of their sleep.",
+  "nick_name": "The Sweet Dreamer",
+  "sale_point": "Accurate sleep management",
+  "poster1": "The Sweet Dreamer knows the importance of a good night's sleep.",
+  "poster2": "xx% of fit modern professionals also know the importance of it.",
+  "product_id": "2",
+  "scene_id": "2"
+}, {
+  "id": "22",
+  "name": "Polysomnography",
+  "first_choice": "xx% of modern professionals know the importance of exercise and a good night's sleep.",
+  "second_choice": "xx% of modern professionals also care about the quality of their sleep.",
+  "nick_name": "The Sweet Dreamer",
+  "sale_point": "Accurate sleep management",
+  "poster1": "The Sweet Dreamer knows the importance of a good night's sleep.",
+  "poster2": "xx% of fit modern professionals also know the importance of it.",
+  "product_id": "2",
+  "scene_id": "2"
+}]

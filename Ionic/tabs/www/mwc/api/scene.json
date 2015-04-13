@@ -1,0 +1,28 @@
+{
+	"day": [{
+		"id": 1,
+		"name": "Travel",
+		"picture": "day/workingout"
+	}, {
+		"id": 2,
+		"name": "Fitness",
+		"picture": "day/travelingexploring"
+	}, {
+		"id": 3,
+		"name": "Work Hard",
+		"picture": "day/workinghard"
+	}],
+	"night": [{ 
+		"id": 4,
+		"name": "Wonderful Date",
+		"picture": "night/outonthetown"
+	}, {
+		"id": 5,
+		"name": "Exercise",
+		"picture": "night/workingout"
+	}, {
+		"id": 6,
+		"name": "Work Overtime",
+		"picture": "night/buildingsuccess"
+	}]
+}

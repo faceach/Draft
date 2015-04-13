@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+<head>
+	<title>Angular UI Router</title>
+    <link rel="stylesheet" href="../_bin/bootstrap.min.css">
+
+	<!-- Angular -->
+    <script src="../_bin/angular.min.js"></script>
+	<!-- UI-Router -->
+	<script src="../_bin/angular-ui-router.js"></script>
+
+</head>
+<body>
+
+    <!-- Also a way to navigate -->
+    <a ui-sref="state1">State 1</a>
+    <a ui-sref="state2">State 2</a>
+
+    <div ui-view></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

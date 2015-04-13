@@ -1,0 +1,6 @@
+.oblique-container ul.oblique.oblique-lg > li {
+  float: left\9;
+}
+.oblique-container ul.oblique.oblique-lg > li:last-child {
+  float: none\9;
+}
