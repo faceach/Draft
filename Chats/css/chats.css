@@ -47,3 +47,6 @@ body {
 	border-color: #ccc;
 	background-color: #fff;
 }
+.chats-item .chats-msg-picture > img {
+	max-width: 100%;
+}
