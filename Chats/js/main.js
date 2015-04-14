@@ -113,6 +113,7 @@
 
 					// Remove SVG loading
 					var elSvgLoading = document.querySelector(".svg-loading");
+					document.body.scrollTop -= svgHeight;
 					elSvgLoading.parentNode.removeChild(elSvgLoading);
 
 
@@ -167,7 +168,7 @@
 
 		// Insert to top
 		elChats.insertAdjacentHTML("afterbegin", elChatsItemHTML);
-		document.body.scrollTop += 100;
+		document.body.scrollTop += svgHeight;
 		// Rendering
 		var t = count > 0 ? 1000 : 0;
 		setTimeout(function() {
