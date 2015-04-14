@@ -23,6 +23,10 @@
 
 	//Vue.config.debug = true;
 
+	function clog(s){
+		//console.log(s);
+	}
+
 	function getViewportSize() {
 		var viewportWidth;
 		var viewportHeight;
@@ -56,11 +60,11 @@
 	var singleFetchScreenLength = 5;
 	var singleFetchItemLength = screenItemMax * singleFetchScreenLength;
 
-	//console.log("itemHeightMin: " + itemHeightMin);
-	//console.log("viewportHeight: " + viewportHeight);
-	//console.log("screenItemMax: " + screenItemMax);
-	//console.log("singleFetchScreenLength: " + singleFetchScreenLength);
-	//console.log("singleFetchItemLength: " + singleFetchItemLength);
+	clog("itemHeightMin: " + itemHeightMin);
+	clog("viewportHeight: " + viewportHeight);
+	clog("screenItemMax: " + screenItemMax);
+	clog("singleFetchScreenLength: " + singleFetchScreenLength);
+	clog("singleFetchItemLength: " + singleFetchItemLength);
 
 	function fetchChatsRecords(itemLength) {
 		itemLength = itemLength || singleFetchItemLength;
@@ -70,14 +74,14 @@
 	Vue.directive('chats', {
 		bind: function() {},
 		update: function(value) {
-			//console.log("=========================");
-			//console.log(document.body.clientHeight);
+			clog("=========================");
+			clog(document.body.clientHeight);
 		}
 	});
 
 	function prependChats(itemLength, count) {
 		count = count || 0;
-		//console.log("Append child: " + count);
+		clog("Append child: " + count);
 
 		var elChats = document.getElementById("chats");
 		var elChatsItemHTML = "<div v-component=\"child\" v-repeat=\"chats\" v-with=\"users: users, chats: chats\"></div>";
@@ -101,21 +105,24 @@
 				var elImgs = document.querySelectorAll(".chats-msg-picture-img");
 				var imgLoad = imagesLoaded(elImgs);
 				imgLoad.on('always', function() {
-					//console.log("=========================");
-					//console.log(document.body.clientHeight);
+					if (count > 0) {
+						return;
+					}
+					clog("=========================");
+					clog(document.body.clientHeight);
 
 					// Scroll bottom for latest msg
 					var scrollHeight = document.body.scrollTop = document.body.scrollHeight;
 
 					window.addEventListener("scroll", function(e) {
-						////console.log(e);
-						//console.log(document.body.scrollTop);
+						//clog(e);
+						clog(document.body.scrollTop);
 
 						var deltaScroll = scrollHeight - document.body.scrollTop;
 						var scrollScreenLength = Math.ceil(deltaScroll / viewportHeight);
 
-						//console.log(deltaScroll);
-						//console.log(scrollScreenLength);
+						clog(deltaScroll);
+						clog(scrollScreenLength);
 
 						if (scrollScreenLength > singleFetchScreenLength - 1) {
 							count++;
