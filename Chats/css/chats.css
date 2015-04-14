@@ -27,6 +27,7 @@ body {
 	vertical-align: middle;
 	display: inline-block;
 }
+.chats-item .chats-avator > .chats-avator-text > strong,
 .chats-item .chats-avator > .chats-avator-text > span {
 	text-align: left;
 	display: block;

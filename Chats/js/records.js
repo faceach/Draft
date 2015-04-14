@@ -1,5 +1,6 @@
-﻿function getChatsRecords() {
-	return {
+﻿function getChatsRecords(itemLenth) {
+
+	var records = {
 		'users': [{
 			'id': 1,
 			'self': 1,
@@ -516,4 +517,9 @@
 			'u': 1,
 		}, ]
 	};
+
+	// Read chats records match itemLenth
+	records.chats.splice(itemLenth);
+
+	return records;
 }
