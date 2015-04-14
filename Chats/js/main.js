@@ -1,7 +1,7 @@
-(function() {
+(function(_root) {
 	'use strict';
 
-	var template = "<div class=\"chats-item {{users[u].self ? 'self' : ''}}\">" +
+	var template = "<div data-sr=\"wait 0.2s, enter {{users[u].self ? 'right' : 'left'}}, hustle 20px\" class=\"chats-item {{users[u].self ? 'self' : ''}}\">" +
 		"<div class=\"chats-avator clearfix\">" +
 		"<template v-if=\"users[u].avator\">" +
 		"<img src=\"{{users[u].avator || 'img/blank.png'}}\" alt=\"{{users[u].name || ''}}\" width=\"40\" height=\"40\">" +
@@ -23,7 +23,7 @@
 
 	//Vue.config.debug = true;
 
-	function clog(s){
+	function clog(s) {
 		//console.log(s);
 	}
 
@@ -32,9 +32,9 @@
 		var viewportHeight;
 
 		// the more standards compliant browsers (mozilla/netscape/opera/IE7) use window.innerWidth and window.innerHeight
-		if (typeof window.innerWidth != 'undefined') {
-			viewportWidth = window.innerWidth;
-			viewportHeight = window.innerHeight;
+		if (typeof _root.innerWidth != 'undefined') {
+			viewportWidth = _root.innerWidth;
+			viewportHeight = _root.innerHeight;
 		}
 		// IE6 in standards compliant mode (i.e. with a valid doctype as the first line in the document)
 		else if (typeof document.documentElement != 'undefined' && typeof document.documentElement.clientWidth !=
@@ -99,6 +99,10 @@
 				}
 			},
 			attached: function() {
+				// Scroll Reveal
+				_root.sr = new scrollReveal();
+
+				// No events register again
 				if (count > 0) {
 					return;
 				}
@@ -114,7 +118,7 @@
 					// Scroll bottom for latest msg
 					var scrollHeight = document.body.scrollTop = document.body.scrollHeight;
 
-					window.addEventListener("scroll", function(e) {
+					_root.addEventListener("scroll", function(e) {
 						//clog(e);
 						clog(document.body.scrollTop);
 
@@ -130,6 +134,7 @@
 							document.body.scrollTop = document.body.scrollHeight - deltaScroll;
 						}
 					});
+
 				});
 			}
 		});
@@ -146,4 +151,4 @@
 		},
 	});*/
 
-})();
+})(window);
