@@ -1,7 +1,7 @@
 (function(_root) {
 	'use strict';
 
-	var template = "<div data-sr class=\"chats-item {{users[u].self ? 'self' : ''}}\">" +
+	var template = "<div data-sr=\"enter {{users[u].self ? 'right' : 'left'}}\" class=\"chats-item {{users[u].self ? 'self' : ''}}\">" +
 		"<div class=\"chats-avator clearfix\">" +
 		"<template v-if=\"users[u].avator\">" +
 		"<img src=\"{{users[u].avator || 'img/blank.png'}}\" alt=\"{{users[u].name || ''}}\" width=\"40\" height=\"40\">" +
@@ -100,7 +100,13 @@
 			},
 			attached: function() {
 				// Scroll Reveal
-				_root.sr = new scrollReveal();
+				_root.sr = new scrollReveal({
+			        "reset":  false,
+			        "mobile": true,
+			        "complete": function(){
+			        	//
+			        }
+				});
 
 				// No events register again
 				if (count > 0) {
