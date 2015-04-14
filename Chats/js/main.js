@@ -102,7 +102,7 @@
 				// Scroll Reveal
 				_root.sr = new scrollReveal({
 			        "reset":  false,
-			        "mobile": true,
+			        "mobile": false,
 			        "complete": function(){
 			        	//
 			        }
