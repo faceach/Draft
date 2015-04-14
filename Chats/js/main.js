@@ -74,7 +74,7 @@
 	var itemHeightMin = 125;
 	var viewportHeight = getViewportSize().viewportHeight;
 	var screenItemMax = Math.floor(viewportHeight / itemHeightMin);
-	var singleFetchScreenLength = 5;
+	var singleFetchScreenLength = 8;
 	var singleFetchItemLength = screenItemMax * singleFetchScreenLength;
 	var svgHeight = 100;
 
@@ -139,7 +139,7 @@
 						clog("scrollReference: " + scrollReference);
 
 						scrollDeltaTemp = scrollReference - document.body.scrollTop;
-						var isFetchRequired = (document.body.scrollHeight - (viewportHeight + scrollDeltaTemp)) <= 2 * viewportHeight;
+						var isFetchRequired = (document.body.scrollHeight - (viewportHeight + scrollDeltaTemp)) <= (singleFetchScreenLength - 2) * viewportHeight;
 
 						clog("scrollDeltaTemp: " + scrollDeltaTemp);
 						clog("isFetchRequired: " + isFetchRequired);
