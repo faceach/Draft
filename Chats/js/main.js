@@ -136,7 +136,7 @@
 						clog("scrollReference: " + scrollReference);
 
 						scrollDeltaTemp = scrollReference - document.body.scrollTop;
-						var isFetchRequired = (document.body.scrollHeight - (viewportHeight + scrollDeltaTemp)) <= 0;// viewportHeight;
+						var isFetchRequired = (document.body.scrollHeight - (viewportHeight + scrollDeltaTemp)) <= 0; // viewportHeight;
 
 						clog("scrollDeltaTemp: " + scrollDeltaTemp);
 						clog("isFetchRequired: " + isFetchRequired);
@@ -169,7 +169,10 @@
 		elChats.insertAdjacentHTML("afterbegin", elChatsItemHTML);
 		document.body.scrollTop += 100;
 		// Rendering
-		render(itemLength, count);
+		var t = count > 0 ? 1000 : 0;
+		setTimeout(function() {
+			render(itemLength, count);
+		}, t);
 	}
 
 	// Initialize
