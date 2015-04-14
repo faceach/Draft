@@ -114,7 +114,9 @@
 					// Remove SVG loading
 					var elSvgLoading = document.querySelector(".svg-loading");
 					//document.body.scrollTop -= svgHeight;
-					elSvgLoading.parentNode.removeChild(elSvgLoading);
+					if (elSvgLoading && elSvgLoading.parentNode) {
+						elSvgLoading.parentNode.removeChild(elSvgLoading);
+					}
 
 
 					clog("document.body.scrollTop: " + document.body.scrollTop);
@@ -163,8 +165,8 @@
 		clog("-----------------------------------------------");
 
 		var elChats = document.getElementById("chats");
-		var elChatsItemHTML = "<div v-component=\"child\" v-repeat=\"chats\" v-with=\"users: users, chats: chats\"></div>"
-			+ "<div class=\"svg-loading\">" + svgLoading + "</div>";
+		var elChatsItemHTML = "<div v-component=\"child\" v-repeat=\"chats\" v-with=\"users: users, chats: chats\"></div>";
+		//+ "<div class=\"svg-loading\">" + svgLoading + "</div>";
 
 		// Insert to top
 		elChats.insertAdjacentHTML("afterbegin", elChatsItemHTML);
