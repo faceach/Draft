@@ -13,7 +13,7 @@
 		"</div>" +
 		"<p class=\"chats-msg {{p ? 'chats-msg-picture' : ''}}\">" +
 		"<template v-if=\"p\">" +
-		"<img src=\"{{m || 'img/blank.png'}}\" alt=\"\" width=\"320\">" +
+		"<img src=\"{{m || 'img/blank.png'}}\" alt=\"\" height=\"400\">" +
 		"</template>" +
 		"<template v-if=\"t\">" +
 		"{{m || ''}}" +
