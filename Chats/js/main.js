@@ -1,7 +1,7 @@
 (function(_root) {
 	'use strict';
 
-	var template = "<div data-sr=\"wait 0.2s, enter {{users[u].self ? 'right' : 'left'}}, hustle 20px\" class=\"chats-item {{users[u].self ? 'self' : ''}}\">" +
+	var template = "<div data-sr class=\"chats-item {{users[u].self ? 'self' : ''}}\">" +
 		"<div class=\"chats-avator clearfix\">" +
 		"<template v-if=\"users[u].avator\">" +
 		"<img src=\"{{users[u].avator || 'img/blank.png'}}\" alt=\"{{users[u].name || ''}}\" width=\"40\" height=\"40\">" +
