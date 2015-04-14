@@ -1,6 +1,23 @@
 (function(_root) {
 	'use strict';
 
+	var svgLoading = "<svg viewBox=\"0 0 64 64\">" +
+		"<g>" +
+		"<circle cx=\"16\" cy=\"32\" stroke-width=\"0\" r=\"5.41547\">" +
+		"<animate attributeName=\"fill-opacity\" dur=\"750ms\" values=\".5;.6;.8;1;.8;.6;.5;.5\" repeatCount=\"indefinite\"></animate>" +
+		"<animate attributeName=\"r\" dur=\"750ms\" values=\"3;3;4;5;6;5;4;3\" repeatCount=\"indefinite\"></animate>" +
+		"</circle>" +
+		"<circle cx=\"32\" cy=\"32\" stroke-width=\"0\" r=\"4.41547\">" +
+		"<animate attributeName=\"fill-opacity\" dur=\"750ms\" values=\".5;.5;.6;.8;1;.8;.6;.5\" repeatCount=\"indefinite\">" +
+		"</animate><animate attributeName=\"r\" dur=\"750ms\" values=\"4;3;3;4;5;6;5;4\" repeatCount=\"indefinite\"></animate>" +
+		"</circle>" +
+		"<circle cx=\"48\" cy=\"32\" stroke-width=\"0\" r=\"3.41547\">" +
+		"<animate attributeName=\"fill-opacity\" dur=\"750ms\" values=\".6;.5;.5;.6;.8;1;.8;.6\" repeatCount=\"indefinite\"></animate>" +
+		"<animate attributeName=\"r\" dur=\"750ms\" values=\"5;4;3;3;4;5;6;5\" repeatCount=\"indefinite\"></animate>" +
+		"</circle>" +
+		"</g>" +
+		"</svg>";
+
 	var template = "<div data-sr=\"enter {{users[u].self ? 'right' : 'left'}}\" class=\"chats-item {{users[u].self ? 'self' : ''}}\">" +
 		"<div class=\"chats-avator clearfix\">" +
 		"<template v-if=\"users[u].avator\">" +
@@ -65,21 +82,16 @@
 	clog("screenItemMax: " + screenItemMax);
 	clog("singleFetchScreenLength: " + singleFetchScreenLength);
 	clog("singleFetchItemLength: " + singleFetchItemLength);
+	clog("-----------------------------------------------");
 
 	function fetchChatsRecords(itemLength) {
 		itemLength = itemLength || singleFetchItemLength;
 		return getChatsRecords(itemLength);
 	}
 
-	Vue.directive('chats', {
-		bind: function() {},
-		update: function(value) {
-			clog("=========================");
-			clog(document.body.clientHeight);
-		}
-	});
-
-	function render(itemLength, count){
+	var scrollDeltaTemp = 0;
+	var scrollReference = 0;
+	function render(itemLength, count) {
 		// the `user` object will be passed to the child
 		// component as its $data
 		new Vue({
@@ -92,47 +104,44 @@
 			},
 			attached: function() {
 
-				// No events register again
-				if (count > 0) {
-					return;
-				}
-
-				// Scroll Reveal
-				_root.sr = new scrollReveal({
-					"mobile": true,
-					"complete": function() {
-						//
-					}
-				});
-
 				// Computed after images loaded
 				var elImgs = document.querySelectorAll(".chats-msg-picture-img");
 				var imgLoad = imagesLoaded(elImgs);
 				imgLoad.on('always', function() {
-					if (count > 0) {
-						return;
-					}
-					clog("=========================");
-					clog(document.body.clientHeight);
+
+					clog("document.body.scrollTop: " + document.body.scrollTop);
+					clog("document.body.scrollHeight: " + document.body.scrollHeight);
 
 					// Scroll bottom for latest msg
-					var scrollHeight = document.body.scrollTop = document.body.scrollHeight;
+					document.body.scrollTop = document.body.scrollHeight - (viewportHeight + scrollDeltaTemp);
+
+					// No events register again
+					if (count > 0) {
+						scrollReference = document.body.scrollHeight - viewportHeight;
+						return;
+					}
+					scrollReference = document.body.scrollTop;
 
 					_root.addEventListener("scroll", function(e) {
 						//clog(e);
-						clog(document.body.scrollTop);
+						clog("document.body.scrollTop: " + document.body.scrollTop);
+						clog("document.body.scrollHeight: " + document.body.scrollHeight);
+						clog("scrollReference: " + scrollReference);
 
-						var deltaScroll = scrollHeight - document.body.scrollTop;
-						var scrollScreenLength = Math.ceil(deltaScroll / viewportHeight);
+						scrollDeltaTemp = scrollReference - document.body.scrollTop;
+						var isFetchRequired = (document.body.scrollHeight - (viewportHeight + scrollDeltaTemp)) < viewportHeight;
 
-						clog(deltaScroll);
-						clog(scrollScreenLength);
+						clog("scrollDeltaTemp: " + scrollDeltaTemp);
+						clog("isFetchRequired: " + isFetchRequired);
 
-						if (scrollScreenLength > singleFetchScreenLength) {
+						// Less then one screen, query & prepend
+						if (isFetchRequired) {
 							count++;
 							prependChats(singleFetchItemLength, count);
-							document.body.scrollTop = document.body.scrollHeight - deltaScroll;
+							//document.body.scrollTop = document.body.scrollHeight - scrollDeltaTemp;
 						}
+
+						clog("-----------------------------------------------");
 					});
 
 				});
@@ -143,31 +152,13 @@
 	function prependChats(itemLength, count) {
 		count = count || 0;
 		clog("Append child: " + count);
-
-		var svgLoading = "<svg viewBox=\"0 0 64 64\">" +
-			"<g>" +
-			"<circle cx=\"16\" cy=\"32\" stroke-width=\"0\" r=\"5.41547\">" +
-			"<animate attributeName=\"fill-opacity\" dur=\"750ms\" values=\".5;.6;.8;1;.8;.6;.5;.5\" repeatCount=\"indefinite\"></animate>" +
-			"<animate attributeName=\"r\" dur=\"750ms\" values=\"3;3;4;5;6;5;4;3\" repeatCount=\"indefinite\"></animate>" +
-			"</circle>" +
-			"<circle cx=\"32\" cy=\"32\" stroke-width=\"0\" r=\"4.41547\">" +
-			"<animate attributeName=\"fill-opacity\" dur=\"750ms\" values=\".5;.5;.6;.8;1;.8;.6;.5\" repeatCount=\"indefinite\">" +
-			"</animate><animate attributeName=\"r\" dur=\"750ms\" values=\"4;3;3;4;5;6;5;4\" repeatCount=\"indefinite\"></animate>" +
-			"</circle>" +
-			"<circle cx=\"48\" cy=\"32\" stroke-width=\"0\" r=\"3.41547\">" +
-			"<animate attributeName=\"fill-opacity\" dur=\"750ms\" values=\".6;.5;.5;.6;.8;1;.8;.6\" repeatCount=\"indefinite\"></animate>" +
-			"<animate attributeName=\"r\" dur=\"750ms\" values=\"5;4;3;3;4;5;6;5\" repeatCount=\"indefinite\"></animate>" +
-			"</circle>" +
-			"</g>" +
-			"</svg>";
+		clog("-----------------------------------------------");
 
 		var elChats = document.getElementById("chats");
 		var elChatsItemHTML = "<div v-component=\"child\" v-repeat=\"chats\" v-with=\"users: users, chats: chats\">" + svgLoading + "</div>";
 		//elChats.insertBefore(elChatsItem, elChats.childNodes[0]);
 		elChats.insertAdjacentHTML("afterbegin", elChatsItemHTML);
-		window.setTimeout(function(){
-			render(itemLength, count);
-		}, 400);
+		render(itemLength, count);
 	}
 
 	// Initialize
