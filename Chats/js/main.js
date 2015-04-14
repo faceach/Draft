@@ -112,7 +112,7 @@
 						console.log(document.body.scrollTop);
 
 						var deltaScroll = scrollHeight - document.body.scrollTop;
-						var scrollScreenLength = Math.floor(deltaScroll / viewportHeight);
+						var scrollScreenLength = Math.ceil(deltaScroll / viewportHeight);
 
 						console.log(deltaScroll);
 						console.log(scrollScreenLength);
