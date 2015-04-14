@@ -139,7 +139,7 @@
 						clog("scrollReference: " + scrollReference);
 
 						scrollDeltaTemp = scrollReference - document.body.scrollTop;
-						var isFetchRequired = (document.body.scrollHeight - (viewportHeight + scrollDeltaTemp)) <= viewportHeight;
+						var isFetchRequired = (document.body.scrollHeight - (viewportHeight + scrollDeltaTemp)) <= 2 * viewportHeight;
 
 						clog("scrollDeltaTemp: " + scrollDeltaTemp);
 						clog("isFetchRequired: " + isFetchRequired);
