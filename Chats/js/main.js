@@ -163,17 +163,14 @@
 		clog("-----------------------------------------------");
 
 		var elChats = document.getElementById("chats");
-		var elChatsItemHTML = "<div v-component=\"child\" v-repeat=\"chats\" v-with=\"users: users, chats: chats\"></div>" +
-			"<div class=\"svg-loading\">" + svgLoading + "</div>";
+		var elChatsItemHTML = "<div v-component=\"child\" v-repeat=\"chats\" v-with=\"users: users, chats: chats\"></div>"
+			+ "<div class=\"svg-loading\">" + svgLoading + "</div>";
 
 		// Insert to top
 		elChats.insertAdjacentHTML("afterbegin", elChatsItemHTML);
 		//document.body.scrollTop += svgHeight;
 		// Rendering
-		var t = count > 0 ? 1000 : 0;
-		setTimeout(function() {
-			render(itemLength, count);
-		}, t);
+		render(itemLength, count);
 	}
 
 	// Initialize
