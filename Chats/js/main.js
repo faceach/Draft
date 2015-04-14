@@ -74,7 +74,7 @@
 	var itemHeightMin = 125;
 	var viewportHeight = getViewportSize().viewportHeight;
 	var screenItemMax = Math.floor(viewportHeight / itemHeightMin);
-	var singleFetchScreenLength = 20;
+	var singleFetchScreenLength = 12;
 	var singleFetchItemLength = screenItemMax * singleFetchScreenLength;
 	var svgHeight = 100;
 
