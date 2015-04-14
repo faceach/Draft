@@ -112,7 +112,7 @@
 
 					// Remove SVG loading
 					var elSvgLoading = document.querySelector(".svg-loading");
-					elSvgLoading.parentNode.removeChild(elSvgLoading);
+					//elSvgLoading.parentNode.removeChild(elSvgLoading);
 
 
 					clog("document.body.scrollTop: " + document.body.scrollTop);
@@ -135,7 +135,7 @@
 						clog("scrollReference: " + scrollReference);
 
 						scrollDeltaTemp = scrollReference - document.body.scrollTop;
-						var isFetchRequired = (document.body.scrollHeight - (viewportHeight + scrollDeltaTemp)) < viewportHeight;
+						var isFetchRequired = (document.body.scrollHeight - (viewportHeight + scrollDeltaTemp)) <= 0;// viewportHeight;
 
 						clog("scrollDeltaTemp: " + scrollDeltaTemp);
 						clog("isFetchRequired: " + isFetchRequired);
