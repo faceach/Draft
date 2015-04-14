@@ -91,6 +91,7 @@
 
 	var scrollDeltaTemp = 0;
 	var scrollReference = 0;
+
 	function render(itemLength, count) {
 		// the `user` object will be passed to the child
 		// component as its $data
@@ -108,6 +109,11 @@
 				var elImgs = document.querySelectorAll(".chats-msg-picture-img");
 				var imgLoad = imagesLoaded(elImgs);
 				imgLoad.on('always', function() {
+
+					// Remove SVG loading
+					var elSvgLoading = document.querySelector(".svg-loading");
+					elSvgLoading.parentNode.removeChild(elSvgLoading);
+
 
 					clog("document.body.scrollTop: " + document.body.scrollTop);
 					clog("document.body.scrollHeight: " + document.body.scrollHeight);
@@ -155,7 +161,8 @@
 		clog("-----------------------------------------------");
 
 		var elChats = document.getElementById("chats");
-		var elChatsItemHTML = "<div v-component=\"child\" v-repeat=\"chats\" v-with=\"users: users, chats: chats\">" + svgLoading + "</div>";
+		var elChatsItemHTML = "<div v-component=\"child\" v-repeat=\"chats\" v-with=\"users: users, chats: chats\"></div>" +
+			"<div class=\"svg-loading\">" + svgLoading + "</div>";
 		//elChats.insertBefore(elChatsItem, elChats.childNodes[0]);
 		elChats.insertAdjacentHTML("afterbegin", elChatsItemHTML);
 		render(itemLength, count);
