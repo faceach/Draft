@@ -1,7 +1,7 @@
 (function(_root) {
 	'use strict';
 
-	var svgLoading = "<svg viewBox=\"0 0 64 64\">" +
+	var svgLoading = "<svg preserveAspectRatio=\"xMinYMin meet\" viewBox=\"0 0 64 64\">" +
 		"<g>" +
 		"<circle cx=\"16\" cy=\"32\" stroke-width=\"0\" r=\"5.41547\">" +
 		"<animate attributeName=\"fill-opacity\" dur=\"750ms\" values=\".5;.6;.8;1;.8;.6;.5;.5\" repeatCount=\"indefinite\"></animate>" +
@@ -76,6 +76,7 @@
 	var screenItemMax = Math.floor(viewportHeight / itemHeightMin);
 	var singleFetchScreenLength = 5;
 	var singleFetchItemLength = screenItemMax * singleFetchScreenLength;
+	var svgHeight = 100;
 
 	clog("itemHeightMin: " + itemHeightMin);
 	clog("viewportHeight: " + viewportHeight);
@@ -112,7 +113,7 @@
 
 					// Remove SVG loading
 					var elSvgLoading = document.querySelector(".svg-loading");
-					//elSvgLoading.parentNode.removeChild(elSvgLoading);
+					elSvgLoading.parentNode.removeChild(elSvgLoading);
 
 
 					clog("document.body.scrollTop: " + document.body.scrollTop);
@@ -163,8 +164,11 @@
 		var elChats = document.getElementById("chats");
 		var elChatsItemHTML = "<div v-component=\"child\" v-repeat=\"chats\" v-with=\"users: users, chats: chats\"></div>" +
 			"<div class=\"svg-loading\">" + svgLoading + "</div>";
-		//elChats.insertBefore(elChatsItem, elChats.childNodes[0]);
+
+		// Insert to top
 		elChats.insertAdjacentHTML("afterbegin", elChatsItemHTML);
+		document.body.scrollTop += 100;
+		// Rendering
 		render(itemLength, count);
 	}
 

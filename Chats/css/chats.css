@@ -52,3 +52,19 @@ body {
 .chats-item .chats-msg-picture > img {
 	max-width: 100%;
 }
+
+.svg-loading {
+	display: inline-block;
+	position: relative;
+	width: 100%;
+	height: 100px;
+	overflow: hidden;
+
+	vertical-align: middle; /* top | middle | bottom ... do what you want */
+}
+
+.svg-loading > svg { /* svg into : object, img or inline */
+	display: block;
+	width: 100px; /* only required for <img /> */
+	margin: 0 auto;
+}
