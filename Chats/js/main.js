@@ -99,19 +99,22 @@
 				}
 			},
 			attached: function() {
-				// Scroll Reveal
-				_root.sr = new scrollReveal({
-			        "reset":  false,
-			        "mobile": false,
-			        "complete": function(){
-			        	//
-			        }
-				});
 
 				// No events register again
 				if (count > 0) {
 					return;
 				}
+
+				// Scroll Reveal
+				_root.sr = new scrollReveal({
+			        "reset":  false,
+			        "mobile": true,
+			        "complete": function(){
+			        	//
+			        }
+				});
+
+				// Computed after images loaded
 				var elImgs = document.querySelectorAll(".chats-msg-picture-img");
 				var imgLoad = imagesLoaded(elImgs);
 				imgLoad.on('always', function() {
