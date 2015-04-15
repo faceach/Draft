@@ -1,42 +1,8 @@
 (function(_root) {
 	'use strict';
 
-	var svgLoading = "<svg preserveAspectRatio=\"xMinYMin meet\" viewBox=\"0 0 64 64\">" +
-		"<g>" +
-		"<circle cx=\"16\" cy=\"32\" stroke-width=\"0\" r=\"5.41547\">" +
-		"<animate attributeName=\"fill-opacity\" dur=\"750ms\" values=\".5;.6;.8;1;.8;.6;.5;.5\" repeatCount=\"indefinite\"></animate>" +
-		"<animate attributeName=\"r\" dur=\"750ms\" values=\"3;3;4;5;6;5;4;3\" repeatCount=\"indefinite\"></animate>" +
-		"</circle>" +
-		"<circle cx=\"32\" cy=\"32\" stroke-width=\"0\" r=\"4.41547\">" +
-		"<animate attributeName=\"fill-opacity\" dur=\"750ms\" values=\".5;.5;.6;.8;1;.8;.6;.5\" repeatCount=\"indefinite\">" +
-		"</animate><animate attributeName=\"r\" dur=\"750ms\" values=\"4;3;3;4;5;6;5;4\" repeatCount=\"indefinite\"></animate>" +
-		"</circle>" +
-		"<circle cx=\"48\" cy=\"32\" stroke-width=\"0\" r=\"3.41547\">" +
-		"<animate attributeName=\"fill-opacity\" dur=\"750ms\" values=\".6;.5;.5;.6;.8;1;.8;.6\" repeatCount=\"indefinite\"></animate>" +
-		"<animate attributeName=\"r\" dur=\"750ms\" values=\"5;4;3;3;4;5;6;5\" repeatCount=\"indefinite\"></animate>" +
-		"</circle>" +
-		"</g>" +
-		"</svg>";
-
-	var template = "<div data-sr=\"enter {{users[u].self ? 'right' : 'left'}}\" class=\"chats-item {{users[u].self ? 'self' : ''}}\">" +
-		"<div class=\"chats-avator clearfix\">" +
-		"<template v-if=\"users[u].avator\">" +
-		"<img src=\"{{users[u].avator || 'img/blank.png'}}\" alt=\"{{users[u].name || ''}}\" width=\"40\" height=\"40\">" +
-		"</template>" +
-		"<div class=\"chats-avator-text\">" +
-		"<strong>{{users[u].name || ''}}</strong>" +
-		"<span>{{e || ''}}</span>" +
-		"</div>" +
-		"</div>" +
-		"<p class=\"chats-msg {{p ? 'chats-msg-picture' : ''}}\">" +
-		"<template v-if=\"p\">" +
-		"<img src=\"{{m || 'img/blank.png'}}\" alt=\"\" height=\"400\">" +
-		"</template>" +
-		"<template v-if=\"t\">" +
-		"{{m || ''}}" +
-		"</template>" +
-		"</p>" +
-		"</div>";
+	var svgLoadingHTML = document.getElementById("svgloading-template").innerHTML;
+	var chatsContainerHTML = document.getElementById("chats-template").innerHTML;
 
 	//Vue.config.debug = true;
 
@@ -101,7 +67,7 @@
 			data: fetchChatsRecords(itemLength),
 			components: {
 				child: {
-					template: template //"{{m}}"
+					template: "#chat-template" //"{{m}}"
 				}
 			},
 			attached: function() {
@@ -112,12 +78,11 @@
 				imgLoad.on('always', function() {
 
 					// Remove SVG loading
-					var elSvgLoading = document.querySelector(".svg-loading");
+					var elSvgLoading = document.querySelectorAll(".svg-loading")[1];
 					//document.body.scrollTop -= svgHeight;
 					if (elSvgLoading && elSvgLoading.parentNode) {
 						elSvgLoading.parentNode.removeChild(elSvgLoading);
 					}
-
 
 					clog("document.body.scrollTop: " + document.body.scrollTop);
 					clog("document.body.scrollHeight: " + document.body.scrollHeight);
@@ -165,8 +130,7 @@
 		clog("-----------------------------------------------");
 
 		var elChats = document.getElementById("chats");
-		var elChatsItemHTML = "<div v-component=\"child\" v-repeat=\"chats\" v-with=\"users: users, chats: chats\"></div>";
-		//+ "<div class=\"svg-loading\">" + svgLoading + "</div>";
+		var elChatsItemHTML = svgLoadingHTML + chatsContainerHTML;
 
 		// Insert to top
 		elChats.insertAdjacentHTML("afterbegin", elChatsItemHTML);
