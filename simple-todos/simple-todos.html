@@ -1,0 +1,47 @@
+<!-- simple-todos.html -->
+<head>
+	<title>Todo List</title>
+</head>
+<body>
+	<div class="container">
+		<header>
+			<!-- display the count at the end of the <h1> tag -->
+			<h1>Todo List ({{incompleteCount}})</h1>
+			<!-- add the checkbox to <body> right below the h1 -->
+			<label class="hide-completed">
+				<input type="checkbox" checked="{{hideCompleted}}" />
+				Hide Completed Tasks
+			</label>
+			{{> loginButtons}}
+			<!-- add a form below the h1 -->
+			{{#if currentUser}}
+			<form class="new-task">
+				<input type="text" name="text" placeholder="Type to add new tasks" />
+			</form>
+			{{/if}}
+		</header>
+		<ul>
+			{{#each tasks}}
+			{{> task}}
+			{{/each}}
+		</ul>
+	</div>
+</body>
+<template name="task">
+<!-- modify the li tag to have the private class if the item is private -->
+<li class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}}">
+	<button class="delete">&times;</button>
+	<input type="checkbox" checked="{{checked}}" class="toggle-checked" />
+	<!-- add right below the code for the checkbox in the task template -->
+	{{#if isOwner}}
+		<button class="toggle-private">
+		{{#if private}}
+			Private
+		{{else}}
+			Public
+		{{/if}}
+		</button>
+	{{/if}}
+	<span class="text"><strong>{{username}}</strong> - {{text}}</span>
+</li>
+</template>
