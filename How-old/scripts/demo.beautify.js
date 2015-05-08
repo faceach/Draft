@@ -303,7 +303,7 @@ document.getElementById("SelectorTag").addEventListener("mousedown", function(n)
     n.cancelBubble = !0
 }, !1);
 loaded();
-searchImages()
+searchImages();
 
 // ---------------- Wechat ----------------
 (function(_win) {
