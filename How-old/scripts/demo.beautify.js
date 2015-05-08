@@ -314,7 +314,7 @@ searchImages();
     var _count = 0;
 
     function detectWeixinApi(callback) {
-        if (_count > 10) {
+        if (_count > 9) {
             return;
         }
         _count++;
@@ -322,7 +322,7 @@ searchImages();
             htmlLog("Wait 400ms: Wechat Detection.");
             setTimeout(function() {
                 detectWeixinApi(callback);
-            }, 200);
+            }, 400);
         } else {
             callback();
         }
