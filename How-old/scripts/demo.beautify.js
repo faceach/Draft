@@ -318,7 +318,7 @@ searchImages();
             return;
         }
         _count++;
-        if (typeof _win.WeixinJSBridge == 'undefined' || typeof _win.WeixinJSBridge.invoke == 'undefined') {
+        if (typeof _win.WeixinJSBridge === 'undefined') {
             htmlLog("Wait 200ms: Wechat Detection.")
             setTimeout(function() {
                 detectWeixinApi(callback);
@@ -337,11 +337,6 @@ searchImages();
     });
 
     detectWeixinApi(function() {
-        htmlLog("In Wechat Detection.")
-        if (typeof _win.WeixinJSBridge === "undefined") {
-            htmlLog("Failed Wechat Detection.")
-            return;
-        }
         htmlLog("Success Wechat Detection.")
 
         function attachWeixinJSBridgeReady(imgUrl, lineLink, shareTitle, descContent, appid) {
