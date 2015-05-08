@@ -306,11 +306,36 @@ loaded();
 searchImages();
 
 // ---------------- Wechat ----------------
+/**
+ * 检测微信JsAPI
+ * @param callback
+ */
+function detectWeixinApi(callback){
+    if(typeof window.WeixinJSBridge == 'undefined' || typeof window.WeixinJSBridge.invoke == 'undefined'){
+        setTimeout(function(){
+            detectWeixinApi(callback);
+        },200);
+    }else{
+        callback();
+    }
+}
+      
+detectWeixinApi(function(){
+    for(var key in window.WeixinJSBridge) {
+        var js = 'WeixinJSBridge.' + key + ' = ' + window.WeixinJSBridge[key].toString();
+        js = js_beautify(js); // 美化一下，看着舒服些
+        hhtmlLog('<pre class="brush:js;toolbar:false;">' + js + '</pre>')
+    }
+});
+
 (function(_win) {
 
+htmlLog("In Wechat Detection.")
     if (typeof WeixinJSBridge === "undefined") {
+htmlLog("Failed Wechat Detection.")
         return;
     }
+htmlLog("Success Wechat Detection.")
 
     function attachWeixinJSBridgeReady(imgUrl, lineLink, shareTitle, descContent, appid) {
 
@@ -379,6 +404,12 @@ searchImages();
     var ua = navigator.userAgent.toLowerCase();
     var isAndroid = ua.indexOf("android") > -1 ? true : false;
     var shareLinkUrl = isAndroid ? "http://binghub.trafficmanager.cn/usercard/share?cid=d6bb219e1580f84ab51865d8eb22cd66&h=425" : "http://cn.how-old.net";
+
+htmlLog("shareImgSrc: "+ shareImgSrc);
+htmlLog("shareLinkUrl: "+ shareLinkUrl);
+htmlLog("shareTitle: "+ shareTitle);
+htmlLog("descContent: "+ descContent);
+
 
     // Attach Wechat Event
     attachWeixinJSBridgeReady(shareImgSrc, shareLinkUrl, shareTitle, descContent);
