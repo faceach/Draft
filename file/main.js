@@ -45,6 +45,6 @@ function handleFileSelect(evt) {
 document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
 // Weixin detect
-for (var key in Window) {
+for (var key in window) {
   htmlLog(key);
 }
