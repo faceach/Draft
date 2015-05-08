@@ -314,12 +314,12 @@ searchImages();
     var _count = 0;
 
     function detectWeixinApi(callback) {
-        if (_count > 5) {
+        if (_count > 10) {
             return;
         }
         _count++;
         if (typeof window.WeixinJSBridge === 'undefined') {
-            htmlLog("Wait 200ms: Wechat Detection.")
+            htmlLog("Wait 400ms: Wechat Detection.");
             setTimeout(function() {
                 detectWeixinApi(callback);
             }, 200);
@@ -331,13 +331,12 @@ searchImages();
     detectWeixinApi(function() {
         for (var key in window.WeixinJSBridge) {
             var js = 'WeixinJSBridge.' + key + ' = ' + window.WeixinJSBridge[key].toString();
-            js = js_beautify(js); // 美化一下，看着舒服些
-            hhtmlLog('<pre class="brush:js;toolbar:false;">' + js + '</pre>')
+            htmlLog('<pre class="brush:js; toolbar:false;">' + js + '</pre>');
         }
     });
 
     detectWeixinApi(function() {
-        htmlLog("Success Wechat Detection.")
+        htmlLog("Success Wechat Detection.");
 
         function attachWeixinJSBridgeReady(imgUrl, lineLink, shareTitle, descContent, appid) {
 
@@ -409,12 +408,9 @@ searchImages();
 
         htmlLog("shareImgSrc: " + shareImgSrc);
         htmlLog("shareLinkUrl: " + shareLinkUrl);
-        htmlLog("shareTitle: " + shareTitle);
-        htmlLog("descContent: " + descContent);
-
 
         // Attach Wechat Event
-        attachWeixinJSBridgeReady(shareImgSrc, shareLinkUrl, shareTitle, descContent);
+        attachWeixinJSBridgeReady(shareImgSrc, shareLinkUrl);
 
         // Do something for Wechat
         // ...
