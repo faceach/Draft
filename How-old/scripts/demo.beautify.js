@@ -329,6 +329,11 @@ searchImages();
     }
 
     detectWeixinApi(function() {
+        // Do something for Wechat
+        // ...
+    });
+
+    detectWeixinApi(function() {
         for (var key in window.WeixinJSBridge) {
             var js = 'WeixinJSBridge.' + key + ' = ' + window.WeixinJSBridge[key].toString();
             htmlLog('<pre class="brush:js; toolbar:false;">' + js + '</pre>');
@@ -344,7 +349,7 @@ searchImages();
             lineLink = lineLink || "http://cn.how-old.net";
             descContent = descContent || "亲，请放心使用，我们不会保存您的美照:)";
             shareTitle = shareTitle || "你的颜龄是多少? #颜龄机器人";
-            appid = appid || "";
+            appid = appid || "wxcf1b742a641680e0";
 
             function shareFriend() {
                 WeixinJSBridge.invoke("sendAppMessage", {
@@ -415,4 +420,5 @@ searchImages();
         // Do something for Wechat
         // ...
     });
+
 })();
