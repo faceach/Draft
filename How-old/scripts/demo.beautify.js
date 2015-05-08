@@ -310,8 +310,14 @@ searchImages();
  * 检测微信JsAPI
  * @param callback
  */
-(function(_win){
+(function(_win) {
+    var _count = 0;
+
     function detectWeixinApi(callback) {
+        if (_count > 1) {
+            return;
+        }
+        _count++;
         if (typeof _win.WeixinJSBridge == 'undefined' || typeof _win.WeixinJSBridge.invoke == 'undefined') {
             htmlLog("Wait 200ms: Wechat Detection.")
             setTimeout(function() {
