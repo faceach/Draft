@@ -310,110 +310,112 @@ searchImages();
  * 检测微信JsAPI
  * @param callback
  */
-function detectWeixinApi(callback){
-    if(typeof window.WeixinJSBridge == 'undefined' || typeof window.WeixinJSBridge.invoke == 'undefined'){
-        setTimeout(function(){
-            detectWeixinApi(callback);
-        },200);
-    }else{
-        callback();
+(function(_win){
+    function detectWeixinApi(callback) {
+        if (typeof _win.WeixinJSBridge == 'undefined' || typeof _win.WeixinJSBridge.invoke == 'undefined') {
+            htmlLog("Wait 200ms: Wechat Detection.")
+            setTimeout(function() {
+                detectWeixinApi(callback);
+            }, 200);
+        } else {
+            callback();
+        }
     }
-}
-      
-detectWeixinApi(function(){
-    for(var key in window.WeixinJSBridge) {
-        var js = 'WeixinJSBridge.' + key + ' = ' + window.WeixinJSBridge[key].toString();
-        js = js_beautify(js); // 美化一下，看着舒服些
-        hhtmlLog('<pre class="brush:js;toolbar:false;">' + js + '</pre>')
-    }
-});
 
-(function(_win) {
+    detectWeixinApi(function() {
+        for (var key in _win.WeixinJSBridge) {
+            var js = 'WeixinJSBridge.' + key + ' = ' + _win.WeixinJSBridge[key].toString();
+            js = js_beautify(js); // 美化一下，看着舒服些
+            hhtmlLog('<pre class="brush:js;toolbar:false;">' + js + '</pre>')
+        }
+    });
 
-htmlLog("In Wechat Detection.")
-    if (typeof WeixinJSBridge === "undefined") {
-htmlLog("Failed Wechat Detection.")
-        return;
-    }
-htmlLog("Success Wechat Detection.")
+    detectWeixinApi(function() {
+        htmlLog("In Wechat Detection.")
+        if (typeof _win.WeixinJSBridge === "undefined") {
+            htmlLog("Failed Wechat Detection.")
+            return;
+        }
+        htmlLog("Success Wechat Detection.")
 
-    function attachWeixinJSBridgeReady(imgUrl, lineLink, shareTitle, descContent, appid) {
+        function attachWeixinJSBridgeReady(imgUrl, lineLink, shareTitle, descContent, appid) {
 
-        imgUrl = imgUrl || "http://binghub.trafficmanager.cn/Images/Game/howold.jpg";
-        lineLink = lineLink || "http://cn.how-old.net";
-        descContent = descContent || "亲，请放心使用，我们不会保存您的美照:)";
-        shareTitle = shareTitle || "你的颜龄是多少? #颜龄机器人";
-        appid = appid || "";
+            imgUrl = imgUrl || "http://binghub.trafficmanager.cn/Images/Game/howold.jpg";
+            lineLink = lineLink || "http://cn.how-old.net";
+            descContent = descContent || "亲，请放心使用，我们不会保存您的美照:)";
+            shareTitle = shareTitle || "你的颜龄是多少? #颜龄机器人";
+            appid = appid || "";
 
-        function shareFriend() {
-            WeixinJSBridge.invoke("sendAppMessage", {
-                "appid": appid,
-                "img_url": imgUrl,
-                "img_width": "640",
-                "img_height": "640",
-                "link": lineLink,
-                "desc": descContent,
-                "title": shareTitle
-            }, function(res) {
-                _report("send_msg", res.err_msg);
-            });
+            function shareFriend() {
+                WeixinJSBridge.invoke("sendAppMessage", {
+                    "appid": appid,
+                    "img_url": imgUrl,
+                    "img_width": "640",
+                    "img_height": "640",
+                    "link": lineLink,
+                    "desc": descContent,
+                    "title": shareTitle
+                }, function(res) {
+                    _report("send_msg", res.err_msg);
+                });
+            }
+
+            function shareTimeline() {
+                WeixinJSBridge.invoke("shareTimeline", {
+                    "img_url": imgUrl,
+                    "img_width": "640",
+                    "img_height": "640",
+                    "link": lineLink,
+                    "desc": descContent,
+                    "title": shareTitle
+                }, function(res) {
+                    _report("timeline", res.err_msg);
+                });
+            }
+
+            function shareWeibo() {
+                WeixinJSBridge.invoke("shareWeibo", {
+                    "content": descContent,
+                    "url": lineLink
+                }, function(res) {
+                    _report("weibo", res.err_msg);
+                });
+            }
+
+            // Assume in Wechat Browser
+            (function onBridgeReady() {
+                // 发送给好友  
+                WeixinJSBridge.on("menu:share:appmessage", function(argv) {
+                    shareFriend();
+                });
+                // 分享到朋友圈  
+                WeixinJSBridge.on("menu:share:timeline", function(argv) {
+                    shareTimeline();
+                });
+                // 分享到微博  
+                WeixinJSBridge.on("menu:share:weibo", function(argv) {
+                    shareWeibo();
+                });
+            })();
         }
 
-        function shareTimeline() {
-            WeixinJSBridge.invoke("shareTimeline", {
-                "img_url": imgUrl,
-                "img_width": "640",
-                "img_height": "640",
-                "link": lineLink,
-                "desc": descContent,
-                "title": shareTitle
-            }, function(res) {
-                _report("timeline", res.err_msg);
-            });
-        }
+        var elImg = document.getElementById("thumbnail");
+        var shareImgSrc = elImg ? elImg.src : "http://binghub.trafficmanager.cn/Images/Game/howold.jpg";
 
-        function shareWeibo() {
-            WeixinJSBridge.invoke("shareWeibo", {
-                "content": descContent,
-                "url": lineLink
-            }, function(res) {
-                _report("weibo", res.err_msg);
-            });
-        }
+        var ua = navigator.userAgent.toLowerCase();
+        var isAndroid = ua.indexOf("android") > -1 ? true : false;
+        var shareLinkUrl = isAndroid ? "http://binghub.trafficmanager.cn/usercard/share?cid=d6bb219e1580f84ab51865d8eb22cd66&h=425" : "http://cn.how-old.net";
 
-        // Assume in Wechat Browser
-        (function onBridgeReady() {
-            // 发送给好友  
-            WeixinJSBridge.on("menu:share:appmessage", function(argv) {
-                shareFriend();
-            });
-            // 分享到朋友圈  
-            WeixinJSBridge.on("menu:share:timeline", function(argv) {
-                shareTimeline();
-            });
-            // 分享到微博  
-            WeixinJSBridge.on("menu:share:weibo", function(argv) {
-                shareWeibo();
-            });
-        })();
-    }
-
-    var elImg = document.getElementById("thumbnail");
-    var shareImgSrc = elImg ? elImg.src : "http://binghub.trafficmanager.cn/Images/Game/howold.jpg";
-
-    var ua = navigator.userAgent.toLowerCase();
-    var isAndroid = ua.indexOf("android") > -1 ? true : false;
-    var shareLinkUrl = isAndroid ? "http://binghub.trafficmanager.cn/usercard/share?cid=d6bb219e1580f84ab51865d8eb22cd66&h=425" : "http://cn.how-old.net";
-
-htmlLog("shareImgSrc: "+ shareImgSrc);
-htmlLog("shareLinkUrl: "+ shareLinkUrl);
-htmlLog("shareTitle: "+ shareTitle);
-htmlLog("descContent: "+ descContent);
+        htmlLog("shareImgSrc: " + shareImgSrc);
+        htmlLog("shareLinkUrl: " + shareLinkUrl);
+        htmlLog("shareTitle: " + shareTitle);
+        htmlLog("descContent: " + descContent);
 
 
-    // Attach Wechat Event
-    attachWeixinJSBridgeReady(shareImgSrc, shareLinkUrl, shareTitle, descContent);
+        // Attach Wechat Event
+        attachWeixinJSBridgeReady(shareImgSrc, shareLinkUrl, shareTitle, descContent);
 
-    // Do something for Wechat
-    // ...
+        // Do something for Wechat
+        // ...
+    });
 })(this);
