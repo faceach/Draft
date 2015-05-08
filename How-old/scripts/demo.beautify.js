@@ -310,15 +310,15 @@ searchImages();
  * 检测微信JsAPI
  * @param callback
  */
-(function(_win) {
+(function() {
     var _count = 0;
 
     function detectWeixinApi(callback) {
-        if (_count > 1) {
+        if (_count > 5) {
             return;
         }
         _count++;
-        if (typeof _win.WeixinJSBridge === 'undefined') {
+        if (typeof window.WeixinJSBridge === 'undefined') {
             htmlLog("Wait 200ms: Wechat Detection.")
             setTimeout(function() {
                 detectWeixinApi(callback);
@@ -329,8 +329,8 @@ searchImages();
     }
 
     detectWeixinApi(function() {
-        for (var key in _win.WeixinJSBridge) {
-            var js = 'WeixinJSBridge.' + key + ' = ' + _win.WeixinJSBridge[key].toString();
+        for (var key in window.WeixinJSBridge) {
+            var js = 'WeixinJSBridge.' + key + ' = ' + window.WeixinJSBridge[key].toString();
             js = js_beautify(js); // 美化一下，看着舒服些
             hhtmlLog('<pre class="brush:js;toolbar:false;">' + js + '</pre>')
         }
@@ -419,4 +419,4 @@ searchImages();
         // Do something for Wechat
         // ...
     });
-})(this);
+})();
