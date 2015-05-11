@@ -317,8 +317,8 @@ searchImages();
  * 检测微信JsAPI
  * @param callback
  */
- ;return;
 (function() {
+    return;
     var _count = 0;
 
     function detectWeixinApi(callback) {
