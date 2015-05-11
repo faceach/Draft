@@ -313,8 +313,11 @@ window.onresize = resize;
 document.getElementById("SelectorTag").addEventListener("mousedown", function(n) {
     n.cancelBubble = !0
 }, !1);
-loaded();
-searchImages();
+// Dom ready.
+$(function() {
+    loaded();
+    searchImages();
+});
 
 // ---------------- Wechat ----------------
 /**
