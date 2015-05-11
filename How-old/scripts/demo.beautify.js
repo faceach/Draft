@@ -243,7 +243,7 @@ function loaded() {
         $(".ImageSelector .ScrollArea .selectedImage").removeClass("selectedImage")
     });
     htmlLog("myScroll visible.");
-    //$(".ImageSelector").css("visibility", "visible");
+    $(".ImageSelector").css("opacity", 1);
     updateSelectedImage();
 }
 
