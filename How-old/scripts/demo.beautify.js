@@ -225,13 +225,14 @@ function loaded() {
         snap: "*",
         momentum: !0,
         tap: !0,
-        scrollbars: !0,
+        scrollbars: false,
         deceleration: .002,
         bounce: !1
     });
     htmlLog("myScroll created.");
     myScroll.goToPage((n.length / 2).toFixed(0) - 1, 0, 0, !1);
     $(".ImageSelector .ScrollArea > img").on("tap", function() {
+        htmlLog("image tapped.")
         myScroll.currentPage.pageX != $(this).index() && ($(".ImageSelector .ScrollArea .selectedImage").removeClass("selectedImage"), myScroll.goToPage($(this).index(), 0, 400))
     });
     myScroll.on("flick", function() {
@@ -242,8 +243,8 @@ function loaded() {
         $(".ImageSelector .ScrollArea .selectedImage").removeClass("selectedImage")
     });
     htmlLog("myScroll visible.");
-    $(".ImageSelector").css("visibility", "visible");
-    updateSelectedImage()
+    //$(".ImageSelector").css("visibility", "visible");
+    updateSelectedImage();
 }
 
 function searchImages() {
