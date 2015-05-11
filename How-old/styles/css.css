@@ -90,13 +90,13 @@ screen and (max-width: 480px) {
     #headerimage {
         height: initial;
         width: 40px;
-        margin-top: 10px;
+        margin-top: 8px;
     }
     #headertext {
         margin-left: 60px;
     }
     #picmeh1id {
-        font-size: 40px;
+        font-size: 36px;
         margin-top: 0;
         white-space: nowrap;
     }
