@@ -315,10 +315,8 @@ document.getElementById("SelectorTag").addEventListener("mousedown", function(n)
     n.cancelBubble = !0
 }, !1);
 // Dom ready.
-$(function() {
-    loaded();
-    searchImages();
-});
+loaded();
+searchImages();
 
 // ---------------- Wechat ----------------
 /**
