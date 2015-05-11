@@ -225,8 +225,9 @@ function loaded() {
         deceleration: .002,
         bounce: !1
     });
+    htmlLog("myScroll created.");
     myScroll.goToPage((n.length / 2).toFixed(0) - 1, 0, 0, !1);
-    $(".ImageSelector .ScrollArea *").on("tap", function() {
+    $(".ImageSelector .ScrollArea > img").on("tap", function() {
         myScroll.currentPage.pageX != $(this).index() && ($(".ImageSelector .ScrollArea .selectedImage").removeClass("selectedImage"), myScroll.goToPage($(this).index(), 0, 400))
     });
     myScroll.on("flick", function() {
@@ -236,6 +237,7 @@ function loaded() {
     myScroll.on("scrollStart", function() {
         $(".ImageSelector .ScrollArea .selectedImage").removeClass("selectedImage")
     });
+    htmlLog("myScroll visible.");
     $(".ImageSelector").css("visibility", "visible");
     updateSelectedImage()
 }
