@@ -203,6 +203,7 @@ function refresh() {
 }
 
 function loaded() {
+    htmlLog("load images");
     var n = $(".ImageSelector .ScrollArea > img"),
         t = parseInt(n.css("margin-left").replace("px", "")) || 0,
         i = parseInt(n.css("margin-right").replace("px", "")) || 0,
@@ -212,6 +213,7 @@ function loaded() {
     if (!IScroll) {
         return;
     }
+    htmlLog("prepare scroll");
     myScroll = new IScroll(".ImageSelector", {
         scrollX: !0,
         scrollY: !1,
@@ -313,6 +315,7 @@ searchImages();
  * 检测微信JsAPI
  * @param callback
  */
+ ;return;
 (function() {
     var _count = 0;
 
