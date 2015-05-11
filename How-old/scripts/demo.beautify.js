@@ -209,6 +209,10 @@ function loaded() {
         i = parseInt(n.css("margin-right").replace("px", "")) || 0,
         r = n[0].offsetWidth,
         u = (r + t + i) * n.length;
+    htmlLog("margin-left: " + t);
+    htmlLog("margin-right: " + i);
+    htmlLog("offsetWidth: " + r);
+    htmlLog("scroll width: " + u);
     $(".ImageSelector .ScrollArea").css("width", u + "px");
     if (!IScroll) {
         return;
