@@ -220,9 +220,10 @@ function loaded() {
     htmlLog("prepare scroll");
     myScroll = new IScroll(".ImageSelector", {
         scrollX: !0,
-        scrollY: !1,
+        scrollY: true,
         mouseWheel: !0,
         snap: "*",
+        freeScroll: true,
         momentum: !0,
         tap: !0,
         scrollbars: false,
