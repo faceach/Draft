@@ -90,7 +90,7 @@ screen and (max-width: 480px) {
     #headerimage {
         height: initial;
         width: 40px;
-        margin-top: 2px;
+        margin-top: 10px;
     }
     #headertext {
         margin-left: 60px;
@@ -106,6 +106,9 @@ screen and (max-width: 480px) {
     }
 }
 @media screen and (max-width: 320px) {
+    #headerimage {
+        margin-top: 2px;
+    }
     #picmeh1id {
         font-size: 30px;
         margin-top: 0;
