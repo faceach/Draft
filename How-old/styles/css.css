@@ -56,7 +56,7 @@ img.big-face-tooltip{width:28.6px;height:60px;margin-right:6px;margin-top:-13px}
 #headertext{margin-left:50px}
 .subheader{font-size:7px;margin-left:1px}
 #uploadLabel{margin-top:0}#results{margin-top:-20px}#dontWorryId{margin-top:10px}#thumbnail{max-height:500px}.bodyfont{font-size:15px}input[type='text'],input[type='number'],input[type='search']{font-size:16px}#microsoftIcon{margin-top:10px;height:31.05px;width:125.55px}#socialDiv{margin-bottom:10px;margin-top:15px}#maxImageSize{font-weight:100;font-size:10px}}
-@media(max-device-width:480px)and (orientation:portrait){
+@media screen and (max-device-width:480px) and (orientation:portrait){
 	body{padding-top:15px}
 	#imageDiv{-ms-touch-action:none;-webkit-transform:scale(.75,.75);transform:scale(.75,.75);margin-top:40px}
 	#header{padding-bottom:20px;width:150px}
