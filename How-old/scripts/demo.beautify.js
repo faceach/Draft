@@ -203,12 +203,15 @@ function refresh() {
 }
 
 function loaded() {
-    var n = $(".ImageSelector .ScrollArea *"),
+    var n = $(".ImageSelector .ScrollArea > img"),
         t = parseInt(n.css("margin-left").replace("px", "")) || 0,
         i = parseInt(n.css("margin-right").replace("px", "")) || 0,
         r = n[0].offsetWidth,
         u = (r + t + i) * n.length;
     $(".ImageSelector .ScrollArea").css("width", u + "px");
+    if (!IScroll) {
+        return;
+    }
     myScroll = new IScroll(".ImageSelector", {
         scrollX: !0,
         scrollY: !1,
