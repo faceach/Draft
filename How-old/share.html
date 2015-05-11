@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html class="ui-mobile">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>颜龄机器人</title>
+    <link href="./resources/jquery.mobile-1.4.5.min.css" rel="stylesheet">
+    <style type="text/css">
+    .cf:after {   clear: both; content: "."; display: block; height: 0; visibility: hidden;   }
+    .cf {   *zoom: 1;       }
+    .card-container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .card-container iframe {
+        width: 100%;
+        border: none;
+        background-color: #fff;
+    }
+    
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 58px;
+        padding-left: 10px;
+        padding-right: 30px;
+        opacity: 1.0;
+        background-color: #5d5d5d;
+        white-space: nowrap;
+    }
+    .footer .bar-item {
+        display:  inline-block;
+        vertical-align: middle;
+    }
+    .footer .bar-logo,
+    .footer .bar-install {
+        line-height: 58px;
+    }
+    .footer .bar-logo > img,
+    .footer .bar-install > img {
+        max-height: 36px;
+        vertical-align: middle;
+    }
+    .footer .bar-install.bar-install-active {
+        cursor: pointer;
+    }
+    .footer .bar-close {
+        position: absolute;
+        height: 100%;
+        right: 10px;
+        line-height: 58px;
+        cursor: pointer;
+    }
+    .footer .bar-close > img {
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+    }
+
+    .download_wording1,
+    .download_wording2 {
+        font-size: 0.7em;
+        color: white;
+        font-family: Microsoft YaHei;
+        margin-top: 0px;
+        margin-bottom: 3px;
+        text-shadow: none;
+    }
+    .download_wording1 {
+        font-size: 0.8em;
+    }
+    </style>
+</head>
+
+<body class="ui-mobile-viewport ui-overlay-a">
+    <div data-role="page" tabindex="0" class="ui-page ui-page-theme-a ui-page-active">
+        <div id="share_card" class="card-container">
+            <iframe src="./resources/getcard.html"></iframe>
+        </div>
+        <div id="download_bar" class="footer cf">
+            <div class="bar-item bar-logo">
+                <img src="./resources/bing_logo.png">
+            </div>
+            <div class="bar-item bar-topic">
+                <p class="download_wording1">必应卡片-颜龄机器人</p>
+                <p class="download_wording2">[安卓用户鲜体验]</p>
+            </div>
+            <a id="download_btn" class="bar-item bar-install">
+                <img src="./resources/install_grey.png">
+            </a>
+            <a id="download_bar_delete" class="bar-close">
+                <img src="./resources/close_circle.png">
+            </a>
+        </div>
+    </div>
+    <div class="ui-loader ui-corner-all ui-body-a ui-loader-default">
+        <span class="ui-icon-loading"></span>
+        <h1>loading</h1>
+    </div>
+    <script src="./resources/jquery-2.1.4.min.js"></script>
+    <script>
+    (function() {
+        // Get Viewport width/height
+        function getViewport() {
+                var e = window,
+                    a = 'inner';
+                if (!('innerWidth' in window)) {
+                    a = 'client';
+                    e = document.documentElement || document.body;
+                }
+                return {
+                    width: e[a + 'Width'],
+                    height: e[a + 'Height']
+                }
+            }
+            // Dom Ready
+        $(document).ready(function() {
+
+            (function setIframeHeight() {
+                // Card aspect ratio
+                var cardAspectRatio = 0.618;
+
+                var vpValue = getViewport();
+
+                var $iframe = $("#share_card > iframe");
+                var iframeWidth = $iframe.width();
+                // Set value
+                $iframe.height(iframeWidth / cardAspectRatio);
+            })();
+
+
+            $('#download_bar')
+                .on('click', '#download_btn', function() {
+                    if ("" == "BingAsk") {
+                        window.location.href = "http://appengine.chinacloudsites.cn/apk/download/bingask$bingask_zh-cn_MSSITE-release-pr_signed.apk";
+                    } else {
+                        window.location.href = "http://appengine.chinacloudsites.cn/apk/download/shellchinabing$bingng_zh-cn_MSSHARE-release-pr_signed.apk";
+                    }
+                })
+                .on('click', '#download_btn_weixin', function() {
+                    if ("" == "BingAsk") {
+                        window.location.href = "http://appengine.chinacloudsites.cn/apk/download/bingask$bingask_zh-cn_MSSITE-release-pr_signed.apk";
+                    } else {
+                        window.location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.microsoft.bing";
+                    }
+                })
+                .on('click', '#download_bar_delete', function() {
+                    $('#download_bar').hide();
+                });
+        });
+    })();
+    </script>
+</body>
+
+</html>
