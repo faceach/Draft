@@ -7,6 +7,7 @@
         Image Track
     </title>
     <link rel="stylesheet" href="">
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8" async defer></script>
 </head>
 <body>
     <div>
@@ -21,6 +22,7 @@
     </div>
     <script>
         (function () {
+        // Click Track send to bing123.
         function imgTrack(src) {
             if (!Image) { return;}
             var img = new Image(1, 1);
@@ -35,6 +37,22 @@
                 + "&text=" + encodeURIComponent("How-old.net")
                 + "&path=" + encodeURIComponent(clickTrackRequestPath));
         }
+
+
+        function sendClickTrack(clickTrackRequestUrl, clickTrackRequestText) {
+            var clickTrackUrl = "http://bing123instantclickazureservice.azurewebsites.net/Click/add";
+            var clickTrackRequestPath = "bingapp-card-share";
+            // Send via AJAX
+            $.get(clickTrackUrl
+                + "?url=" + encodeURIComponent(clickTrackRequestUrl)
+                + "&text=" + encodeURIComponent(clickTrackRequestText)
+                + "&path=" + encodeURIComponent(clickTrackRequestPath));
+        }
+        function clickHandler(){
+            sendClickTrack("http://cn.how-old.net", "How-old.net");
+        }
+
+
         // Window onload event
         var wOnload = window.onload;
         window.onload = function () {
