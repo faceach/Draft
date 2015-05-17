@@ -1,47 +1,85 @@
-﻿function processRequest(n, t, i, r, u) {
+var htmlLogNum = 1;
+
+function htmlLog(s) {
+    document.body.insertAdjacentHTML("beforeend", "<p style='background-color: #3f3; margin-bottom: 3px;'>" + htmlLogNum + ": " + s + "</p>");
+    htmlLogNum++;
+}
+
+htmlLog("Hello, I'm from client.")
+
+function blobToFile(theBlob, fileName){
+    //A Blob() is almost a File() - it's just missing the two properties below which we will add
+    theBlob.lastModifiedDate = new Date();
+    theBlob.name = fileName;
+    return theBlob;
+}
+function processRequest(isFile, imageUrl, imageName, fileSize, imageRotation) {
+    
     window.location.hash = "results";
     deleteFaceRects();
     $("#jsonEventDiv").hide();
-    var e = "Couldn’t detect any faces. Please verify that the image is valid and less than 3MB.",
-        h = "Couldn’t detect any faces.";
+    var servicePath = "/proxy/analyze";
+    var loadingHtml = 'Analyzing...<span><img id="loadingImage" src="/Images/ajax-loader_1.gif" /></span>';
+    var errorHtml = "Couldn’t detect any faces. Please verify that the image is valid and less than 3MB.";
+    var noFaceHtml = "Couldn’t detect any faces.";
     $("#analyzingLabel").css("visibility", "visible");
     $("#improvingLabel").css("visibility", "hidden");
-    $("#analyzingLabel").html('分析中...<span><img id="loadingImage" src="http://how-old.net/Images/ajax-loader_1.gif" /><\/span>');
-    var o = {},
-        s = !1,
-        f = "/proxy/analyze",
-        c = $("#uploadBtn").get(0).files,
-        l = $("#isTest").val();
-    if (f += "?isTest=" + l, n) {
-        if (r != null && r > 3145728) {
+    $("#analyzingLabel").html(loadingHtml);
+
+    var data = {};
+    var contentType = false;
+    var requestUrl = servicePath;
+    
+    //data = new FormData();
+    var files = $("#uploadBtn").get(0).files;
+    // Add the uploaded image content to the form data collection
+    var isTest = $("#isTest").val();
+    requestUrl += "?isTest=" + isTest;
+    if (isFile) {
+        //Verify that the file is smaller then 3MB
+        if (fileSize != null && fileSize > 3145728) {
             $("#jsonEventDiv").hide();
-            $("#analyzingLabel").html(e);
+            $("#analyzingLabel").html(errorHtml);
             $("#analyzingLabel").css("visibility", "visible");
-            return
+            return;
         }
-        o = c[0];
-        s = "application/octet-stream"
-    } else f += "&faceUrl=" + encodeURIComponent(t) + "&faceName=" + i;
+        data = blobToFile(imageUrl, 'face.jpg');//encodeURIComponent(URL.createObjectURL(imageUrl));//files[0];
+        contentType = "application/octet-stream";
+    }
+    else {
+        requestUrl += "&faceUrl=" + encodeURIComponent(imageUrl) + "&faceName=" + imageName;
+    }
     $.ajax({
         type: "POST",
-        url: f,
-        contentType: s,
-        crossDomain: true,
-        processData: !1,
-        data: o,
-        success: function(n) {
-            var t = JSON.parse(n);
-            t == null || t.Faces == null || t.Faces.length === 0 ? ($("#analyzingLabel").html(h), $("#analyzingLabel").css("visibility", "visible")) : (renderImageFaces(t.Faces, u), $("#analyzingLabel").css("visibility", "hidden"));
+        url: requestUrl,
+        
+        contentType: contentType,
+        processData: false,
+        data: data,
+        success: function (response) {
+            var jresponse = JSON.parse(response);
+            if (jresponse == null || jresponse.Faces == null || jresponse.Faces.length === 0) {
+                $("#analyzingLabel").html(noFaceHtml);
+                $("#analyzingLabel").css("visibility", "visible");
+            } else {
+                renderImageFaces(jresponse.Faces, imageRotation);
+                $("#analyzingLabel").css("visibility", "hidden");
+            }
             $("#improvingLabel").css("visibility", "visible");
-            t != null && (showViewSourceLink(), $("#jsonEvent").text(t.AnalyticsEvent))
+            if (jresponse != null) {
+                showViewSourceLink();
+                $("#jsonEvent").text(jresponse.AnalyticsEvent);
+            }
         },
-        error: function() {
+
+        error: function (xhr, status, error) {
             $("#jsonEventDiv").hide();
-            $("#analyzingLabel").html(e);
-            $("#analyzingLabel").css("visibility", "visible")
+            $("#analyzingLabel").html(errorHtml);
+            $("#analyzingLabel").css("visibility", "visible");
+            
         }
-    })
-}
+    });
+};
 
 function viewSource() {
     $("#jsonEventDiv").show()
@@ -79,18 +117,126 @@ function analyzeUrl() {
     processRequest(!1, r, t)
 }
 
-function handleFileSelect(n) {
-    for (var u = n.target.files, t, r, i = 0; t = u[i]; i++) t.type.match("image.*") && (r = new FileReader, r.onload = function(n) {
-        return function(t) {
-            updateThumbnail(t.target.result);
-            loadImage.parseMetaData(n, function(t) {
-                var i = 0,
-                    r;
-                t && t.exif && (r = t.exif.get("Orientation"), r === 8 ? i = 90 : r === 3 ? i = 180 : r === 6 && (i = 270));
-                processRequest(!0, null, null, n.size, i)
-            })
+
+function b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
         }
-    }(t), r.readAsDataURL(t))
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, {
+        type: contentType
+    });
+    return blob;
+}
+
+// Code taken from MatthewCrumley (http://stackoverflow.com/a/934925/298479)
+function getBase64DataURL(img, width, height) {
+    // Create an empty canvas element
+    var canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+
+    // Copy the image contents to the canvas
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    // Get the data-URL formatted image
+    // Firefox supports PNG and JPEG. You could check img.src to guess the
+    // original format, but be aware the using "image/jpg" will re-encode the image.
+    var dataURL = canvas.toDataURL("image/jpg");
+
+    return dataURL;
+}
+
+function getBase64ImageCode(base64DataURL) {
+    //base64DataURL.split(",")[1];
+    return base64DataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+}
+
+function resizeImg(img, maxWidth) {
+
+    maxWidth = maxWidth || 400;
+    var width = img.width;
+    var height = img.height;
+    var ratio = 1;
+    var toWidth = width;
+    var toHeight = height;
+    if (width > maxWidth) {
+        ratio = maxWidth / width;
+        toWidth = width * ratio;
+        toHeight = height * ratio;
+    }
+
+    return getBase64DataURL(img, toWidth, toHeight);
+}
+
+function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+
+    // Loop through the FileList and render image files as thumbnails.
+    var f = files[0];
+
+    // Only process image files.
+    // f.type === "" under Wechat (device: Samsung Android v4.4.x)
+    if (f.type && !f.type.match('image.*')) {
+        return;
+    }
+
+    var image = new Image();
+    image.src = window.URL.createObjectURL(f);
+
+    image.onload = function() {
+
+        var src = resizeImg(image);
+
+        var blob = b64toBlob(src.split(',')[1], 'image/jpg');
+        //var blobUrl = URL.createObjectURL(blob);
+
+        var reader = new FileReader();
+
+        // Closure to capture the file information.
+        reader.onload = (function(theFile) {
+            return function(e) {
+                updateThumbnail(e.target.result);
+                // Render thumbnail.
+                loadImage.parseMetaData(theFile, function(data) {
+                    var rotation = 0;
+                    if (data && data.exif) {
+                        var orientation = data.exif.get('Orientation');
+                        if (orientation === 8) {
+                            rotation = 90;
+                        } else if (orientation === 3) {
+                            rotation = 180;
+                        } else if (orientation === 6) {
+                            rotation = 270;
+                        }
+                    }
+                    processRequest(true, theFile, null, theFile.size, rotation);
+                });
+
+            };
+        })(blob);
+
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(blob);
+    };
+
 }
 
 function updateThumbnail(n) {
@@ -210,10 +356,10 @@ function loaded() {
 function searchImages() {
     var n = $("#searchText").val(),
         t;
-    if (n != null && n.length !== 0) return $("#searchError").css("visibility", "hidden"), t = "/proxy/ImageSearch", $.ajax({
+    if (n != null && n.length !== 0) return $("#searchError").css("visibility", "hidden"), t = "/Home/BingImageSearch?query=" + n, $.ajax({
         type: "POST",
         url: t,
-        data: n,
+        data: {},
         contentType: !1,
         processData: !1,
         success: function(n) {
@@ -253,8 +399,8 @@ add_rect = function(n, t, i, r, u, f) {
         c = "n/a",
         s, h, l, a;
     t != null && (c = Math.round(Number(t)));
-    s = "http://how-old.net/Images/icon-gender-male.png";
-    i != null && i.toLowerCase() === "female" && (s = "http://how-old.net/Images/icon-gender-female.png");
+    s = "/Images/icon-gender-male.png";
+    i != null && i.toLowerCase() === "female" && (s = "/Images/icon-gender-female.png");
     h = f <= 2 ? "big-face-tooltip" : "small-face-tooltip";
     e = '<div><span><img src="' + s + '" class=' + h + "><\/span>" + c + "<\/div>";
     $(e).css("background-color", "#F1D100");

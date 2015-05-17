@@ -7,41 +7,21 @@ function htmlLog(s) {
 
 htmlLog("Hello, I'm from client.")
 
-// ----------------------------------------------------------------------------------------
-
-function getTrans(key) {
-    var lang = {
-        "loadingHtml": {
-            "en": "Analyzing...",
-            "cn": "努力消化中..."
-        },
-        "errorHtml": {
-            "en": "Couldn’t detect any faces. Please verify that the image is valid and less than 3MB.",
-            "cn": "亲，我们识别不出脸部. 3MB的图片对于苗条的我真的吃不消."
-        },
-        "noFaceHtml": {
-            "en": "Couldn’t detect any faces.",
-            "cn": "亲，我们识别不出脸部."
-        }
-    };
-
-    // http://cn.how-old.net is us site for ZH-CN
-    // http://howold.chinacloudsites.cn/ is China testing site
-    var cp = "cn"; //(location.host.indexOf("cn.") === 0 || location.host === "howold.chinacloudsites.cn") ? "cn" : "en";
-
-    return lang[key][cp];
+function blobToFile(theBlob, fileName){
+    //A Blob() is almost a File() - it's just missing the two properties below which we will add
+    theBlob.lastModifiedDate = new Date();
+    theBlob.name = fileName;
+    return theBlob;
 }
-
-
 function processRequest(isFile, imageUrl, imageName, fileSize, imageRotation) {
-
+    
     window.location.hash = "results";
     deleteFaceRects();
     $("#jsonEventDiv").hide();
     var servicePath = "/Home/Analyze";
-    var loadingHtml = getTrans("loadingHtml") + '<span><img id="loadingImage" src="/Images/ajax-loader_1.gif" /></span>';
-    var errorHtml = getTrans("errorHtml");
-    var noFaceHtml = getTrans("noFaceHtml");
+    var loadingHtml = 'Analyzing...<span><img id="loadingImage" src="/Images/ajax-loader_1.gif" /></span>';
+    var errorHtml = "Couldn’t detect any faces. Please verify that the image is valid and less than 3MB.";
+    var noFaceHtml = "Couldn’t detect any faces.";
     $("#analyzingLabel").css("visibility", "visible");
     $("#improvingLabel").css("visibility", "hidden");
     $("#analyzingLabel").html(loadingHtml);
@@ -49,7 +29,7 @@ function processRequest(isFile, imageUrl, imageName, fileSize, imageRotation) {
     var data = {};
     var contentType = false;
     var requestUrl = servicePath;
-
+    
     //data = new FormData();
     var files = $("#uploadBtn").get(0).files;
     // Add the uploaded image content to the form data collection
@@ -63,19 +43,20 @@ function processRequest(isFile, imageUrl, imageName, fileSize, imageRotation) {
             $("#analyzingLabel").css("visibility", "visible");
             return;
         }
-        data = imageUrl;//files[0];
+        data = blobToFile(imageUrl, 'face.jpg');//encodeURIComponent(URL.createObjectURL(imageUrl));//files[0];
         contentType = "application/octet-stream";
-    } else {
+    }
+    else {
         requestUrl += "&faceUrl=" + encodeURIComponent(imageUrl) + "&faceName=" + imageName;
     }
     $.ajax({
         type: "POST",
         url: requestUrl,
-
+        
         contentType: contentType,
         processData: false,
         data: data,
-        success: function(response) {
+        success: function (response) {
             var jresponse = JSON.parse(response);
             if (jresponse == null || jresponse.Faces == null || jresponse.Faces.length === 0) {
                 $("#analyzingLabel").html(noFaceHtml);
@@ -91,61 +72,51 @@ function processRequest(isFile, imageUrl, imageName, fileSize, imageRotation) {
             }
         },
 
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             $("#jsonEventDiv").hide();
             $("#analyzingLabel").html(errorHtml);
             $("#analyzingLabel").css("visibility", "visible");
-
+            
         }
     });
 };
 
 function viewSource() {
-    $("#jsonEventDiv").show();
-
+    $("#jsonEventDiv").show()
 }
 
 function showResultView() {
-
     $("#selectImage").hide();
-    $("#results").show();
+    $("#results").show()
 }
 
 function showSelectionView() {
     $("#selectImage").show();
     $("#results").hide();
     hideViewSourceLink();
-    //deleteFaceRects();
-    //updateThumbnail('/Images/placeholder.png');
-    myScroll.refresh();
+    myScroll.refresh()
 }
-
 
 function showViewSourceLink() {
     $("#viewEvent").show();
-    $("#linkSeparetor").show();
-    // $("#footerId").css("width", "253px");
+    $("#linkSeparetor").show()
 }
-
 
 function hideViewSourceLink() {
     $("#viewEvent").hide();
-    $("#linkSeparetor").hide();
-    //  $("#footerId").css("width", "180px");
-
+    $("#linkSeparetor").hide()
 }
 
 function analyzeUrl() {
-    var selector = document.getElementById("SelectorBox").getBoundingClientRect();
-    var img = document.elementFromPoint(selector.left + selector.width / 2, selector.top + selector.height / 2);
-    var src = $(img).attr("data-url");
-    var faceName = $(img).attr("data-image-name");
-    if (faceName == undefined) {
-        faceName = null;
-    }
-    updateThumbnail(src);
-    processRequest(false, src, faceName);
+    var n = document.getElementById("SelectorBox").getBoundingClientRect(),
+        i = document.elementFromPoint(n.left + n.width / 2, n.top + n.height / 2),
+        r = $(i).attr("data-url"),
+        t = $(i).attr("data-image-name");
+    t == undefined && (t = null);
+    updateThumbnail(r);
+    processRequest(!1, r, t)
 }
+
 
 function b64toBlob(b64Data, contentType, sliceSize) {
     contentType = contentType || '';
@@ -234,7 +205,7 @@ function handleFileSelect(evt) {
 
         var src = resizeImg(image);
 
-        var blob = b64toBlob(dataURL.split(',')[1], 'image/jpg');
+        var blob = b64toBlob(src.split(',')[1], 'image/jpg');
         //var blobUrl = URL.createObjectURL(blob);
 
         var reader = new FileReader();
@@ -268,44 +239,159 @@ function handleFileSelect(evt) {
 
 }
 
-
-function updateThumbnail(src) {
-    var thumbnail = document.getElementById('thumbnail');
-
-    thumbnail.setAttribute('src', src);
+function updateThumbnail(n) {
+    var t = document.getElementById("thumbnail");
+    t.setAttribute("src", n)
 }
 
-
-var iOS = false;
-$(window).load(function() {
-    document.getElementById('uploadBtn').addEventListener('change', handleFileSelect, false);
-    document.getElementById('uploadBtn').addEventListener('click', function() {
-        this.value = null
-    }, false);
-    window.location.hash = '';
-    iOS = (navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false);
-});
-
-$(window).on('hashchange', function() {
-    if (window.location.hash === '#results') {
-        showResultView();
-    } else {
-        showSelectionView();
+function drawFaceRects() {
+    var n, t;
+    if ($("#faces").html("<div><\/div>"), n = $("#thumbnail"), t = $("#thumbContainer"), current_faces != null) {
+        var i = n.height() / image_orig_height,
+            r = n.width() / image_orig_width,
+            u = n.offset().left - t.offset().left,
+            f = current_faces.length;
+        $.each(current_faces, function(t, e) {
+            var s = e.faceRectangle,
+                l = e.attributes.age,
+                a = e.attributes.gender,
+                o = {},
+                h, c;
+            o.top = Math.round(i * s.top);
+            o.height = Math.round(i * s.height);
+            o.left = Math.round(r * s.left) + u;
+            o.width = Math.round(r * s.width);
+            h = adjustRectOrientation(o, n.width(), n.height(), image_orig_rotation);
+            c = $("#faces");
+            add_rect(h, l, a, t, c, f)
+        })
     }
-});
+}
 
-$('#viewEvent').click(function() {
-    viewSource();
-    return false;
-});
+function adjustRectOrientation(n, t, i, r) {
+    var u = {};
+    return iOS || r === 0 ? n : r === 270 ? (u.height = n.width, u.width = n.height, u.left = n.top, u.top = i - u.height - n.left, u) : r === 180 ? (u.height = n.height, u.width = n.width, u.left = t - u.width - n.left, u.top = i - u.height - n.top, u) : r === 90 ? (u.height = n.width, u.width = n.height, u.left = t - u.width - n.top, u.top = n.left, u) : n
+}
 
+function renderImageFaces(n, t) {
+    current_faces = n;
+    updateOrigImageDimensions(drawFaceRects, t)
+}
+
+function updateOrigImageDimensions(n, t) {
+    var r = document.getElementById("thumbnail"),
+        i = new Image;
+    i.onload = function() {
+        image_orig_width = iOS && (t === 270 || t === 90) ? i.height : i.width;
+        image_orig_height = iOS && (t === 270 || t === 90) ? i.width : i.height;
+        image_orig_rotation = t;
+        n()
+    };
+    i.src = r.src
+}
+
+function deleteFaceRects() {
+    current_faces = [];
+    $("#faces").html("<div><\/div>")
+}
 
 function resize() {
     drawFaceRects()
 }
 
-// ----------------------------------------------------------------------------------------
+function updateSelectedImage() {
+    selectedImage = $(".ImageSelector .ScrollArea *")[myScroll.currentPage.pageX];
+    selectedImage && (selectedImage.className = "selectedImage")
+}
 
+function refresh() {
+    myScroll.options.snap = myScroll.scroller.querySelectorAll("*");
+    $(".ImageSelector .ScrollArea *").on("tap", function() {
+        myScroll.currentPage.pageX != $(this).index() && ($(".ImageSelector .ScrollArea .selectedImage").removeClass("selectedImage"), myScroll.goToPage($(this).index(), 0, 400))
+    });
+    var n = $(".ImageSelector .ScrollArea *"),
+        t = parseInt(n.css("margin-left").replace("px", "")) || 0,
+        i = parseInt(n.css("margin-right").replace("px", "")) || 0,
+        r = n[0].offsetWidth,
+        u = (r + t + i) * n.length;
+    $(".ImageSelector .ScrollArea").css("width", u + "px");
+    myScroll.refresh();
+    myScroll.goToPage((n.length / 2).toFixed(0) - 1, 0, 0, !1);
+    updateSelectedImage()
+}
+
+function loaded() {
+    var n = $(".ImageSelector .ScrollArea *"),
+        t = parseInt(n.css("margin-left").replace("px", "")) || 0,
+        i = parseInt(n.css("margin-right").replace("px", "")) || 0,
+        r = n[0].offsetWidth,
+        u = (r + t + i) * n.length;
+    $(".ImageSelector .ScrollArea").css("width", u + "px");
+    myScroll = new IScroll(".ImageSelector", {
+        scrollX: !0,
+        scrollY: !1,
+        mouseWheel: !0,
+        snap: "*",
+        momentum: !0,
+        tap: !0,
+        scrollbars: !0,
+        deceleration: .002,
+        bounce: !1
+    });
+    myScroll.goToPage((n.length / 2).toFixed(0) - 1, 0, 0, !1);
+    $(".ImageSelector .ScrollArea *").on("tap", function() {
+        myScroll.currentPage.pageX != $(this).index() && ($(".ImageSelector .ScrollArea .selectedImage").removeClass("selectedImage"), myScroll.goToPage($(this).index(), 0, 400))
+    });
+    myScroll.on("flick", function() {
+        this.x == this.startX && updateSelectedImage()
+    });
+    myScroll.on("scrollEnd", updateSelectedImage);
+    myScroll.on("scrollStart", function() {
+        $(".ImageSelector .ScrollArea .selectedImage").removeClass("selectedImage")
+    });
+    $(".ImageSelector").css("visibility", "visible");
+    updateSelectedImage()
+}
+
+function searchImages() {
+    var n = $("#searchText").val(),
+        t;
+    if (n != null && n.length !== 0) return $("#searchError").css("visibility", "hidden"), t = "/Home/BingImageSearch?query=" + n, $.ajax({
+        type: "POST",
+        url: t,
+        data: {},
+        contentType: !1,
+        processData: !1,
+        success: function(n) {
+            var t = JSON.parse(n),
+                i = $("#imageList");
+            t != null && t.length > 0 && (i.html(""), $.each(t, function(n, t) {
+                var r = '<img src="' + t.scroll_image_url + '" data-url="' + t.main_image_url + '">';
+                $(r).appendTo(i)
+            }), refresh())
+        },
+        error: function(t) {
+            t.status === 404 ? $("#searchError").html("We did not find any results for " + n + ".") : $("#searchError").html("Oops, something went wrong. Please try searching again.");
+            $("#searchError").css("visibility", "visible")
+        }
+    }), !1
+}
+var iOS = !1,
+    current_faces, image_orig_width, image_orig_height, image_orig_rotation, add_rect, selectedImage, myScroll;
+$(window).load(function() {
+    document.getElementById("uploadBtn").addEventListener("change", handleFileSelect, !1);
+    document.getElementById("uploadBtn").addEventListener("click", function() {
+        this.value = null
+    }, !1);
+    window.location.hash = "";
+    iOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? !0 : !1
+});
+$(window).on("hashchange", function() {
+    window.location.hash === "#results" ? showResultView() : showSelectionView()
+});
+$("#viewEvent").click(function() {
+    return viewSource(), !1
+});
 current_faces = [];
 add_rect = function(n, t, i, r, u, f) {
     var o = "rect" + Math.round(Math.random() * 1e4),
@@ -313,8 +399,8 @@ add_rect = function(n, t, i, r, u, f) {
         c = "n/a",
         s, h, l, a;
     t != null && (c = Math.round(Number(t)));
-    s = "http://how-old.net/Images/icon-gender-male.png";
-    i != null && i.toLowerCase() === "female" && (s = "http://how-old.net/Images/icon-gender-female.png");
+    s = "/Images/icon-gender-male.png";
+    i != null && i.toLowerCase() === "female" && (s = "/Images/icon-gender-female.png");
     h = f <= 2 ? "big-face-tooltip" : "small-face-tooltip";
     e = '<div><span><img src="' + s + '" class=' + h + "><\/span>" + c + "<\/div>";
     $(e).css("background-color", "#F1D100");
@@ -332,44 +418,5 @@ window.onresize = resize;
 document.getElementById("SelectorTag").addEventListener("mousedown", function(n) {
     n.cancelBubble = !0
 }, !1);
-// Dom ready.
 loaded();
-searchImages();
-
-// ---------------- Wechat ----------------
-/**
- * 检测微信JsAPI
- * @param callback
- */
-(function() {
-    return;
-    var _count = 0;
-
-    function detectWeixinApi(callback) {
-        if (_count > 9) {
-            return;
-        }
-        _count++;
-        if (typeof window.WeixinJSBridge === 'undefined') {
-            htmlLog("Wait 400ms: Wechat Detection.");
-            setTimeout(function() {
-                detectWeixinApi(callback);
-            }, 400);
-        } else {
-            callback();
-        }
-    }
-
-    detectWeixinApi(function() {
-        // Do something for Wechat
-        // ...
-    });
-
-    detectWeixinApi(function() {
-        for (var key in window.WeixinJSBridge) {
-            var js = 'WeixinJSBridge.' + key + ' = ' + window.WeixinJSBridge[key].toString();
-            htmlLog('<pre class="brush:js; toolbar:false;">' + js + '</pre>');
-        }
-    });
-
-})();
+searchImages()
