@@ -78,7 +78,7 @@ function processRequest(n, t, i, r, u) {
 
                 $barrage.animate({
                     left: endLeft + "px"
-                }, timing, function() {
+                }, timing * 1000, function() {
                     $barrage.remove();
                 });
             })();
