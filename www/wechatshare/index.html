@@ -9,16 +9,30 @@
 </head>
 
 <body>
-    <a id="btn" href="http://msftgeekblog.azurewebsites.net/">
+    <a id="btn" href="http://faceach.github.io/Draft/www/wechatshare/index.html?r=btn">
         <img src="geekClub.png" width="268" height="262" alt="geekClub" />
     </a>
     <p>Click Image to test.</p>
     <script type='text/javascript'>
-    var elBtn = document.getElementById("btn");
-
-    elBtn.onclick = function(e) {
+    document.getElementById("btn").onclick = function(e) {
         e.preventDefault();
         alert("I'm running by JavaScript:)");
+    }
+    var req = (function getRequest() {
+        // Get Request from URL, retrun an object {query1: value1, query2: value2}
+        var url = location.search;
+        var theRequest = {};
+        if (url.indexOf("?") !== -1) {
+            var str = url.substr(1);
+            var strs = str.split("&");
+            for (var i = 0, l = strs.length; i < l; i++) {
+                theRequest[(strs[i].split("=")[0]).toLowerCase()] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    })();
+    if (req.r === "btn") {
+        document.getElementById("btn").click();
     }
     </script>
 </body>
