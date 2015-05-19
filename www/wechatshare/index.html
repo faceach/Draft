@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-
-<script type='text/javascript'>
-window.onload = function() {
-
-  var elBtn=document.getElementById("btn");
-  
-  elBtn.onclick = function(e){
-    e.preventDefault();
-    alert("I'm running by JavaScript:)");
-  }
-
-
-}
-</script>
+  <title>Test wechat share</title>
 </head>
 
 <body>
-  <a id="btn" href="http://msftgeekblog.azurewebsites.net/">
-    <img src="http://msftgeekblog.azurewebsites.net/rsc/logo1.geekClub.round.png" width="268" height="262" alt="geekClub" />
-  </a>
-  <p>Click Image to test.</p>
+    <a id="btn" href="http://msftgeekblog.azurewebsites.net/">
+        <img src="geekClub.png" width="268" height="262" alt="geekClub" />
+    </a>
+    <p>Click Image to test.</p>
+    <script type='text/javascript'>
+    var elBtn = document.getElementById("btn");
+
+    elBtn.onclick = function(e) {
+        e.preventDefault();
+        alert("I'm running by JavaScript:)");
+    }
+    </script>
 </body>
 
 </html>
