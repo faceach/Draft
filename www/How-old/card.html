@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!-- saved from url=(0101)http://prod-cards.chinacloudapp.cn/usercard/share?cid=d6bb219e1580f84ab51865d8eb22cd66&h=410&whr=0.86 -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="ui-mobile"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--<base href="http://prod-cards.chinacloudapp.cn/usercard/share?cid=d6bb219e1580f84ab51865d8eb22cd66&amp;h=410&amp;whr=0.86">--><base href=".">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>颜龄机器人</title>
+    <link href="http://prod-cards.chinacloudapp.cn/Content/Styles/jquery.mobile-1.4.5.min.css" rel="stylesheet">
+
+    <script src="./card_files/usershare"></script>
+
+    <style type="text/css">
+        .qr_download {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(256, 256, 256, 1);
+        }
+        .qr_download h3 {
+            text-align: center;
+            margin: 15px 0;
+        }
+        ul.qr_download_list {
+            text-align: center;
+            padding: 0;
+            white-space: nowrap;
+            max-width: 500px;
+            margin: 0 auto 15px;
+        }
+        ul.qr_download_list > li {
+            display: inline-block;
+            text-align: center;
+            width: 33%;
+            padding: 5px 20px;
+            box-sizing: border-box;
+            list-style: none;
+        }
+        ul.qr_download_list > li > p {
+            font-size: .8em;
+        }
+        ul.qr_download_list > li > img {
+            width: 100%;
+            max-width: 280px;
+        }
+        #share_wrapper {
+            height: auto;
+            min-height: 100%;
+        }
+
+        #share_wrapper .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 58px;
+            opacity:1.0;
+            background-color: #5d5d5d;
+        }
+
+        .download_wording1 {
+            font-size: 0.8em;
+            width: 100%;
+            color: white;
+            font-family: Microsoft YaHei;
+            margin-bottom: 0;
+            margin-top: 0;
+            font-weight: bold;
+            text-shadow:none;
+        }
+
+        .download_wording2 {
+            font-size: 0.7em;
+            width: 100%;
+            color: white;
+            font-family: Microsoft YaHei;
+            margin-top: 0px;
+            margin-bottom: 3px;
+            text-shadow:none;
+        }
+    </style>
+    <script type="text/javascript">
+    // Dom ready
+    $(document).ready(function () {
+        // Click Track send to bing123.
+        function sendClickTrack(clickTrackRequestUrl, clickTrackRequestText) {
+            var clickTrackUrl = "http://bing123instantclickazureservice.azurewebsites.net/Click/add";
+            var clickTrackRequestPath = "bingapp-card-share";
+            // Send via AJAX
+            $.get(clickTrackUrl
+                + "?url=" + encodeURIComponent(clickTrackRequestUrl)
+                + "&text=" + encodeURIComponent(clickTrackRequestText)
+                + "&path=" + encodeURIComponent(clickTrackRequestPath));
+        }
+        $('#download_bar')
+            .delegate('#download_btn', 'click', function () {
+                var link = "http://appengine.trafficmanager.cn/apk/download/shellchinabing$bingng_zh-cn_MSSHARE-release-pr_signed.apk";
+                sendClickTrack(link, "Download App");
+                window.location.href = link;
+            })
+            .delegate('#download_btn_weixin', 'click', function () {
+                var link = "http://fusion.qq.com/app_download?appid=100837714&platform=qzone&via=QZ.MOBILEDETAIL.QRCODE&u=412599837";
+                sendClickTrack(link, "Download App in Wechat");
+                window.location.href = link;
+            })
+            .delegate('#download_bar_delete', 'click', function () {
+                $('#share_wrapper .footer').css({
+                    visibility: "hidden"
+                });
+            });
+    });
+</script>
+<script type="text/javascript" src="chrome-extension://aadgmnobpdmgmigaicncghmmoeflnamj/ng-inspector.js"></script></head>
+<body style="margin: 0 auto;" class="ui-mobile-viewport ui-overlay-a"><div data-role="page" data-url="/usercard/share?cid=d6bb219e1580f84ab51865d8eb22cd66&amp;h=410&amp;whr=0.86" tabindex="0" class="ui-page ui-page-theme-a ui-page-active" style="min-height: 634px;">
+    <div id="share_wrapper">
+        
+
+<div id="share_card" style="margin-left: 10px; margin-right: 10px; height: 428px; overflow-y: scroll;">
+    
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+            <tr>
+                <td valign="middle" align="center">
+                        <iframe src="./card_files/getcard.html" style="width: 100%; max-width: 500px; border: none; height: 581.395348837209px; background-color: white;"></iframe>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+            <div class="qr_download">
+                <h3>扫描并下载颜龄测试APP</h3>
+                <ul class="qr_download_list">
+                    <li>
+                        <p>Android版</p>
+                        <img src="./card_files/qr_code_bingapp_android.png" alt="qr_code_bingapp_android">
+                    </li>
+                    <li>
+                        <p>IOS版</p>
+                        <img src="./card_files/qr_code_bingapp_ios.png" alt="qr_code_bingapp_ios">
+                    </li>
+                    <li>
+                        <p>Windows Phone版</p>
+                        <img src="./card_files/qr_code_bingapp_winphone.png" alt="qr_code_bingapp_android">
+                    </li>
+                </ul>
+            </div>
+    </div>
+
+</div><div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span><h1>loading</h1></div></body></html>

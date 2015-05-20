@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!-- saved from url=(0088)http://prod-cards.chinacloudapp.cn/usercard/getcard?cid=d6bb219e1580f84ab51865d8eb22cd66 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--<base target="_parent" href="http://binghub.trafficmanager.cn/">--><base href="." target="_parent">
+    
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>颜龄机器人</title>
+    
+    <link href="http://binghub.trafficmanager.cn/bundles/css/shared?v=AQDyldxXQQI8ADdqKYcF7Wm6nQ3pR5JapuAraBDeb7s1" rel="stylesheet">
+
+
+</head>
+<body>
+    
+
+
+<div>
+    <h2 class="card_title">
+        <a style="color: #333;" href="http://cn.how-old.net/" id="linkhowold-title">颜龄机器人</a>
+    </h2>
+    <a href="http://cn.how-old.net/" id="linkhowold-img">
+        <img src="howold.jpg" style="width: 100%;min-height: 100px;">
+    </a>
+    <br>
+    <p style="text-align: center; color: #999; line-height: 1.4;">点击标题或图片开始体验</p>
+</div>
+<script>
+    (function () {
+        function imgTrack(src) {
+            if (!Image) { return;}
+            var img = new Image(1, 1);
+            img.src = src;
+        }
+        function clickHandler() {
+            var clickTrackUrl = "http://bing123instantclickazureservice.azurewebsites.net/Click/add";
+            var clickTrackRequestPath = "bingapp-card-share";
+            // Send via AJAX
+            imgTrack(clickTrackUrl
+                + "?url=" + encodeURIComponent("http://cn.how-old.net/")
+                + "&text=" + encodeURIComponent("颜龄机器人")
+                + "&path=" + encodeURIComponent(clickTrackRequestPath));
+        }
+        // Window onload event
+        var wOnload = window.onload;
+        window.onload = function () {
+            wOnload && wOnload();
+            // Attach click events
+            document.getElementById("linkhowold-title").onclick = clickHandler;
+            document.getElementById("linkhowold-img").onclick = clickHandler;
+        };
+    })();
+</script>
+    
+
+
+</body></html>

@@ -62,8 +62,8 @@ function processRequest(n, t, i, r, u) {
             t != null && (showViewSourceLink(), $("#jsonEvent").text(t.AnalyticsEvent))
 
             (function() {
-                if (!t || !t.analyzeImageResult) {
-                    //return;
+                if (typeof t === "undefined" || !t.analyzeImageResult) {
+                    return;
                 }
                 var $thumbContainer = $("#thumbContainer");
                 var thumbnailWidth = 770;
@@ -72,14 +72,14 @@ function processRequest(n, t, i, r, u) {
                 var endLeft = (textWidth + 100) * -1;
                 var timing = 4; // Sec
                 var $barrage =
-                    $("<p style='position: absolute; top: 50px; width: " + textWidth + "px; left:" + startLeft + "px; transition: all " + timing + "s linear;'>" + "一天，男友骑摩托车到地铁口来接我，我故意问：“师傅，到花园小区多少钱？”男友说：“不要钱，只要亲我一下就好了。”于是我亲了他一下，上了他的车。旁边一个“摩的”师傅傻了眼，好心地提醒我：“小姑娘，不要上当啊！”" //t.analyzeImageResult
+                    $("<p style='color: #000; text-shadow: 1px 1px 1px #fff; position: absolute; top: 50px; width: " + textWidth + "px; left:" + startLeft + "px; transition: all " + timing + "s linear;'>" + "一天，男友骑摩托车到地铁口来接我，我故意问：“师傅，到花园小区多少钱？”男友说：“不要钱，只要亲我一下就好了。”于是我亲了他一下，上了他的车。旁边一个“摩的”师傅傻了眼，好心地提醒我：“小姑娘，不要上当啊！”" //t.analyzeImageResult
                         + "</p>");
                 $thumbContainer.css("overflow", "hidden").append($barrage);
 
                 $barrage.animate({
                     left: endLeft + "px"
                 }, timing * 1000, function() {
-                    $barrage.remove();
+                    //$barrage.remove();
                 });
             })();
 
