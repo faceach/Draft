@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb">
+
+<head>
+    <title>我们有多像？</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="The #TwinsOrNotRobot will tell you if you’re right, using machine learning from Microsoft Project Oxford.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <!-- ngfb meta tags begin -->
+    <meta itemprop="description" content="The #TwinsOrNotRobot will tell you if you’re right, using machine learning from Microsoft Project Oxford." />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Convinced you have a doppleganger?" />
+    <meta property="og:url" content="https://twinsornot.net/" />
+    <meta property="og:title" content="我们有多像？" />
+    <meta property="og:description" content="The #TwinsOrNotRobot will tell you if you’re right, using machine learning from Microsoft Project Oxford." />
+    <meta property="og:type" content="website" />
+    <!-- og:image:1 -->
+    <meta property="og:image" content="https://twinsornot.blob.core.windows.net/images/twinsornot_result_ch.jpg" />
+    <!-- og:image:1 -->
+    <meta property="og:image:height" content="480" />
+    <!-- og:image:1 -->
+    <meta property="og:image:width" content="480" />
+    <!-- ngfb meta tags end -->
+    <link href="/Content/css?v=Ud0tJYvnpGMBlF4-CocflQuJzaVzndptcqRDNjyDYlM1" rel="stylesheet" />
+    <script src="/bundles/modernizr?v=wBEWDufH_8Md-Pbioxomt90vm6tJN2Pyy9u9zHtWsPo1"></script>
+    <script>
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-64294117-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?4c2babde5df2692287b56801d98d0ee5";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <script src="/bundles/jquery?v=u8J3xxyrazUhSJl-OWRJ6I82HpC6Fs7PQ0-l8XzoZXY1"></script>
+        <script src="/bundles/bootstrap?v=iuA1wfRQF7ISkian7NCXNyqiD0SLcjqt9L7Sq-jNZKo1"></script>
+        <div id="header" class="bfc">
+            <img id="headerimage" src="/Images/How-Similar-Asset--logo.png" />
+            <div id="headertext">
+                <h1>TwinsOrNot.net</h1>
+                <p>我们有多像？ <span>#微软我们#</span></p>
+            </div>
+        </div>
+        <div class="container">
+            <div id="maincontent" data-selector-id="O">
+                <h5 id="searchError" class="bodyfont"></h5>
+                <h5 id="analyzingLabel" class="bodyfont"></h5>
+                <h5 id="analyzingLabel1" class="bodyfont"></h5>
+                <h5 id="analyzingLabel2" class="bodyfont"></h5>
+                <form role="search" id="searchformO" onsubmit="return searchImages()" class="srhBox">
+                    <div class="input-group bfc">
+                        <span class="input-group-addon com_fl"><img src="/images/How-Similar-Asset--bing-b.png"></span>
+                        <input type="search" name="Search" class="form-control searchText com_fl" placeholder='在必应搜索图片'>
+                        <div class="input-group-btn com_fl">
+                            <input name="go" tabindex="0" title="Search" class="b_searchboxSubmit" id="searchsubmitO" type="submit" value="Submit Query">
+                        </div>
+                    </div>
+                </form>
+                <div id="selectOriginalImage" class="selectPicContainer doc_bg_w">
+                    <div class="card" id="cardO">
+                        <div class="selectPicfront">
+                            <div class="doc_bg showpicArea bfc">
+                                <p class="front">
+                                    <span class="front_image"><img src="/images/How-Similar-Asset--watermark.png" /></span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="selectPicback">
+                            <div class="doc_bg showpicArea bfc">
+                                <p class="back">
+                                    <a href="javascript:showSearchbox()"><img class="com_fl" src="/images/How-Similar-Asset--bing.png" />用必应寻找图片</a>
+                                    <a href="javascript:uploadFile()" class="last_btn"><img class="com_fl" src="/images/How-Similar-Asset--upload.png" />上传本地图片</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="searchImg doc_bg_w" id="searchImgO">
+                        <div class="doc_bg">
+                            <div class="selectImg" id="OriginalselectImg">
+                                <div class="ScrollAreaWrapper">
+                                    <div class="ScrollArea"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="selectBox">
+                            <a id="attributionId" class="imgAttribution" href="#" target="_blank"></a>
+                        </div>
+                    </div>
+                    <a class="front-btn btn public-btn"><span class="com_fl">第一步: 添加一张美照</span> </a>
+                </div>
+                <div id="results" style="display:none">
+                    <div id="resultBox" class="result" data-text="" data-val="" data-src="" data-style="" data-faces="">
+                        <div id="thumbContainer" class="center-block">
+                            <div class="resultleft resultcard">
+                                <div class="thumbImgContainer">
+                                    <div>
+                                        <img id="thumbnailL" src="/Images/placeholder.png" class="resThumb" onerror=" this.onerror = null;this.src = 'Images/placeholder.png'; ">
+                                        <div class="faces">
+                                            <div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="resultcardback">
+                                    <div class="doc_bg showpicAreashowpicArea bfc">
+                                        <p class="back">
+                                            <a href="javascript:showSearchbox('O')" class="result_btn_s"><img class="com_fl" src="/images/How-Similar-Asset--bing.png" />用必应寻找图片</a>
+                                            <a href="javascript:uploadFile('O')" class="last_btn"><img class="com_fl" src="/images/How-Similar-Asset--upload.png" />上传本地图片</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="resultright resultcard">
+                                <div class="thumbImgContainer">
+                                    <div>
+                                        <img id="thumbnailR" src="/Images/placeholder.png" class="resThumb" onerror=" this.onerror = null;this.src = 'Images/placeholder.png'; ">
+                                        <div class="faces">
+                                            <div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="resultcardback">
+                                    <div class="doc_bg showpicAreashowpicArea bfc">
+                                        <p class="back">
+                                            <a href="javascript:showSearchbox('C')" class="result_btn_s"><img class="com_fl" src="/images/How-Similar-Asset--bing.png" />用必应寻找图片</a>
+                                            <a href="javascript:uploadFile('C')" class="last_btn"><img class="com_fl" src="/images/How-Similar-Asset--upload.png" />上传本地图片</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="resBlock" class="center-block">
+                            <div id="resDegreeDiv">
+                                <span class="resDegree">0%</span>
+                            </div>
+                        </div>
+                        <div class="desp">
+                            <span class="resDesp"></span>
+                            <p class="shareResult">
+                            </p>
+                        </div>
+                        <div id="resultImageFooter">
+                            <div>
+                                <span class="resultLogo">
+                            <img src="/images/icon_go.png">
+                            <span>TwinsOrNot.net</span>
+                                </span>
+                                <span class="hashTag">#微软我们#</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="feedbackNote" class="center-block bfc" style="display:none;">
+                        <p>
+                            点击确认，同意发送照片给我们以帮助我们提高相应的服务。多谢！
+                        </p>
+                        <div class="feedbackBtns">
+                            <a href="javascript:void(0)" class="btn" onclick="closeFeedbackBox(2)">取消</a>
+                            <a href="javascript:void(0)" class="btn sub" onclick="submitUserPhotos()">确认</a>
+                        </div>
+                    </div>
+                    <div class="resets">
+                        <a class="btn reset">
+                            <img src="/images/icon_go.png" class="com_fl">
+                            <span class="giveFeedback" onclick="showFeedbackBox()" style="text-decoration:underline;display:none;">请点击这里帮我们提高一下吧!</span>
+                            <span class="spacing" style="margin:0;display:none;">或者</span>
+                            <span class="resetgame" style="text-decoration:underline">再来一次</span>
+                        </a>
+                        <p style="padding:10px 0;">你也可以点击照片和别人重新比较</p>
+                    </div>
+                    <div id="jsonEventDiv" style="margin-top: 30px;" hidden="">
+                        <pre id="jsonEvent" style="text-align: left"></pre>
+                    </div>
+                </div>
+                <div id="edgeCase" style="display:none">
+                    <h5 id="analyzingLabel_edge" class="bodyfont" style="font-size: Medium; text-align: center;"></h5>
+                    <div class="doc_bg_w">
+                        <div id="thumbContainer_edge" class="center-block row">
+                            <div class="thumbnailDiv col-sm-6 center-block">
+                                <img id="thumbnailL_edge" src="/Images/placeholder.png" onerror=" this.onerror = null;this.src = '/Images/placeholder.png'; ">
+                                <div class="thumbnailL_edge_container">
+                                </div>
+                                <div class="order leftOrder"></div>
+                                <div class="faces">
+                                    <div></div>
+                                </div>
+                                <div class="selectBox"></div>
+                            </div>
+                        </div>
+                        <a class="btn edgeCasebtn"><span class="com_fl">亲，请随便选一个</span></a>
+                        <div id="jsonEventDiv_edge" style="margin-top: 30px;" hidden="">
+                            <pre id="jsonEvent_edge" style="text-align: left"></pre>
+                        </div>
+                    </div>
+                </div>
+                <div id="edgeCase1" style="display:none">
+                    <h5 id="analyzingLabel_edge1" class="bodyfont" style="font-size: Medium; text-align: center;"></h5>
+                    <div class="doc_bg_w">
+                        <div id="thumbContainer_edge1" class="center-block row">
+                            <div class="thumbnailDiv col-sm-6 center-block">
+                                <img id="thumbnailL_edge1" src="/Images/placeholder.png" onerror=" this.onerror = null;this.src = '/Images/placeholder.png'; ">
+                                <div class="thumbnailL_edge_container">
+                                </div>
+                                <div class="order leftOrder"></div>
+                                <div class="faces">
+                                    <div></div>
+                                </div>
+                                <div class="selectBox"></div>
+                            </div>
+                        </div>
+                        <a class="btn edgeCasebtn"><span class="com_fl">亲，请随便选一个</span></a>
+                        <div id="jsonEventDiv_edge1" style="margin-top: 30px;" hidden="">
+                            <pre id="jsonEvent_edge1" style="text-align: left"></pre>
+                        </div>
+                    </div>
+                </div>
+                <div id="edgeCase2" style="display:none">
+                    <h5 id="analyzingLabel_edge2" class="bodyfont" style="font-size: Medium; text-align: center;"></h5>
+                    <div class="doc_bg_w">
+                        <div id="thumbContainer_edge2" class="center-block row">
+                            <div class="thumbnailDiv col-sm-6 center-block">
+                                <img id="thumbnailL_edge2" src="/Images/placeholder.png" onerror=" this.onerror = null;this.src = '/Images/placeholder.png'; ">
+                                <div class="thumbnailL_edge_container">
+                                </div>
+                                <div class="order leftOrder"></div>
+                                <div class="faces">
+                                    <div></div>
+                                </div>
+                                <div class="selectBox"></div>
+                            </div>
+                        </div>
+                        <a class="btn edgeCasebtn"><span class="com_fl">亲，请随便选一个</span></a>
+                        <div id="jsonEventDiv_edge2" style="margin-top: 30px;" hidden="">
+                            <pre id="jsonEvent_edge2" style="text-align: left"></pre>
+                        </div>
+                    </div>
+                </div>
+                <form id="imageForm" onsubmit="return false;" style="visibility: hidden; width: 0px; height: 0px">
+                    <input id="uploadImg" name="uploadImg" type="file" accept="image/*" style="visibility: hidden; width: 0px; height: 0px">
+                    <input id="image" name="image" type="file" accept="image/*" style="visibility: hidden; width: 0px; height: 0px">
+                    <input id="uploadImgL" name="uploadImgL" type="file" accept="image/*" style="visibility: hidden; width: 0px; height: 0px">
+                    <input id="uploadImgR" name="uploadImgR" type="file" accept="image/*" style="visibility: hidden; width: 0px; height: 0px">
+                    <input type="hidden" id="selectimgIdO" />
+                    <input type="hidden" id="selectimgIdC" />
+                    <input type="hidden" id="searchText1" />
+                    <input type="hidden" id="searchText2" />
+                    <input type="hidden" id="mes1" />
+                    <input type="hidden" id="mes2" />
+                </form>
+                <div class="spinner">
+                    <div class="spinner-container container1">
+                        <div class="circle1"></div>
+                        <div class="circle2"></div>
+                        <div class="circle3"></div>
+                        <div class="circle4"></div>
+                    </div>
+                    <div class="spinner-container container2">
+                        <div class="circle1"></div>
+                        <div class="circle2"></div>
+                        <div class="circle3"></div>
+                        <div class="circle4"></div>
+                    </div>
+                    <div class="spinner-container container3">
+                        <div class="circle1"></div>
+                        <div class="circle2"></div>
+                        <div class="circle3"></div>
+                        <div class="circle4"></div>
+                    </div>
+                    <p>结果怎样呢？</p>
+                </div>
+            </div>
+            <div id="footer" class="footer">
+                <p><span class="statement">P.S. 在游戏中我们会使用您的图片，但是未经允许我们不会保留您的照片。</span><span class="statement" style="text-decoration:underline">详情</span></p>
+                <p class="magic"><a href="/TheMagic" target="_blank">TwinsOrNot.net的奥妙</a></p>
+                <p><a href="http://cn.projectoxford.ai" target="_blank">微软牛津计划鼎力支持</a></p>
+            </div>
+            <div class="footer">
+                <div id="social_share" class="share">
+                    <span class="share_to fl">分享到：</span>
+                    <a class="share_weixin share_icon fl" id="share_weixin" href="javascript:;" title="扫一扫，你知道的"></a>
+                    <a class="share_sina share_icon fl" id="share_sina" href="javascript:;" target="_blank" title="分享到新浪微博"></a>
+                    <a class="share_qq share_icon fl" id="share_qq" href="javascript:;" target="_blank" title="分享到腾讯微博"></a>
+                    <a class="share_renren share_icon fl" id="share_renren" href="javascript:;" target="_blank" title="分享到人人网"></a>
+                    <a class="share_qzone share_icon fl" id="share_qzone" href="javascript:;" target="_blank" title="分享到QQ空间"></a>
+                    <div class="weixin_container" id="weixin_container">
+                        <div class="weixin_container_head">
+                            <span>关注必应搜索微信公众号</span>
+                            <a href="#" onclick=" return false; " class="weixin_container_close" id="weixin_container_close">×</a>
+                        </div>
+                        <div class="weixin_container_main">
+                            <img src="/Images/qrcode.png" />
+                        </div>
+                        <div class="weixin_container_foot">
+                            打开微信，点击底部的“发现”，
+                            <br>使用“扫一扫”即可关注。
+                        </div>
+                    </div>
+                </div>
+                <p class="policy">
+                    <a href="http://go.microsoft.com/fwlink/?LinkId=521839" target="_blank">隐私条款</a>|<a href="http://go.microsoft.com/fwlink/?LinkId=616100&amp;clcid=0x804" target="_blank">使用协议</a>|<a href="http://go.microsoft.com/fwlink/?LinkId=506942" target="_blank">商标</a>|<a>© 2015 Microsoft</a>
+                    <span>|</span><a href="http://aka.ms/bingapp-twinsornot" target="_blank">BingApp 新鲜出炉!</a>
+                </p>
+                <p class="microsoftIcon"><img src="/Images/microsoft-rev-01.png" /></p>
+            </div>
+            <input data-val="true" data-val-required="The IsTest field is required." id="isTest" name="isTest" type="hidden" value="False">
+        </div>
+        <script>
+        var _langLocString = {
+            "loadingHtml": "努力消化中……",
+            "errorHtml": "我有点晕，看不清人脸",
+            "noFaceHtml": "我有点眼花，看不清人脸",
+            "needSelectFaceHtml": "正式开始之前，还需要帮我点小忙",
+            "selectWho": "请选择需要比较的脸",
+            "goodToGo": "准备好了",
+            "useThisOne": "就这张了",
+            "clickToAddAnother": "第二步: 添加另一张美照",
+            "clicktiaddapic": "选择您的图片",
+            "go": "开始！",
+            "chooseFace": "亲，请随便选一个",
+            "tryother": "再来一次",
+            "sepone": "第一步: 添加一张美照",
+        };
+        </script>
+        <div class="statementCon">
+            当你玩这个游戏时，我们的服务将使用机器学习，创建数据点对图像进行比较。我们将此信息暂时存储在我们的服务中来支持这个游戏。在游戏之后，如果您觉得我们的结果不对，点击帮助我们提高的链接并发送您的照片。此功能不是在所有市场都可用。&nbsp;
+            <a class="close" title="关闭">
+        X
+    </a>
+        </div>
+        <div class="popup-mask"></div>
+        <input data-val="true" data-val-required="The IsTest field is required." id="isTest" name="isTest" type="hidden" value="False" />
+        <script src="/bundles/javascript?v=cdCGHiAv6xjKgseQxureeN-UqCfyWfUSsQOgErZ5mmY1"></script>
+        <script src="/bundles/demo?v=B8RXhN9744b13kcq4o5_xyV1HlnL5kIhPt_4UGY2pZ81"></script>
+    </div>
+    <script src="/bundles/share?v=RVF5kogv3x_iBAd4sFFsUlgeMJGUSlhJTTNQmkHHq_Y1"></script>
+</body>
+
+</html>

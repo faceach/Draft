@@ -15,82 +15,73 @@ function getTrans(n) {
     }[n]["cn"]
 }
 
-function processRequest(n, t, i, r, u) {
+function processRequest(isFile, imageUrl, imageName, fileSize, imageRotation) {
     window.location.hash = "results";
     deleteFaceRects();
     $("#jsonEventDiv").hide();
-    var h = getTrans("loadingHtml") + '<span><img id="loadingImage" src="/Images/ajax-loader_1.gif" /><\/span>',
-        e = getTrans("errorHtml"),
-        c = getTrans("noFaceHtml");
+    var servicePath = "/Home/Analyze";
+    var loadingHtml = getTrans("loadingHtml") + '<span><img id="loadingImage" src="/Images/ajax-loader_1.gif" /></span>';
+    var errorHtml = getTrans("errorHtml");
+    var noFaceHtml = getTrans("noFaceHtml");
     $("#analyzingLabel").css("visibility", "visible");
     $("#improvingLabel").css("visibility", "hidden");
-    $("#analyzingLabel").html(h);
-    var o = {},
-        s = !1,
-        f = "/Home/Analyze",
-        l = $("#uploadBtn").get(0).files,
-        a = $("#isTest").val();
-    if (f += "?isTest=" + a, n) {
-        if (r != null && r > 3145728) {
+    $("#analyzingLabel").html(loadingHtml);
+
+    var data = {};
+    var contentType = false;
+    var requestUrl = servicePath;
+
+    //data = new FormData();
+    var files = $("#uploadBtn").get(0).files;
+    // Add the uploaded image content to the form data collection
+    var isTest = $("#isTest").val();
+    requestUrl += "?isTest=" + isTest;
+
+    if (isFile) {
+        //Verify that the file is smaller then 3MB
+        if (fileSize != null && fileSize > 3145728) {
             $("#jsonEventDiv").hide();
-            $("#analyzingLabel").html(e);
+            $("#analyzingLabel").html(errorHtml);
             $("#analyzingLabel").css("visibility", "visible");
-            return
+            return;
         }
-        o = l[0];
-        s = "application/octet-stream"
-    } else f += "&faceUrl=" + encodeURIComponent("http://how-old.net/" + t) + "&faceName=" + i;
+        data = files[0];
+        contentType = "application/octet-stream";
+    } else {
+        requestUrl += "&faceUrl=" + encodeURIComponent(imageUrl) + "&faceName=" + imageName;
+    }
+
     $.ajax({
         type: "POST",
-        url: f,
-        contentType: s,
-        processData: !1,
-        data: o,
-        success: function(n) {
-            var t = JSON.parse(n);
+        url: requestUrl,
 
-            if (!t || !t.uploadedUrl) {
-                $("#analyzingLabel").html(c);
+        contentType: contentType,
+        processData: false,
+        data: data,
+        success: function(response) {
+            var jresponse = JSON.parse(response);
+            if (jresponse == null || jresponse.Faces == null || jresponse.Faces.length === 0) {
+                $("#analyzingLabel").html(noFaceHtml);
                 $("#analyzingLabel").css("visibility", "visible");
-                return;
+            } else {
+                renderImageFaces(jresponse.Faces, imageRotation);
+                $("#analyzingLabel").css("visibility", "hidden");
             }
-
-            $("#thumbnail").attr("src", t.uploadedUrl);
-
-            $("#analyzingLabel").css("visibility", "hidden")
             $("#improvingLabel").css("visibility", "visible");
-            t != null && (showViewSourceLink(), $("#jsonEvent").text(t.AnalyticsEvent))
-
-            (function() {
-                if (typeof t === "undefined" || !t.analyzeImageResult) {
-                    return;
-                }
-                var $thumbContainer = $("#thumbContainer");
-                var thumbnailWidth = 770;
-                var textWidth = 400;
-                var startLeft = thumbnailWidth + 100;
-                var endLeft = (textWidth + 100) * -1;
-                var timing = 4; // Sec
-                var $barrage =
-                    $("<p style='color: #000; text-shadow: 1px 1px 1px #fff; position: absolute; top: 50px; width: " + textWidth + "px; left:" + startLeft + "px; transition: all " + timing + "s linear;'>" + "一天，男友骑摩托车到地铁口来接我，我故意问：“师傅，到花园小区多少钱？”男友说：“不要钱，只要亲我一下就好了。”于是我亲了他一下，上了他的车。旁边一个“摩的”师傅傻了眼，好心地提醒我：“小姑娘，不要上当啊！”" //t.analyzeImageResult
-                        + "</p>");
-                $thumbContainer.css("overflow", "hidden").append($barrage);
-
-                $barrage.animate({
-                    left: endLeft + "px"
-                }, timing * 1000, function() {
-                    //$barrage.remove();
-                });
-            })();
-
+            if (jresponse != null) {
+                showViewSourceLink();
+                $("#jsonEvent").text(jresponse.AnalyticsEvent);
+            }
         },
-        error: function() {
+
+        error: function(xhr, status, error) {
             $("#jsonEventDiv").hide();
-            $("#analyzingLabel").html(e);
-            $("#analyzingLabel").css("visibility", "visible")
+            $("#analyzingLabel").html(errorHtml);
+            $("#analyzingLabel").css("visibility", "visible");
+
         }
     });
-}
+};
 
 function viewSource() {
     $("#jsonEventDiv").show()
@@ -128,18 +119,110 @@ function analyzeUrl() {
     processRequest(!1, r, t)
 }
 
-function handleFileSelect(n) {
-    for (var u = n.target.files, t, r, i = 0; t = u[i]; i++)(!t.type || t.type.match("image.*")) && (r = new FileReader, r.onload = function(n) {
-        return function(t) {
-            updateThumbnail(t.target.result);
-            loadImage.parseMetaData(n, function(t) {
-                var i = 0,
-                    r;
-                t && t.exif && (r = t.exif.get("Orientation"), r === 8 ? i = 90 : r === 3 ? i = 180 : r === 6 && (i = 270));
-                processRequest(!0, null, null, n.size, i)
-            })
+function rotateImg(img, rotation) {
+
+    var width = img.width;
+    var height = img.height;
+
+    console.log(width);
+    console.log(height);
+
+    var canvasWidth;
+    var canvasHeight;
+    var translateX;
+    var translateY;
+
+    switch (rotation) {
+        case 90:
+            canvasWidth = height;
+            canvasHeight = width;
+            translateX = -width;
+            translateY = 0;
+            break;
+        case 180:
+            break;
+        case 270:
+            break;
+    }
+
+    // Create an empty canvas element
+    var canvas = document.createElement("canvas");
+
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    // Copy the image contents to the canvas
+    var ctx = canvas.getContext("2d");
+    ctx.rotate(-rotation * Math.PI / 180);
+    ctx.translate(translateX, translateY);
+    ctx.drawImage(img, 0, 0, canvasHeight, canvasWidth);
+
+    // Get the data-URL formatted image
+    // Firefox supports PNG and JPEG. You could check img.src to guess the
+    // original format, but be aware the using "image/jpg" will re-encode the image.
+    return canvas.toDataURL("image/jpg");
+}
+
+function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+    // Loop through the FileList and render image files as thumbnails.
+    for (var i = 0, f; f = files[i]; i++) {
+
+        // Only process image files.
+        if (f.type && !f.type.match('image.*')) {
+            continue;
         }
-    }(t), r.readAsDataURL(t))
+
+        console.log(f);
+
+        var reader = new FileReader();
+
+        // Closure to capture the file information.
+        reader.onload = (function(theFile) {
+            return function(e) {
+                var iFile = e.target.result;
+                // Render thumbnail.
+                loadImage.parseMetaData(theFile, function(data) {
+                    var rotation = 0;
+                    if (data && data.exif) {
+                        var orientation = data.exif.get('Orientation');
+                        console.log("orientation: " + orientation);
+                        if (orientation === 8) {
+                            rotation = 90;
+                        } else if (orientation === 3) {
+                            rotation = 180;
+                        } else if (orientation === 6) {
+                            rotation = 270;
+                        }
+                    }
+
+                    console.log("rotation: " + rotation);
+
+                    if (rotation) {
+                        var image = new Image();
+                        image.src = window.URL.createObjectURL(theFile);
+                        image.onload = function() {
+                            iFile = rotateImg(image, rotation);
+                            updateThumbnail(iFile);
+                            processRequest(true, null, null, iFile.size, rotation);
+                        }
+                    } else {
+                        updateThumbnail(iFile);
+                        processRequest(true, null, null, iFile.size, rotation);
+                    }
+
+                });
+
+            };
+        })(f);
+
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(f);
+
+
+    }
 }
 
 function updateThumbnail(n) {
@@ -148,49 +231,78 @@ function updateThumbnail(n) {
 }
 
 function drawFaceRects() {
-    var n, t;
-    if ($("#faces").html("<div><\/div>"), n = $("#thumbnail"), t = $("#thumbContainer"), current_faces != null) {
-        var i = n.height() / image_orig_height,
-            r = n.width() / image_orig_width,
-            u = n.offset().left - t.offset().left,
-            f = current_faces.length;
-        $.each(current_faces, function(t, e) {
-            var s = e.faceRectangle,
-                l = e.attributes.age,
-                a = e.attributes.gender,
-                o = {},
-                h, c;
-            o.top = Math.round(i * s.top);
-            o.height = Math.round(i * s.height);
-            o.left = Math.round(r * s.left) + u;
-            o.width = Math.round(r * s.width);
-            h = adjustRectOrientation(o, n.width(), n.height(), image_orig_rotation);
-            c = $("#faces");
-            add_rect(h, l, a, t, c, f)
-        })
+    $("#faces").html("<div></div>");
+    var image = $("#thumbnail");
+    var imageContainer = $("#thumbContainer");
+    if (current_faces != null) {
+
+        var heightRatio = image.height() / image_orig_height;
+        var widthRatio = image.width() / image_orig_width;
+        var offset = image.offset().left - imageContainer.offset().left;
+        var faceCount = current_faces.length;
+        $.each(current_faces, function(index, element) {
+            var rectangle = element.faceRectangle;
+            var age = element.attributes.age;
+            var gender = element.attributes.gender;
+            var rect = {};
+            rect.top = Math.round(heightRatio * rectangle.top);
+            rect.height = Math.round(heightRatio * rectangle.height);
+            rect.left = Math.round(widthRatio * rectangle.left) + offset;
+            rect.width = Math.round(widthRatio * rectangle.width);
+            var newRect = adjustRectOrientation(rect, image.width(), image.height(), image_orig_rotation);
+            var $container = $("#faces");
+            add_rect(newRect, age, gender, index, $container, faceCount);
+
+        });
     }
 }
 
-function adjustRectOrientation(n, t, i, r) {
-    var u = {};
-    return iOS || r === 0 ? n : r === 270 ? (u.height = n.width, u.width = n.height, u.left = n.top, u.top = i - u.height - n.left, u) : r === 180 ? (u.height = n.height, u.width = n.width, u.left = t - u.width - n.left, u.top = i - u.height - n.top, u) : r === 90 ? (u.height = n.width, u.width = n.height, u.left = t - u.width - n.top, u.top = n.left, u) : n
+
+function adjustRectOrientation(origRect, imageWidth, imageHeight, rotation) {
+    var newRect = {};
+    if (iOS || rotation === 0) {
+        return origRect;
+    }
+    if (rotation === 270) {
+        newRect.height = origRect.width;
+        newRect.width = origRect.height;
+        newRect.left = origRect.top;
+        newRect.top = imageHeight - newRect.height - origRect.left;
+        return newRect;
+    }
+    if (rotation === 180) {
+        newRect.height = origRect.height;
+        newRect.width = origRect.width;
+        newRect.left = imageWidth - newRect.width - origRect.left;
+        newRect.top = imageHeight - newRect.height - origRect.top;
+        return newRect;
+    }
+    if (rotation === 90) {
+        newRect.height = origRect.width;
+        newRect.width = origRect.height;
+        newRect.left = imageWidth - newRect.width - origRect.top;
+        newRect.top = origRect.left;
+        return newRect;
+    }
+    return origRect;
 }
 
-function renderImageFaces(n, t) {
-    current_faces = n;
-    updateOrigImageDimensions(drawFaceRects, t)
-}
+function renderImageFaces(faces, imageRotation) {
+    current_faces = faces;
+    //current_faces = JSON.parse(facesStr);
+    updateOrigImageDimensions(drawFaceRects, imageRotation);
+};
 
-function updateOrigImageDimensions(n, t) {
-    var r = document.getElementById("thumbnail"),
-        i = new Image;
-    i.onload = function() {
-        image_orig_width = iOS && (t === 270 || t === 90) ? i.height : i.width;
-        image_orig_height = iOS && (t === 270 || t === 90) ? i.width : i.height;
-        image_orig_rotation = t;
-        n()
+function updateOrigImageDimensions(whenReady, imageOrigRotation) {
+    var i = document.getElementById('thumbnail');
+    var i2 = new Image();
+    i2.onload = function() {
+        image_orig_width = (iOS && (imageOrigRotation === 270 || imageOrigRotation === 90)) ? i2.height : i2.width;
+        image_orig_height = (iOS && (imageOrigRotation === 270 || imageOrigRotation === 90)) ? i2.width : i2.height;
+        image_orig_rotation = imageOrigRotation;
+        whenReady();
     };
-    i.src = r.src
+    i2.src = i.src;
 }
 
 function deleteFaceRects() {
