@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <style type="text/css" media="screen">
+    	body {
+    		margin: 0;
+    	}
+    	.actDrawer {
+    		min-height: 22px;
+    		position: relative;
+    	}
+    	.exp {
+    		font-size: 200%;
+    		position: absolute;
+    		right: 10px;
+    		top: 10px;
+    		z-index: 1;
+    		text-decoration: none;
+    	}
+    	.actContainer {
+    		background-color: #e6e6e6;
+    		padding: 0 12px;
+    		margin-bottom: 12px;
+    	}
+    	.b_hide {
+    		display: none;
+    	}	
+    	.b_slide {
+    		overflow: hidden;
+    	}
+    	.b_slide.b_hide {
+    		display: block;
+			height/* bingcss-ignore */: 0 !important;
+    	}
+    	.b_slide, .b_slide.b_hide {
+    		transition: height cubic-bezier(0.15, 0.85, 0.35, 1) 250ms;
+    	}
+    </style>
+</head>
+
+<body>
+	<div class="actDrawer">
+		<a class="exp" href="javascript:void(0);">...</a>
+		<div class="actContainer b_hide">
+			<p>Title</p>
+			<ul style="background-color: red;">
+				<li>List 1</li>
+				<li>List 2</li>
+				<li>List 3</li>
+				<li>List 4</li>
+				<li>List 5</li>
+				<li>List 6</li>
+				<li>List 7</li>
+				<li>List 8</li>
+				<li>List 9</li>
+			</ul>
+		</div>
+	</div>
+    <script src="./animation.js"></script>
+</body>
+
+</html>
