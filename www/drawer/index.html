@@ -9,14 +9,12 @@
     <style type="text/css" media="screen">
     	body {
     		margin: 0;
-            transform: translate3d(0,0,0);
-            -webkit-transform: translate3d(0,0,0);
     	}
     	.actDrawer {
     		min-height: 22px;
     		position: relative;
-            transform: translate3d(0,0,0);
-            -webkit-transform: translate3d(0,0,0);
+            -webkit-backface-visibility: hidden;
+            -webkit-perspective: 1000;
     	}
     	.exp {
     		font-size: 200%;
@@ -42,8 +40,6 @@
 			height/* bingcss-ignore */: 0 !important;
     	}
     	.b_slide, .b_slide.b_hide {
-            transform: translate3d(0,0,0);
-            -webkit-transform: translate3d(0,0,0);
             transition: height cubic-bezier(0.15, 0.85, 0.35, 1) 250ms;
     	}
     </style>
