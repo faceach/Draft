@@ -34,6 +34,7 @@
         // To force update of styles before applying the animation class, a layout property is accessed, which forces the browser
         // to update the style and layouts.
         var tmp = ele.offsetTop;
+        var tmpHeight = ele.offsetHeight;
         ele.classList.toggle(anim);
     }
     function setHeight(ele) {
