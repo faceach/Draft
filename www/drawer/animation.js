@@ -53,7 +53,7 @@
         }
         if (evt.propertyName === "height") {
             // upon height finishes animating, it should be cleared out.
-            //ele.style.removeProperty('height');
+            ele.style.removeProperty('height');
         }
         // send an event to signal that the ele has finished all transitions
         var prop = ele.classList.contains("b_hide") ? lastProperty[1] : lastProperty[0];
