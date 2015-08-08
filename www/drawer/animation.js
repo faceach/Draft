@@ -1,4 +1,5 @@
     var toggleClass = "b_hide";
+    var notransitionClass = "notransition";
     function sj_be(el, event, callback){
     	el.addEventListener(event, callback, false);
     }
@@ -53,6 +54,8 @@
             return;
         }
         if (evt.propertyName === "height") {
+            // ...
+            ele.classList.add(notransitionClass);
             // upon height finishes animating, it should be cleared out.
             ele.style.removeProperty('height');
         }
@@ -66,6 +69,8 @@
     function toggleAnimation(ele, anim, animateHeight, lastProperty) {
         if (!ele.classList.contains(anim)) {
             ele.classList.add(anim);
+            // ...
+            ele.classList.remove(notransitionClass);
             sj_be(ele, "transitionend", function(evt) {
                 transitionEndHandler(evt, ele, lastProperty);
             });
