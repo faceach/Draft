@@ -37,19 +37,17 @@
         // To force update of styles before applying the animation class, a layout property is accessed, which forces the browser
         // to update the style and layouts.
         var tmp = ele.offsetTop;
-        var tmpHeight = ele.offsetHeight;
         ele.classList.toggle(anim);
     }
 
     function setHeight(ele) {
         var height = ele.clientHeight;
-        if (height == 0 && ele.classList.contains(toggleClass)) {
-            ele.classList.remove(toggleClass);
-            height = ele.clientHeight;
-            ele.classList.add(toggleClass);
-        }
         if (height > 0) {
-            ele.style.height = height + "px";
+            ele.style.height = 0;
+        } else if (height == 0 && ele.classList.contains(toggleClass)) {
+            ele.classList.remove(toggleClass);
+            ele.style.height = ele.clientHeight + "px";
+            ele.classList.add(toggleClass);
         }
         if (ele.classList.contains(notransitionClass)) {
             // Recover CSS transition
