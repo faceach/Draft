@@ -42,27 +42,24 @@
 
     function setHeight(ele) {
         var height = ele.clientHeight;
-        if (height > 0) {
-            ele.style.height = 0;
-        } else if (height == 0 && ele.classList.contains(toggleClass)) {
+        if (height == 0 && ele.classList.contains(toggleClass)) {
             ele.classList.remove(toggleClass);
-            ele.style.height = ele.clientHeight + "px";
+            height = ele.clientHeight;
             ele.classList.add(toggleClass);
         }
-        if (ele.classList.contains(notransitionClass)) {
-            // Recover CSS transition
-            ele.classList.remove(notransitionClass);
+        if (height > 0) {
+            ele.style.height = height + "px";
         }
     }
 
-    function transitionEndHandler(evt, ele, lastProperty) {
+    function transitionEndHandler(evt, ele, anim, lastProperty) {
         if (evt.target != ele) {
             return;
         }
         if (evt.propertyName === "height") {
             // Disable CSS transition before remove "height" inline sytle,
             // As this will trigger strange animation on Safari-IOS: [height] - [0] - [height] 
-            ele.classList.add(notransitionClass);
+            ele.classList.remove(anim);
             // upon height finishes animating, it should be cleared out.
             ele.style.removeProperty('height');
         }
@@ -73,12 +70,16 @@
         }
     }
 
+    var transitionEvent = false;
     function toggleAnimation(ele, anim, animateHeight, lastProperty) {
         if (!ele.classList.contains(anim)) {
             ele.classList.add(anim);
-            sj_be(ele, "transitionend", function(evt) {
-                transitionEndHandler(evt, ele, lastProperty);
-            });
+            if(!transitionEvent){
+                sj_be(ele, "transitionend", function(evt) {
+                    transitionEndHandler(evt, ele, anim, lastProperty);
+                });
+                transitionEvent = true;
+            }
         }
 
         if (animateHeight) {
