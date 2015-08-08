@@ -58,6 +58,8 @@
             ele.classList.add(notransitionClass);
             // upon height finishes animating, it should be cleared out.
             ele.style.removeProperty('height');
+            // ...
+            ele.classList.remove(notransitionClass);
         }
         // send an event to signal that the ele has finished all transitions
         var prop = ele.classList.contains("b_hide") ? lastProperty[1] : lastProperty[0];
@@ -69,12 +71,11 @@
     function toggleAnimation(ele, anim, animateHeight, lastProperty) {
         if (!ele.classList.contains(anim)) {
             ele.classList.add(anim);
-            // ...
-            ele.classList.remove(notransitionClass);
             sj_be(ele, "transitionend", function(evt) {
                 transitionEndHandler(evt, ele, lastProperty);
             });
         }
+
         if (animateHeight) {
             setHeight(ele);
         }
