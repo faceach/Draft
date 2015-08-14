@@ -2,8 +2,13 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('ChatsCtrl', function($scope, Chats) {
+.controller('ChatsCtrl', function($scope, $timeout, $ionicScrollDelegate, Chats) {
   $scope.chats = Chats.all();
+  var delegateScroll = $ionicScrollDelegate.$getByHandle('mainScroll');
+  $timeout(function(){
+	window.setInterval(function(){delegateScroll.scrollBy(0, 100, true);}, 1000);
+  });
+
   $scope.remove = function(chat) {
     Chats.remove(chat);
   }
