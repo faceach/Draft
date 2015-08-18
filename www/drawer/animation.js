@@ -5,6 +5,16 @@
         el.addEventListener(event, callback, false);
     }
 
+    function sj_ue(el, evt, mth, cap) {
+        if (el.removeEventListener) {
+            el.removeEventListener(evt, mth, cap);
+        } else if (el.detachEvent) {
+            el.detachEvent("on" + evt, mth);
+        } else {
+            el["on" + evt] = null;
+        }
+    }
+
     function bindGlobalDrawer(drawer) {
         var actContainer = drawer.querySelector(".actContainer");
 
@@ -52,31 +62,31 @@
         }
     }
 
-    function transitionEndHandler(evt, ele, anim, lastProperty) {
+    function transitionEndHandler(evt, ele, anim, lastProperty, anim) {
         if (evt.target != ele) {
             return;
         }
-        if (evt.propertyName === "height") {
-            // upon height finishes animating, it should be cleared out.
-            ele.style.removeProperty('height');
-        }
+
         // send an event to signal that the ele has finished all transitions
         var prop = ele.classList.contains("b_hide") ? lastProperty[1] : lastProperty[0];
         if (evt.propertyName === prop) {
+            ele.classList.remove(anim);
+            if (evt.propertyName === "height") {
+                // upon height finishes animating, it should be cleared out.
+                ele.style.removeProperty('height');
+            }
+            sj_ue(ele, "transitionend", transitionEndHandler);
             //sj_evt.fire("transitionDone", ele);
         }
     }
 
     function toggleAnimation(ele, anim, animateHeight, lastProperty) {
-        if (!ele.classList.contains(anim)) {
-            ele.classList.add(anim);
-            sj_be(ele, "transitionend", function(evt) {
-                transitionEndHandler(evt, ele, anim, lastProperty);
-            });
-        }
-
         if (animateHeight) {
             setHeight(ele);
         }
+        toggleAnimClass(ele, anim);
         toggleAnimClass(ele, toggleClass);
+        sj_be(ele, "transitionend", function(evt) {
+            transitionEndHandler(evt, ele, anim, lastProperty, anim);
+        });
     }
