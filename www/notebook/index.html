@@ -1,4 +1,4 @@
-<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:web="http://schemas.live.com/Web/" class="">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:web="http://schemas.live.com/Web/" class="win-hoverable">
 
 <head>
     <script type="text/javascript">
@@ -7,12 +7,12 @@
     //]]>
     </script>
     <meta content="text/html; charset=utf-8" http-equiv="content-type">
-    <link href="https://www.bing.com:443/profile/interests/v2/servicelist?cc=US&amp;Location=lat%3a40.759211%3blong%3a-73.984638%3bts%3a1439542836%3bre%3a5.000000&amp;setlang=en_US&amp;uncrunched=1" rel="canonical">
+    <link href="https://www.bing.com:443/profile/interests/v2/servicelist?cc=US&amp;setlang=en_US&amp;uncrunched=1" rel="canonical">
     <!--pc-->
     <title>Bing</title>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="referrer" content="origin">
-    <link href="/s/a/bing_p_lg.ico" rel="shortcut icon">
+    <link href="http://www.bing.com/s/a/bing_p_lg.ico" rel="shortcut icon">
     <script type="text/javascript">
     //<![CDATA[
     _G = {
@@ -20,19 +20,19 @@
         Mkt: "en-US",
         RTL: false,
         Ver: "9_00_0_4115950",
-        IG: "69680974b2a94590853fa600e4aa9a7a",
-        EventID: "f3747cf5215b4eda91eaa6da1f21a360",
+        IG: "91d7087e487f495da11d180e36568533",
+        EventID: "f0059f3f402644eaac2b5ac9572dd320",
         MN: "SERP",
         V: "web",
         P: "SERP",
         DA: "HK2",
-        SUIH: "o9m_SUmzHOUDxh_GLmmVtQ",
+        SUIH: "QudPNMnaYqsfEO0hNtpjkQ",
         gpUrl: "\/fd\/ls\/GLinkPing.aspx?"
     };
     _G.lsUrl = "/fd/ls/l?IG=" + _G.IG;
     curUrl = "https:\/\/www.bing.com\/profile\/interests\/v2\/servicelist";
     _G.XLS = "\/threshold\/xls.aspx";;
-    _G.nclid = 'JX50C6eRVahsSYEcXCNnHw=='; ///<reference path="..\..\..\answers\services\Shared\Content\Content\script\Declarations\Shared.d.ts"/>
+    _G.nclid = '4/M7AJUz9PH4jd1PdD/XYg=='; ///<reference path="..\..\..\answers\services\Shared\Content\Content\script\Declarations\Shared.d.ts"/>
     if (!window.onerror) {
         // Chrome recently started passing in 5th argument as errorObject that contains error stack
         window.onerror = function(message, url, lineNumber, columnNumber, errorObject) {
@@ -1780,6 +1780,17 @@ iOS 7.1+ (prefixed with -webkit-)
     .b_corActList a:visited {
         color: #65ABDB;
     }
+    /* Footer Control */
+    
+    body .appbaraction:hover,
+    /* Service List Page */
+    
+    body .listitem:hover,
+    /* Entity Select Page */
+    
+    body #autosuggestresults li:hover {
+        background-color: transparent;
+    }
     /* Service icons are loaded from Cortana MDL2 Assets font.  This font should come preinstalled
    on Threshold devices, but new Notebook services will be updated much more frequently
    than the font on the device, so we send the latest font version as part of the HTML page.
@@ -1842,6 +1853,11 @@ iOS 7.1+ (prefixed with -webkit-)
     .signinstatustext {
         font-size: 12px;
         line-height: 14px;
+    }
+    /* Underlining the links inside the page description */
+    
+    .pagedescription a {
+        text-decoration: underline;
     }
     /* WP Body Font Size and Line Height*/
     /* General Styles */
@@ -1962,15 +1978,6 @@ iOS 7.1+ (prefixed with -webkit-)
     
     #autosuggestresults li:hover {
         background-color: rgba(0, 0, 0, 0.1);
-    }
-    .appbaraction:hover,
-    /* Service List Page */
-    
-    .listitem:hover,
-    /* Entity Select Page */
-    
-    #autosuggestresults li:hover {
-        background-color: transparent;
     }
     /* ListMedium color (#33000000) */
     /* ListPress color (#33000000) */
@@ -2129,12 +2136,6 @@ iOS 7.1+ (prefixed with -webkit-)
     
     .successmessage {
         color: #10893e;
-    }
-    
-    a#fdbkbadge {
-        /* Moving feedback badge to the top so that it does not conflict with the app bar */
-        bottom: auto;
-        top: 0;
     }
     
     .screenreaderhint {
@@ -2631,198 +2632,41 @@ iOS 7.1+ (prefixed with -webkit-)
         color: #404040;
     }
     /********************** Permissions Page End ************************/
-    /* feedback container */
     
-    #fdbkcontainer {
-        background: white;
+    #fdbkbadge {
+        background: #f2f2f2;
+        border: 1px solid #999999;
         bottom: 0;
+        color: #0078d7 !important;
+        cursor: pointer;
+        padding: 4px 7px 7px 7px/* bingcss-ignore TFS: 772495 - Fix feedback CSS files to be complaint with CSS Cop rules. Why on Earth am I not allowed to use padding-top? */
+        ;
         position: fixed;
-        color: black;
-        z-index: 9;
-        font-size: 15px;
-        border: 1px solid #cccccc;
-    }
-    
-    #fdbkcontainer .fdbkactionbtns {
-        position: absolute;
-    }
-    /* Narrow canvas */
-    
-    @media (max-width: 360px) {
-        #fdbkcontainer {
-            /* If we are in QF and similar narrow canvases, set the height of the form to fill up the canvas completely */
-            width: 100%;
-            height: 100%;
-        }
-    }
-    /* Narrow and short */
-    
-    @media (max-width: 360px) and (max-height: 599px) {
-        #fdbkcontainer .fdbkactionbtns {
-            bottom: 12px;
-        }
-    }
-    /* Narrow and tall canvas */
-    
-    @media (max-width: 360px) and (min-height: 600px) {
-        #fdbkcontainer .fdbkactionbtns {
-            padding/* bingcss-ignore TFS: 772495 - Fix feedback CSS files to be complaint with CSS Cop rules. Why on Earth am I not allowed to use padding-top? */
-            : 54px 0 0 0;
-        }
-    }
-    /* Wide canvas */
-    
-    @media (min-width: 361px) {
-        #fdbkcontainer {
-            /* Set the width to be 320px, and set the height of the form to extend until the tabs only */
-            width: 320px;
-            height: 488px;
-            /* Leave space for the overlay scroll bar on the right */
-            right: 0;
-        }
-        body[dir='rtl'] #fdbkcontainer {
-            /* Leave space for the overlay scroll bar on the left */
-            left: 0;
-            right: auto;
-        }
-        #fdbkcontainer .fdbkactionbtns {
-            bottom: 12px;
-        }
-    }
-    
-    #fdbkcontainer h1 {
-        font-weight: normal;
-        /* Overrides font weight bold set to headers in QF/AutoSuggest canvas. */
-        font-size: 20px;
-        line-height: 24px;
-        margin-bottom: 12px;
-    }
-    
-    #fdbkcontainer a {
-        color: #0078d7;
+        font-family: Segoe UI Symbol;
+        font-size: 24px;
+        z-index: 8;
         text-decoration: none;
-        /* Override for QF/AutoSuggest canvas */
-        font-size: 15px;
-        display: inline-block;
-    }
-    
-    #fdbkcontainer #fdbkfrm {
-        margin: 12px;
-    }
-    
-    #fdbkcontainer label {
-        color: black;
-        background: none;
-        background-position: inherit;
-        height: inherit;
+        /* Overrides text decoration underline set in QF/AutoSuggest canvas. */
         margin: 0;
-        position: static;
-        /* what's actually needed to style given there's a CSS reset in place */
-        padding: 0 0 3px 0px;
-        display: inline-block;
-        cursor: pointer;
+        /* Overrides QF/AutoSuggest canvas CSS. */
+        line-height: 17px;
+        /* Overrides QF/AutoSuggest canvas CSS. */
     }
     
-    #fdbkcontainer input {
-        margin-left: 0;
-        vertical-align: top;
-        margin-top: 4px;
-        margin-right: 7px;
-        /* Inputs are now inside the labels so we can avoid using CSS IDs everywhere, hence the difference margins */
+    #fdbkbadge {
+        /* If we are in QF and similar narrow canvases, make sure the badge is in the extreme right hand corner (there will be no whitespace to the right) */
+        right: 0;
     }
     
-    #fdbkcontainer .inputwrapper {
-        margin-bottom: 12px;
+    body[dir='rtl'] #fdbkbadge {
+        /* If we are in QF and similar narrow canvases, make sure the badge is in the extreme left hand corner (there will be no whitespace to the right) on RTL UI */
+        left: 0;
+        right: auto;
     }
     
-    #fdbkcontainer #fdbkverbatim {
-        width: 100%;
-        box-sizing: border-box;
-        overflow: auto;
-        height: 83px;
-        font-size: 15px;
-        padding/* bingcss-ignore TFS: 772495 - Fix feedback CSS files to be complaint with CSS Cop rules. Why on Earth am I not allowed to use padding-top? */
-        : 3px 3px 3px 10px;
-        width: 296px;
-        height: 62px;
-        color: #999999;
-        line-height: 16px;
-    }
-    
-    #fdbkcontainer input {
-        font-size: 15px;
-        /* Need to override parent, otherwise 13px */
-    }
-    
-    #fdbkcontainer input[type="submit"],
-    #fdbkcontainer input[type="button"] {
-        width: 142px;
-        height: 35px;
-    }
-    
-    #fdbkcontainer input[type="submit"] {
-        background-color: #0078d7;
-        color: white;
-        cursor: pointer;
-        border: 1px solid #0078d7;
-        margin-right: 12px;
-    }
-    
-    #fdbkcontainer input[type="button"] {
-        background-color: #cccccc;
-        border: 1px solid #cccccc;
-        cursor: pointer;
-    }
-    
-    #fdbkcontainer #fdbkinternal .small {
-        font-size: 9px;
-    }
-    
-    #fdbkcontainer #fdbkinternal .medium {
-        font-size: 12px;
-    }
-    
-    #fdbkcontainer #fdbkinternal a {
-        font-size: 15px;
-    }
-    
-    #fdbkcontainer #fdbkinternal label {
-        margin-top: 5px;
-    }
-    
-    #fdbkcontainer #fdbkinternal input[type="text"] {
-        width: 275px;
-        color: black;
-        padding-left: 10px;
-        height: 25px;
-        margin: 0;
-        margin-top: 5px;
-    }
-    
-    #fdbkcontainer #fdbkverbatim.smallverbatim {
-        height: 62px;
-    }
-    
-    #fdbkcontainer .fdbkss {
-        margin-top: 5px;
-        margin-bottom: 17px;
-    }
-    
-    a#fdbklmlink {
-        float: left;
-        clear: left;
-        color: #0078d7;
-        margin-top: 7px;
-    }
-    
-    a#fdbkpplink {
-        float: left;
-        clear: left;
-        color: #0078d7;
-    }
-    
-    div#fdbkinternal {
-        margin-top: 5px;
+    #fdbkbadge:hover {
+        background: #e5e5e5;
+        text-decoration: none;
     }
     </style>
     <style type="text/css">
@@ -2831,6 +2675,7 @@ iOS 7.1+ (prefixed with -webkit-)
         border-color: #65ABDB;
     }
     </style>
+    <link rel="stylesheet" href="./override.css" type="text/css">
     <script type="text/javascript">
     //<![CDATA[
     // Declaring Feature Team ID for Win8App Error Handling
@@ -3100,7 +2945,7 @@ iOS 7.1+ (prefixed with -webkit-)
     })();;
     //]]>
     </script>
-    <script type="text/javascript" src="/rms/BingCore.Bundle/c/d320549e/a9e81e5b.js?bu=rms+answers+Shared+BingCore%24shared%2cBingCore%24env.override%2cBingCore%24event.custom.fix%2cBingCore%24event.native%2cBingCore%24dom%2cBingCore%24cookies_parser%2cBingCore%24XHRPrefetch%24rmsajax_xhrprefetch%2cBingCore%24ClientInstV2%24InstrumentationConfigDefault%2cBingCore%24ClientInstV2%24LogUploadCapFeatureDisabled%2cBingCore%24ClientInstV2%24ClientInstConfigSeparateOfflineQueue%2cBingCore%24ClientInstV2%24clientinst_xls%2cEmpty%2cBingCore%24ClientInstV2%24LogHelper%2cBingCore%24ClientInstV2%24VisibilityChangeEventHelper%2cBingCore%24Animation%2cBingCore%24fadeAnimation%2cBingCore%24framework%2cBingCore%24ShowWebView%2cBingCore%24CoreUtilities"></script>
+    <script type="text/javascript" src="http://www.bing.com/rms/BingCore.Bundle/c/d320549e/a9e81e5b.js?bu=rms+answers+Shared+BingCore%24shared%2cBingCore%24env.override%2cBingCore%24event.custom.fix%2cBingCore%24event.native%2cBingCore%24dom%2cBingCore%24cookies_parser%2cBingCore%24XHRPrefetch%24rmsajax_xhrprefetch%2cBingCore%24ClientInstV2%24InstrumentationConfigDefault%2cBingCore%24ClientInstV2%24LogUploadCapFeatureDisabled%2cBingCore%24ClientInstV2%24ClientInstConfigSeparateOfflineQueue%2cBingCore%24ClientInstV2%24clientinst_xls%2cEmpty%2cBingCore%24ClientInstV2%24LogHelper%2cBingCore%24ClientInstV2%24VisibilityChangeEventHelper%2cBingCore%24Animation%2cBingCore%24fadeAnimation%2cBingCore%24framework%2cBingCore%24ShowWebView%2cBingCore%24CoreUtilities"></script>
     <script type="text/javascript">
     //<![CDATA[
     ///<reference path="..\Declarations\Shared.d.ts"/>
@@ -3109,20 +2954,29 @@ iOS 7.1+ (prefixed with -webkit-)
     _w["si_ct"] = function(el, noRecurse, evt) {
         var getAttribute = "getAttribute",
             ct, ctf, found;
+        var clickTime = sb_gt();
         try {
             for (; el !== document.body; el = el.parentNode) {
-                // The 'h' or 'data-h' or '_ct' attribute contains the payload for the click tracking function
-                // Stop on the first anchor with an 'h' or the first element found with a '_ct' attribute or 'data-h' attribute present
+                // The 'h' or '_ct' attribute contains the payload for the click tracking function
+                // Stop on the first anchor with an 'h' attribute or the first element found with a '_ct' attribute present
                 ct = (el.tagName == "A" && el[getAttribute]("h")) || el[getAttribute]("_ct") || el[getAttribute]("data-h");
                 if (ct) {
                     // The '_ctf' attribute contains the name of the overriden global click
                     // tracking function which is optional, default is si_T
                     ctf = el[getAttribute]("_ctf");
+                    var clickType = -1;
                     if (!ctf || !_w[ctf]) {
                         ctf = "si_T";
+                        if (_w["mouseButtonInfo"]) {
+                            var mouseButtonPressed = _w["mouseButtonInfo"].button;
+                            var mouseButtonTimeStamp = _w["mouseButtonInfo"].time;
+                            if (mouseButtonTimeStamp && (clickTime - mouseButtonTimeStamp) < 300) {
+                                clickType = mouseButtonPressed;
+                            }
+                        }
                     }
-                    // Try to fire the gping by calling the click-tracking function with the 'ct' payload
-                    _w[ctf] && _w[ctf]('&' + ct, el, evt);
+                    // Try to fire the gping by calling the click-tracking function with the 'ct' payload and the clicked element
+                    _w[ctf] && _w[ctf]('&' + ct, el, evt, clickType);
                     break;
                 }
                 if (noRecurse)
@@ -3132,15 +2986,26 @@ iOS 7.1+ (prefixed with -webkit-)
         return true;
     };
     (function() {
+        function eventHandler(evt) {
+            _w["si_ct"](sb_ie ? _w.event.srcElement : evt.target, false, _w.event || evt);
+        }
+
+        function trackMouseButton(evt) {
+            _w["mouseButtonInfo"] = {
+                button: evt.button,
+                time: sb_gt()
+            };
+        }
         if (_w["_G"]) {
             _G["si_ct_e"] = "click";
         }
-        sj_be(document, "click", function(evt) {
-            si_ct(sb_ie ? _w.event.srcElement : evt.target, false, _w.event || evt);
-        }, false); // sj_be: Indicates bubble-phase handler (supported on all browsers as opposed to capture which IE doesn't support)
+        // sj_be: Indicates bubble-phase handler (supported on all browsers as opposed to capture which IE doesn't support)
+        sj_be(document, "click", eventHandler, false);
+        sj_be(document, "contextmenu", eventHandler, false);
+        sj_be(document, "mousedown", trackMouseButton, false);
     })();;
     var wlc_d = 1500,
-        wlc_t = 63575139639;; ///<reference path="..\..\..\..\..\..\Shared\Content\Content\script\Declarations\Shared.d.ts"/>
+        wlc_t = 63576173490;; ///<reference path="..\..\..\..\..\..\Shared\Content\Content\script\Declarations\Shared.d.ts"/>
     // Performance ping instrumentation for browsers supporting the W3C Web Timing API.
     // si_PP() is the PerformancePing function used to report back performance data.
     // currentTime - a javascript Date object
@@ -3318,10 +3183,10 @@ iOS 7.1+ (prefixed with -webkit-)
     };;
     //]]>
     </script>
-    <!-- FD: 8E6D70AEBAD20CEE21717DC7276B071A -->
+    <!-- FD: F47311AB7EA36DBCA0EE4A689C192A13 -->
 </head>
 
-<body class=" " onload="if(_w.lb)lb();">
+<body class=" " onload="if(_w.lb)lb();" style="-webkit-touch-callout: none;">
     <script type="text/javascript">
     //<![CDATA[
     var CoreUtilities;
@@ -3631,6 +3496,7 @@ iOS 7.1+ (prefixed with -webkit-)
                 };
                 try {
                     returnValue = o[methodName].apply(o, args);
+                    this.recordApiTimeDetail((instrumentationKey) ? instrumentationKey + "P" : null, methodName);
                     if (timeout && timeout > 0) {
                         timeoutId = sb_st(function() {
                             if (returnValue && returnValue.cancel) {
@@ -3994,14 +3860,14 @@ iOS 7.1+ (prefixed with -webkit-)
         IndexedState[IndexedState["PartiallyIndexed"] = 2] = "PartiallyIndexed";
         IndexedState[IndexedState["FullyIndexed"] = 3] = "FullyIndexed";
     })(IndexedState || (IndexedState = {}));;
-    _G.AppVer = "8_01_2_4221096";
+    _G.AppVer = "8_01_2_4251206";
     //]]>
     </script>
     <div id="interestscontainer" class="margins">
-        <ul>
+        <ul class="c-a">
             <li><a href="http://ms-smartsearch/experience?AboutMe" class="listitem" data-experiencename="AboutMe" h="ID=SERP,5034.1"><span class="serviceicon"></span>About Me</a></li>
         </ul>
-        <ul>
+        <ul class="c-a">
             <li><a href="http://ms-smartsearch/experience?Settings" class="listitem" data-experiencename="Settings" h="ID=SERP,5035.1"><span class="serviceicon"></span>Settings</a></li>
         </ul>
         <hr class="divider">
@@ -4042,6 +3908,7 @@ iOS 7.1+ (prefixed with -webkit-)
             <li><a href="/profile/interests/v2/service?serviceId=Weather" class="listitem" h="ID=SERP,5033.1"><span class="serviceicon"></span>Weather</a></li>
         </ul>
     </div>
+    <p id="sb_feedback"></p>
     <script type="text/javascript">
     //<![CDATA[
     _G.FCT = new Date;
@@ -4728,174 +4595,6 @@ iOS 7.1+ (prefixed with -webkit-)
             SearchAppWrapper.Utils.wrapApiCall(SearchAppWrapper.CortanaApp.searchResultsView.deviceSearch, "findAppsAsync", "AL", "AppLinking", appIds).then(processApplicationMap);
         }
     })();;
-    var LocStringManager;
-    (function(LocStringManager) {;;
-        var namespaceMap = {};
-        var parentCultureResolver = {
-            parentParentCultureResolver: null,
-            resolveCulture: function(culture) {
-                if (!culture) {
-                    throw invalidArgumentException("culture", culture);
-                }
-                var indexOfDash = culture.lastIndexOf("-");
-                if (indexOfDash > 0) {
-                    return culture.substring(0, indexOfDash);
-                }
-                return "";
-            }
-        };
-
-        function register(locStringKey, locString) {
-            if (!locStringKey) {
-                throw invalidArgumentException("locStringKey", locStringKey);
-            }
-            if (!locString) {
-                throw invalidArgumentException("locString", locString);
-            }
-            var namespace = locStringKey.namespace;
-            var nameMap = getNameMap(namespace) || createNameMap(namespace);
-            var name = locStringKey.name;
-            var uiCultureMap = getUiCultureMap(name, nameMap) || createUiCultureMap(name, nameMap);
-            addStringToCultureMap(locStringKey.uiCulture, locString, uiCultureMap);
-        }
-        LocStringManager.register = register;
-
-        function getLocString(locStringKey) {
-            if (!locStringKey) {
-                throw invalidArgumentException("locStringKey", locStringKey);
-            }
-            var namespace = locStringKey.namespace;
-            var nameMap = getNameMap(namespace);
-            if (!nameMap) {
-                throw new Error("namespace " + namespace + " is not registered");
-            }
-            var name = locStringKey.name;
-            var uiCultureMap = getUiCultureMap(name, nameMap);
-            if (!uiCultureMap) {
-                throw new Error("name " + name + " is not registered in namespace " + namespace);
-            }
-            var uiCulture = locStringKey.uiCulture;
-            var locString;
-            while (!locString) {
-                locString = getStringFromCultureMap(uiCulture, uiCultureMap);
-                if (!locString && !uiCulture) {
-                    throw new Error("the invariant empty culture does not have parent");
-                } else if (!locString) {
-                    uiCulture = parentCultureResolver.resolveCulture(uiCulture);
-                }
-            }
-            return locString;
-        }
-        LocStringManager.getLocString = getLocString;
-
-        function addParentCultureResolver(newParentCultureResolver) {
-            if (!newParentCultureResolver) {
-                throw invalidArgumentException("newParentCultureResolver", newParentCultureResolver);
-            }
-            newParentCultureResolver.parentParentCultureResolver = parentCultureResolver;
-            parentCultureResolver = newParentCultureResolver;
-        }
-        LocStringManager.addParentCultureResolver = addParentCultureResolver;
-
-        function getNameMap(namespace) {
-            if (!namespace) {
-                throw invalidArgumentException("namesapce", namespace);
-            }
-            return namespaceMap[namespace];
-        }
-
-        function createNameMap(namespace) {
-            if (!namespace) {
-                throw invalidArgumentException("namespace", namespace);
-            }
-            return (namespaceMap[namespace] = {});
-        }
-
-        function getUiCultureMap(name, nameMap) {
-            if (!name) {
-                throw invalidArgumentException("name", name);
-            }
-            return nameMap[name];
-        }
-
-        function createUiCultureMap(name, nameMap) {
-            if (!name) {
-                throw invalidArgumentException("name", name);
-            }
-            return (nameMap[name] = {});
-        }
-
-        function addStringToCultureMap(uiCultureKey, locString, uiCultureMap) {
-            if (typeof(uiCultureKey) === "undefined" || uiCultureKey === null) {
-                throw invalidArgumentException("uiCultureKey", uiCultureKey);
-            }
-            if (uiCultureMap) {
-                uiCultureMap[uiCultureKey.toLowerCase()] = locString;
-            }
-        }
-
-        function getStringFromCultureMap(uiCultureKey, uiCultureMap) {
-            if (typeof(uiCultureKey) === "undefined" || uiCultureKey === null) {
-                throw invalidArgumentException("uiCultureKey", uiCultureKey);
-            }
-            if (uiCultureMap) {
-                return uiCultureMap[uiCultureKey.toLowerCase()];
-            }
-            return null;
-        }
-
-        function invalidArgumentException(argumentName, argumentValue) {
-            return new Error("Invalid Argument: " + argumentName + "=" + argumentValue.toString());
-        }
-    })(LocStringManager || (LocStringManager = {}));; /// <reference path="LocStringManager.ts" />
-    var WindowsCultureResolver;
-    (function(WindowsCultureResolver) {
-        var cultureMassagingMap = {
-            "as": "as-in",
-            "bs": "bs-latn-ba",
-            "fil-latn": "fil-ph",
-            "gd-latn": "gd-gb",
-            "ig-latn": "ig-ng",
-            "ky-cyrl": "ky-kg",
-            "mi-latn": "mi-nz",
-            "ml": "ml-in",
-            "mn-mn": "mn-cyrl",
-            "nb": "nb-no",
-            "nn": "nn-no",
-            "or": "or-in",
-            "prs-arab": "prs-af",
-            "quc-latn": "qut",
-            "tk-latn": "tk-tm",
-            "tt-cyrl": "tt-ru",
-            "uz-latn": "uz-latn-uz",
-            "yo-latn": "yo-ng",
-            "zh-cn": "zh-chs",
-            "zh-hant-hk": "zh-cht",
-            "zh-hant-mo": "zh-cht",
-            "zh-hant-tw": "zh-cht",
-            "zh-hans-cn": "zh-chs",
-            "zh-hans-sg": "zh-chs",
-            "zh-hk": "zh-cht",
-            "zh-tw": "zh-cht"
-        };
-        var windowsCultureResolverInstance = {
-            parentParentCultureResolver: null,
-            resolveCulture: function(culture) {
-                var cultureResolved = false;
-                var returnCulture = culture;
-                if (returnCulture) {
-                    if (returnCulture = cultureMassagingMap[returnCulture.toLowerCase()]) {
-                        cultureResolved = true;
-                    }
-                }
-                if (!cultureResolved) {
-                    returnCulture = windowsCultureResolverInstance.parentParentCultureResolver.resolveCulture(culture);
-                }
-                return returnCulture;
-            }
-        };
-        LocStringManager.addParentCultureResolver(windowsCultureResolverInstance);
-    })(WindowsCultureResolver || (WindowsCultureResolver = {}));;;
     var InterestCommon;
     (function(InterestCommon) {
         // Constants
@@ -5000,1480 +4699,205 @@ iOS 7.1+ (prefixed with -webkit-)
         return CortanaAppNotebookClient;
     })();
     _w['NotebookClient'] = new CortanaAppNotebookClient();; ///<reference path="INotebookClient.d.ts" />
-    var NotebookClient = _w['NotebookClient'];;;
-    //]]>
-    </script>
-    <script type="text/javascript" src="/rms/rms%20localizationstrings%20Feedback%20LocStrings/c/c495b727/7095ed03.js"></script>
-    <script type="text/javascript">
-    //<![CDATA[
-    ///<reference path="..\..\..\..\Shared\Content\Content\Script\Declarations\Shared.d.ts" />
-    ///<reference path="..\..\..\..\Shared\Content\Content\Script\Declarations\jquery.d.ts" />
-    /*
-     * This file contains common functionality that's used by multiple JavaScript modules.
-     * Due to the above, this file is likely to be exposed to the client very often.
-     */
+    var NotebookClient = _w['NotebookClient'];;; ///<reference path="..\..\..\..\Shared\Content\Content\Script\Declarations\Shared.d.ts" />
+    ///<reference path="PackageLoad.ts" />
     var Feedback;
     (function(Feedback) {
-        var Core;
-        (function(Core) {
-            'use strict';
-            /*
-             * generates a random string of length (sent as a parameter) given the set 0-9 and a-Z
-             */
-            function GenerateString(length) {
-                var str = "",
-                    charSet = "abcdefghijklmnopqrstuvwxyz0123456789",
-                    i;
-                for (i = 0; i < length; ++i)
-                    str += charSet.charAt(Math.floor(Math.random() * charSet.length));
-                return str;
-            }
-            Core.GenerateString = GenerateString;
-            /*
-             * BUGBUG #320468: stringify function doesn't detect circular references when serializing JS objects to JSON
-             * specification is located at http://json.org
-             */
-            function Stringify(obj) {
-                var str = '',
-                    c = 0,
-                    i;
-                switch (typeof obj) {
-                    case 'object':
-                        if (obj instanceof Array) {
-                            // array
-                            str += '[';
-                            for (i = 0; i < obj.length; i++) {
-                                if (i > 0) {
-                                    str += ',';
-                                }
-                                str += Stringify(obj[i]);
-                            }
-                            str += ']';
-                        } else if (obj instanceof Boolean || obj instanceof Date || obj instanceof Number || obj instanceof String) {
-                            str = obj.toString();
-                        } else {
-                            // object
-                            str += '{';
-                            for (i in obj) {
-                                if (obj.hasOwnProperty(i)) {
-                                    if (c > 0) {
-                                        str += ',';
-                                    }
-                                    str += '"' + i + '":' + Stringify(obj[i]);
-                                    c++;
-                                }
-                            }
-                            str += '}';
-                        }
-                        return str;
-                    case 'boolean':
-                    case 'number':
-                        return obj;
-                    case 'string':
-                        // case 'string':
-                        return '"' + obj.replace(/[\\]/g, '\\\\').replace(/[\"]/g, '\\"').replace(/[\/]/g, '\\/').replace(/[\b]/g, '\\b').replace(/[\f]/g, '\\f').replace(/[\n]/g, '\\n').replace(/[\r]/g, '\\r').replace(/[\t]/g, '\\t') + '"';
-                    default:
-                        return null;
-                }
-            }
-            Core.Stringify = Stringify;
-            // Fetches localStorage when accessible on browser
-            function FetchLocalStorage() {
-                try {
-                    // check if localStorage is accessible
-                    if (_w.localStorage) {
-                        return _w.localStorage;
-                    }
-                } catch (e) {
-                    // its not accessible on IE10 / Win2k12 - return undefined in that case
-                    return undefined;
-                }
-            }
-            Core.FetchLocalStorage = FetchLocalStorage;
-            // get ISO Date - create string on some browsers where toISOString doesn't work
-            // See compat matrix @ http://kangax.github.io/es5-compat-table/
-            function GetISODate(date) {
-                var dateStr = "";
-                if (!Date.prototype.toISOString) {
-                    dateStr = date.getUTCFullYear() + '-' + PadSingleDigit(date.getUTCMonth() + 1) + '-' + PadSingleDigit(date.getUTCDate()) + 'T' + PadSingleDigit(date.getUTCHours()) + ':' + PadSingleDigit(date.getUTCMinutes()) + ':' + PadSingleDigit(date.getUTCSeconds()) + '.' + String((date.getUTCMilliseconds() / 1000).toFixed(3)).slice(2, 5) + 'Z';
-                } else {
-                    dateStr = date.toISOString();
-                }
-                return dateStr;
-            }
-            Core.GetISODate = GetISODate;
-            // pad number
-            function PadSingleDigit(num) {
-                var r = String(num);
-                if (r.length === 1) {
-                    r = '0' + r;
-                }
-                return r;
-            }
-        })(Core = Feedback.Core || (Feedback.Core = {}));
-    })(Feedback || (Feedback = {}));; ///<reference path="..\Declarations\Instrumentation.d.ts"/>
-    (function() {
-        _w['GetUxClassificationSection'] = function() {
-            return {
-                'client': 'windows',
-                'clientversion': 'M2'
-            };
-        };
-    })();; ///<reference path="..\..\..\..\..\..\..\answers\services\Shared\Content\Content\script\Declarations\Shared.d.ts"/>
-    ///<reference path="..\..\..\..\..\..\..\answers\services\Shared\Content\Content\script\Declarations\Threshold.Utilities.d.ts"/>
-    ///<reference path="..\..\..\..\..\..\..\Serp\AppResources\Scripts\snr\string.d.ts" />
-    ///<reference path="..\Declarations\SearchAppWrapper.d.ts"/>
-    ///<reference path="..\Declarations\Instrumentation.d.ts"/>
-    var Instrumentation;
-    (function(Instrumentation) {
-        var InstItem = (function() {
-            function InstItem(dsItem) {
-                this.hValue = "ID=" + dsItem.AppNS + "," + dsItem.K;
-                this.dsItem = dsItem;
-            }
-            InstItem.prototype.GetNamespacedKValue = function() {
-                return this.hValue + "." + this.dsItem.RefCount;
-            };
-            InstItem.prototype.GetKValue = function() {
-                return this.dsItem.K.toString() + "." + this.dsItem.RefCount;
-            };
-            InstItem.prototype.GetDataSource = function() {
-                return this.dsItem;
-            };
-            InstItem.prototype.GetUrlWithFormCode = function() {
-                return (this.dsItem) ? this.dsItem.Url : null;
-            };
-            InstItem.prototype.IncrementReferenceCount = function() {
-                this.dsItem.RefCount++;
-            };
-            return InstItem;
-        })();
-        var DataSourceTreeNode = (function() {
-            function DataSourceTreeNode(ds) {
-                this.children = [];
-                this.instrumented = false;
-                this.value = ds;
-            }
-            DataSourceTreeNode.prototype.AddChild = function(ds) {
-                this.children.push(new DataSourceTreeNode(ds));
-            };
-            DataSourceTreeNode.prototype.GetValue = function() {
-                return this.value;
-            };
-            DataSourceTreeNode.prototype.GetChildren = function() {
-                return this.children;
-            };
-            DataSourceTreeNode.prototype.IsInstrumented = function() {
-                return this.instrumented;
-            };
-            DataSourceTreeNode.prototype.SetIsInstrumented = function() {
-                this.instrumented = true;
-            };
-            return DataSourceTreeNode;
-        })();
-        var kValueAugmentedDataSourceTree = (function() {
-            function kValueAugmentedDataSourceTree(ds) {
-                this.kValuesContained = {};
-                this.tree = ds;
-                this.kValuesContained[ds.GetValue().K.toString()] = true;
-            }
-            kValueAugmentedDataSourceTree.prototype.addKValue = function(k) {
-                this.kValuesContained[k] = true;
-            };
-            kValueAugmentedDataSourceTree.prototype.kValueExists = function(k) {
-                return this.kValuesContained[k];
-            };
-            return kValueAugmentedDataSourceTree;
-        })();
-        // The counter is static because all sections share the sequence of K-Values to avoid discrepancies
-        var kValueCounter = 1;
-        var _hValueAttr = "h";
-        var _hDataValueAttr = "data-h";
-        var _kValueAttr = "data-k";
-        var _regionAttr = "data-region";
-        var _isRegionAttr = "data-isregion";
-        var _loggedAttr = "data-logged";
-        var _roleAttr = "data-role";
-        var _insertionPointAttr = "data-insertionpoint";
-        var _instElemSelector = "[data-k], [data-isregion], [h], [data-h]";
-        var _regionType = "L.Box";
-        var _layoutUrlType = "L.Url";
-        var _defaultAppNs = "SERP";
-        var _dsType = "D.MyStuff";
-        var _appName = "SmartSearch";
-        var dataSourceFieldWhitelist = {
-            "T": true,
-            "Service": true,
-            "Scenario": true,
-            "AppNS": true,
-            "K": true,
-            "AppID": true,
-            "AppName": true,
-            "Url": true,
-            "CDT": true,
-            "LMD": true,
-            "EXT": true,
-            "PHits": true,
-            "Rank": true,
-            "SettingID": true,
-            "DS": true,
-            "SPDisplay": true,
-            "PPMiss": true,
-            "order": true,
-            "indexed": true,
-            "count": true
-        };
-        var isNullOrEmptyRegex = new RegExp("/^\s*$/");
-        // Threshold headers are stored here
-        // No need to fetch them more than once on the same page
-        var requestHeaders = null;
-        // datasources is a mapping from impression guids to an array of datasourcetreenodes which represent
-        // each of the root data sources for a given IG
-        var dataSources = {};
-
-        function recordHeaders(headers) {
-            requestHeaders = headers;
-            sj_evt.fire("ClientInst.PageInstInfo", logCommonSignalsFromHeaders);
-        }
-        ThresholdUtilities.getCortanaHeaders(recordHeaders);
-        // Headers that are logged via UserInfo overrides
-        var _userInfoHeaders = {
-            "Make": "X-Device-Manufacturer",
-            "Model": "X-Device-Product",
-            "Loc/RT": "X-Search-Location"
-        };
-        var _enrichedClientInfoHeaders = {
-            "DeviceID": "X-Device-MachineId",
-            "IsTouch": "X-Device-Touch",
-            "DeviceSKU": "X-Device-SKU",
-            "OSSKU": "X-Device-OSSKU",
-            "ConnectionType": "X-Device-NetworkType",
-            "ClientMarket": "X-BM-RegionalSettings",
-            "AppLifetimeID": "X-Device-ClientSession",
-            "CortanaOptIn": "X-Device-IsOptIn"
-        };
-        ClientInstConfig.waitForPageInfo = true;
-        // initialize it, and update it every time pageStart fires
-        ClientInstConfig.isInstrumentationEnabled = SearchAppWrapper.CortanaApp.isBingEnabled;
-        sj_evt.bind("ajax.threshold.pageStart", function() {
-            ClientInstConfig.isInstrumentationEnabled = SearchAppWrapper.CortanaApp.isBingEnabled;
-        });
-
-        function CreateKValue() {
-            return kValueCounter++;
-        }
-        Instrumentation.CreateKValue = CreateKValue;
-        // Logs the master page impression for the page including the page's default layout
-        // - mpi - the impression object to log
-        // - layoutUrl - pointer to the root layout HTML element
-        // - additionalClientInfo - an optional parameter to contain key-value pairs that will be added to
-        //   the enriched client info section of the impression _overriding_ header values if necessary
-        function LogPageImpression(mpi, layoutRoot, additionalClientInfo) {
-            if (!_w["Log2"])
-                return;
-            if (layoutRoot) {
-                var loggedLayouts = logLayout(layoutRoot, false);
-                if (loggedLayouts) {
-                    mpi.layoutNodes = loggedLayouts;
-                }
-            }
-            logEnrichedClientInfo(mpi, additionalClientInfo);
-            Log2.LogMasterPageImpression(mpi);
-        }
-        Instrumentation.LogPageImpression = LogPageImpression;
-
-        function LogUpdatedLayout(rootElement, newDataSources) {
-            var updatedLayout = logLayout(rootElement, true);
-            if (updatedLayout && updatedLayout.length > 0) {
-                var pageLayout = [];
-                for (var i = 0; i < updatedLayout.length; i++) {
-                    var layoutRoot = updatedLayout[i];
-                    pageLayout.push({
-                        T: "L.MI",
-                        Action: "Update",
-                        AppNS: layoutRoot.AppNS,
-                        K: layoutRoot.K,
-                        L: layoutRoot.L
-                    });
-                }
-                Log2.LogEvent("ClientInst", null, null, newDataSources, pageLayout);
-            }
-        }
-        Instrumentation.LogUpdatedLayout = LogUpdatedLayout;
-
-        function CreatePageImpression(pageName, impressionGuid) {
-            var url = _w.location.href;
-            var newDataSources = [];
-            var _impressionGuid = impressionGuid ? impressionGuid : _G.IG;
-            var dataSourcesForCurrentIG = dataSources[_impressionGuid];
-            if (dataSourcesForCurrentIG) {
-                for (var currentDataSource in dataSourcesForCurrentIG) {
-                    // this handles the case of an entirely new tree
-                    var currentTree = dataSourcesForCurrentIG[currentDataSource].tree;
-                    if (!currentTree.IsInstrumented()) {
-                        var item = currentTree.GetValue();
-                        var dataSourceChildrenNodes = currentTree.GetChildren();
-                        var dataSourceChildrenValues = [];
-                        if (dataSourceChildrenNodes.length > 0) {
-                            for (var currentChildNode in dataSourceChildrenNodes) {
-                                dataSourceChildrenValues.push(getDataSourceTreeInArray(dataSourceChildrenNodes[currentChildNode]));
-                            }
-                            item["DS"] = dataSourceChildrenValues;
-                        }
-                        newDataSources.push(item);
-                        markTreeAsInstrumented(currentTree);
-                    }
-                }
-            }
-            var masterPageImpression = {
-                dataSources: newDataSources,
-                layoutNodes: [],
-                pageName: pageName,
-                rawQuery: ThresholdUtilities.getDecodedQuery(),
-                isQuery: true,
-                form: ThresholdUtilities.getUrlParameter(url, "form"),
-                impressionUrl: url,
-                appName: _appName
-            };
-            return masterPageImpression;
-        }
-        Instrumentation.CreatePageImpression = CreatePageImpression;
-
-        function LogUpdatedLayoutCentralizedDataSources(rootElement, impressionGuid) {
-            var updatedLayout = logLayout(rootElement, true);
-            var pageLayout = [];
-            if (updatedLayout && updatedLayout.length > 0) {
-                for (var i = 0; i < updatedLayout.length; i++) {
-                    var layoutRoot = updatedLayout[i];
-                    pageLayout.push({
-                        T: "L.MI",
-                        Action: "Update",
-                        AppNS: layoutRoot.AppNS,
-                        K: layoutRoot.K,
-                        L: layoutRoot.L
-                    });
-                }
-            }
-            var _impressionGuid = _G.IG;
-            if (impressionGuid) {
-                _impressionGuid = impressionGuid;
-            }
-            var newDataSources = [];
-            var dataSourcesForCurrentIG = dataSources[_impressionGuid];
-            if (dataSourcesForCurrentIG) {
-                for (var j in dataSourcesForCurrentIG) {
-                    // this handles the case of an entirely new tree
-                    var currentTree = dataSourcesForCurrentIG[j].tree;
-                    if (!currentTree.IsInstrumented()) {
-                        var item = currentTree.GetValue();
-                        var dataSourceChildrenNodes = currentTree.GetChildren();
-                        var dataSourceChildrenValues = [];
-                        if (dataSourceChildrenNodes.length > 0) {
-                            for (var currentChildNode in dataSourceChildrenNodes) {
-                                dataSourceChildrenValues.push(getDataSourceTreeInArray(dataSourceChildrenNodes[currentChildNode]));
-                            }
-                            item["DS"] = dataSourceChildrenValues;
-                        }
-                        newDataSources.push(item);
-                        markTreeAsInstrumented(currentTree);
-                    } else {
-                        // the root has been instrumented already, but we may have new children to append
-                        searchTreeForNewDataSources(currentTree, newDataSources);
-                    }
-                }
-            }
-            if (pageLayout.length > 0 || newDataSources.length > 0) {
-                Log2.LogEvent("ClientInst", null, null, newDataSources, pageLayout);
-            }
-        }
-        Instrumentation.LogUpdatedLayoutCentralizedDataSources = LogUpdatedLayoutCentralizedDataSources;
-
-        function CreateDataSourceItem(url, name, params, parent, impressionGuid, typeName) {
-            var _itemType = "D.Item";
-            var _urlType = "D.Url";
-            var _impressionGuid = _G.IG;
-            if (impressionGuid) {
-                _impressionGuid = impressionGuid;
-            }
-            if (!dataSources[_impressionGuid]) {
-                dataSources[_impressionGuid] = [];
-            }
-            var item = {
-                AppNS: _defaultAppNs,
-                K: CreateKValue(),
-                T: _itemType,
-                RefCount: 1
-            };
-            if (url) {
-                item.Url = url;
-                item.T = _urlType;
-            }
-            if (name) {
-                item.N = name;
-            }
-            if (typeName) {
-                item.T = typeName;
-            }
-            if (params) {
-                for (var key in params) {
-                    if (params.hasOwnProperty(key)) {
-                        if (params[key] === null || params[key] === undefined || params[key].length === 0 || isNullOrEmptyRegex.test(params[key])) {
-                            console.warn("Skipping logging datasource field key: " + key + " because it has no value.");
-                        } else if (dataSourceFieldWhitelist[key] === true) {
-                            item[key] = params[key];
-                        } else {
-                            console.warn("Unknown datasource field key: " + key + ". skipping logging value: " + params[key]);
-                        }
-                    }
-                }
-            }
-            if (parent) {
-                var success = addChildToParentForIG(item, parent, _impressionGuid);
-                // if we were unsuccessful then the parent should belong to a different IG
-                // we should go looking for it then construct an appropriate D.MI Move command to bring it to this IG
-                // afterwards, adding to that parent should work in the current IG set of data sources
-                if (!success && InstrumentationConfig.CopyDataCommand) {
-                    LogCopyDataSourceCommandFromDataSource(parent, _impressionGuid);
-                    addChildToParentForIG(item, parent, _impressionGuid);
-                }
-            } else {
-                dataSources[_impressionGuid].push(new kValueAugmentedDataSourceTree(new DataSourceTreeNode(item)));
-            }
-            return item;
-        }
-        Instrumentation.CreateDataSourceItem = CreateDataSourceItem;
-
-        function CreateDataSourcesRoot(scenarioName, serviceName, impressionGuid, additionalProperties) {
-            var params = {};
-            params["Service"] = serviceName;
-            params["Scenario"] = scenarioName;
-            for (var property in additionalProperties) {
-                params[property] = additionalProperties[property];
-            }
-            return CreateDataSourceItem(null, null, params, null, impressionGuid, _dsType);
-        }
-        Instrumentation.CreateDataSourcesRoot = CreateDataSourcesRoot;
-
-        function CreateInstrumentedItem(url, name, parent) {
-            return CreateInstrumentedItemFromDs(CreateDataSourceItem(url, name, null, parent));
-        }
-        Instrumentation.CreateInstrumentedItem = CreateInstrumentedItem;
-
-        function CreateInstrumentedItemFromDs(dsItem) {
-            return new InstItem(dsItem);
-        }
-        Instrumentation.CreateInstrumentedItemFromDs = CreateInstrumentedItemFromDs;
-
-        function LogCopyDataSourceCommand(kValue, appNS, destinationImpressionGuid) {
-            for (var impressionGuid in dataSources) {
-                var dataSourcesForIG = dataSources[impressionGuid];
-                var rootNode;
-                for (var potentialLastRoot in dataSourcesForIG) {
-                    if (dataSourcesForIG[potentialLastRoot].kValueExists(kValue)) {
-                        rootNode = potentialLastRoot;
-                    }
-                }
-                if (rootNode && dataSourcesForIG[rootNode].kValueExists(kValue)) {
-                    // at this point we know which root to copy over, log and return
-                    // we need a placeholder root node to move into on the destination side
-                    var placeholderDataSource = CreateDataSourceItem(null, null, null, null, destinationImpressionGuid, null);
-                    var sourceDataSource = dataSourcesForIG[rootNode].tree.GetValue();
-                    var copyLogCommand = [];
-                    copyLogCommand.push({
-                        T: "D.MI",
-                        Action: "Move",
-                        SrcAppNS: sourceDataSource.AppNS,
-                        SrcK: sourceDataSource.K,
-                        DestAppNS: placeholderDataSource.AppNS,
-                        DestK: placeholderDataSource.K
-                    });
-                    Log2.LogEvent("ClientInst", null, null, copyLogCommand, null, null, impressionGuid);
-                    dataSources[destinationImpressionGuid].push(dataSourcesForIG[rootNode]);
-                    markTreeAsInstrumented(dataSourcesForIG[rootNode].tree);
+        var Bootstrap;
+        (function(Bootstrap) {
+            function LoadPackage(feedbackPackage, checkPackageLoad, feedbackLinkId) {
+                // checks if $ was defined by jQuery before letting it execute
+                if (typeof Feedback === 'undefined' || typeof jQuery === 'undefined') {
+                    setTimeout(function() {
+                        LoadPackage(feedbackPackage, checkPackageLoad, feedbackLinkId);
+                    }, 50);
                     return;
                 }
+                Feedback.PackageLoad.Load(feedbackPackage, checkPackageLoad, feedbackLinkId);
             }
-            // if we are here, we never found the datasource to copy - logging an error
-            SharedLogHelper.LogError("missingDataSourceException", "couldn't find data source with appNS " + appNS + " and k value " + kValue);
-        }
-        // finds treeToCopy in another IG and logs the copy command to bring it to this IG
-        function LogCopyDataSourceCommandFromDataSource(treeToCopy, destinationImpressionGuid) {
-            LogCopyDataSourceCommand(treeToCopy.K.toString(), treeToCopy.AppNS, destinationImpressionGuid);
-        }
-        // returns true when the parent is found and the child is added, false when the parent was not found
-        function addChildToParentForIG(child, parent, impressionGuid) {
-            var stackOfPotentialParents = [];
-            var dataSourceRoots = dataSources[impressionGuid];
-            for (var currentRoot in dataSourceRoots) {
-                stackOfPotentialParents.push(dataSourceRoots[currentRoot].tree);
-                while (stackOfPotentialParents.length > 0) {
-                    var potentialParentNode = stackOfPotentialParents.pop();
-                    var potentialParentValue = potentialParentNode.GetValue();
-                    if (potentialParentValue.K === parent.K && potentialParentValue.AppNS === parent.AppNS) {
-                        potentialParentNode.AddChild(child);
-                        dataSourceRoots[currentRoot].addKValue(child.K.toString());
-                        return true;
-                    } else {
-                        var nextLevelPotentialParents = potentialParentNode.GetChildren();
-                        for (var k in nextLevelPotentialParents) {
-                            stackOfPotentialParents.push(nextLevelPotentialParents[k]);
-                        }
-                    }
-                }
-            }
-            //we went through all the nodes for this impression guid but never found parent
-            return false;
-        }
 
-        function getDataSourceTreeInArray(current) {
-            var value = current.GetValue();
-            var children = current.GetChildren();
-            if (children.length > 0) {
-                var dataSourceChildren = [];
-                for (var i = 0; i < children.length; i++) {
-                    dataSourceChildren.push(getDataSourceTreeInArray(children[i]));
+            function StartFeedback(scrollToTop, feedbackPackage, checkPackageLoad, feedbackLinkId) {
+                // raise an event to "warn" that the page is entering on "Feedback state"
+                sj_evt.fire("onFeedbackStarting");
+                LoadJQuery();
+                //scrolls to the top where the feedback form is visible
+                scrollToTop = (typeof scrollToTop === 'undefined') ? false : scrollToTop;
+                if (scrollToTop) {
+                    scrollTo(0, 0);
                 }
-                value["DS"] = dataSourceChildren;
+                // checks for flag if package already present on page or not
+                checkPackageLoad = (typeof checkPackageLoad === 'undefined') ? true : checkPackageLoad;
+                LoadPackage(feedbackPackage, checkPackageLoad, feedbackLinkId);
             }
-            return value;
-        }
 
-        function searchTreeForNewDataSources(tree, logCommands) {
-            var children = tree.GetChildren();
-            var treeRootValue = tree.GetValue();
-            for (var i in children) {
-                if (!children[i].IsInstrumented()) {
-                    var item = children[i].GetValue();
-                    var dataSourceChildrenNodes = children[i].GetChildren();
-                    var dataSourceChildrenValues = [];
-                    if (dataSourceChildrenNodes.length > 0) {
-                        for (var currentChildNode in dataSourceChildrenNodes) {
-                            dataSourceChildrenValues.push(getDataSourceTreeInArray(dataSourceChildrenNodes[currentChildNode]));
-                        }
-                        item["DS"] = dataSourceChildrenValues;
-                    }
-                    logCommands.push({
-                        T: "D.MI",
-                        Action: "Append",
-                        AppNS: treeRootValue.AppNS,
-                        K: treeRootValue.K,
-                        DS: [item]
-                    });
-                    markTreeAsInstrumented(children[i]);
-                } else {
-                    searchTreeForNewDataSources(children[i], logCommands);
-                }
-            }
-        }
-
-        function markTreeAsInstrumented(tree) {
-            tree.SetIsInstrumented();
-            var children = tree.GetChildren();
-            for (var i = 0; i < children.length; i++) {
-                markTreeAsInstrumented(children[i]);
-            }
-        }
-
-        function logEnrichedClientInfo(mpi, additionalClientInfo) {
-            var enrichedClientInfo = {
-                MUID: sj_cook.get('MUID', 'MUID')
-            };
-            if (additionalClientInfo) {
-                for (var aci in additionalClientInfo) {
-                    if (additionalClientInfo.hasOwnProperty(aci)) {
-                        enrichedClientInfo[aci] = additionalClientInfo[aci];
-                    }
-                }
-            }
-            mpi.clientUserInfo = enrichedClientInfo;
-            var uxClassification = GetUxClassificationSection();
-            if (uxClassification) {
-                mpi.uxClassification = uxClassification;
-            }
-        }
-
-        function logCommonSignalsFromHeaders(mpi) {
-            if (!requestHeaders) {
-                return;
-            }
-            var enrichedClientInfo = mpi.clientUserInfo;
-            if (!enrichedClientInfo) {
-                enrichedClientInfo = {};
-                mpi.clientUserInfo = enrichedClientInfo;
-            }
-            for (var p in _enrichedClientInfoHeaders) {
-                // Will not override previously set values, because those are provded explicitly by API caller
-                if (_enrichedClientInfoHeaders.hasOwnProperty(p) && !enrichedClientInfo[p]) {
-                    var value = requestHeaders[_enrichedClientInfoHeaders[p]];
-                    if (value) {
-                        enrichedClientInfo[p] = value;
-                    }
-                }
-            }
-            var userInfoOvr = {};
-            for (var p in _userInfoHeaders) {
-                if (_userInfoHeaders.hasOwnProperty(p)) {
-                    var value = requestHeaders[_userInfoHeaders[p]];
-                    if (value) {
-                        userInfoOvr[p] = value;
-                    }
-                }
-            }
-            mpi.userInfoOverrides = userInfoOvr;
-        }
-        // If isUpdating is set to true, the logger will discard empty containers that have been logged already
-        function logLayout(rootElement, isUpdating) {
-            // Make sure to include the root element itself in the search
-            if (rootElement.parentElement) {
-                rootElement = rootElement.parentElement;
-            }
-            var allElements = rootElement.querySelectorAll(_instElemSelector);
-            var count = allElements.length;
-            if (count == 0) {
-                // Nothing to log
-                return [];
-            }
-            // Build a layout tree from elements
-            var layoutObjects = [];
-            for (var i = 0; i < count; i++) {
-                var elementWithChildren = findChildNodes(allElements, i, count, null, isUpdating);
-                if (elementWithChildren) {
-                    i = elementWithChildren.lastProcessedIndex;
-                    layoutObjects.push(elementWithChildren);
-                }
-            }
-            var returnValue;
-            if (!isUpdating) {
-                returnValue = layoutObjects.map(function(elem) {
-                    return elem.layout;
-                });
-            } else {
-                var elementParents = [];
-                for (var layoutObjectIndex in layoutObjects) {
-                    ThresholdUtilities.pushOntoArray(elementParents, findUnloggedElementParents(layoutObjects[layoutObjectIndex]));
-                }
-                returnValue = elementParents.map(mapElementWithChildrenToLayout);
-            }
-            return returnValue;
-        }
-
-        function findUnloggedElementParents(parentElement) {
-            // Walk the tree of elements and find each element that is an immediate parent of something that has not been logged
-            var elementParents = [];
-            var currentAppNs = parentElement.layout.AppNS;
-            for (var i in parentElement.children) {
-                var childElement = parentElement.children[i];
-                if (childElement.isLogged) {
-                    // Populate the namespaces down so all parents we return are properly namespaced
-                    if (!childElement.layout.AppNS) {
-                        childElement.layout.AppNS = currentAppNs;
-                    }
-                    ThresholdUtilities.pushOntoArray(elementParents, findUnloggedElementParents(childElement));
-                } else {
-                    // This is a bit dangerous as it could cause us to try and Update a parent with some children that have been instrumented and some that have not.
-                    // Until we implement MI.Append we won't have any options, though.
-                    elementParents.push(parentElement);
-                    break;
-                }
-            }
-            return elementParents;
-        }
-        // Finds all children of the element at elementIndex and builds a tree from them recursively
-        // Marks all layout region containers as logged
-        function findChildNodes(elements, elementIndex, count, parentAppNs, isUpdating) {
-            var children = [];
-            var currentElem = elements[elementIndex];
-            var isContainer = currentElem.hasAttribute(_isRegionAttr);
-            var isLogged = currentElem.getAttribute(_loggedAttr) === '1';
-            var layoutRecord = createLayoutRecord(currentElem, parentAppNs);
-            var result = {
-                isContainer: isContainer,
-                lastProcessedIndex: elementIndex,
-                layout: layoutRecord,
-                isLogged: isLogged,
-                children: children
-            };
-            currentElem.setAttribute(_loggedAttr, "1");
-            // If it's a link, don't bother looking for nested links/regions
-            if (!result.isContainer) {
-                return result;
-            }
-            var appNs = layoutRecord["AppNS"];
-            var i = elementIndex + 1;
-            for (; i < count; i++) {
-                var elem = elements[i];
-                if (currentElem.contains(elem)) {
-                    var childResult = findChildNodes(elements, i, count, appNs ? appNs : parentAppNs, isUpdating);
-                    if (childResult) {
-                        i = childResult.lastProcessedIndex;
-                        children.push(childResult);
-                    }
-                } else {
-                    break;
-                }
-            }
-            if (children.length > 0) {
-                layoutRecord['L'] = children.map(mapElementWithChildrenToLayout);
-            }
-            result.lastProcessedIndex = i - 1;
-            return result;
-        }
-
-        function mapElementWithChildrenToLayout(element) {
-            return element.layout;
-        }
-
-        function createLayoutRecord(element, parentAppNs, impressionGuid) {
-            var kValue = null;
-            var appNs = null;
-            var isLink = !element.hasAttribute(_isRegionAttr);
-            var h = element.getAttribute(_hValueAttr);
-            if (h) {
-                var namespacedKVal = parseNamespacedKValue(h);
-                if (namespacedKVal) {
-                    kValue = namespacedKVal.K;
-                    appNs = namespacedKVal.AppNS;
-                }
-            }
-            var dataH = element.getAttribute(_hDataValueAttr);
-            if (dataH) {
-                var namespacedKVal = parseNamespacedKValue(dataH);
-                if (namespacedKVal) {
-                    kValue = namespacedKVal.K;
-                    appNs = namespacedKVal.AppNS;
-                }
-            }
-            if (!kValue) {
-                kValue = element.getAttribute(_kValueAttr);
-            }
-            var type = isLink ? _layoutUrlType : _regionType;
-            var rec = {
-                T: type
-            };
-            if (kValue) {
-                // ensure that the k value we are referencing has a datasource to match against in this tree, if not copy it over
-                var kValuePrefix = kValue.split(".", 1)[0];
-                var _impressionGuid = impressionGuid ? impressionGuid : _G.IG;
-                var kValueFound = false;
-                for (var rootIndex in dataSources[_impressionGuid]) {
-                    if (dataSources[_impressionGuid][rootIndex].kValueExists(kValuePrefix)) {
-                        kValueFound = true;
-                        break;
-                    }
-                }
-                if (!kValueFound && InstrumentationConfig.CopyDataCommand) {
-                    LogCopyDataSourceCommand(kValuePrefix.toString(), appNs, _impressionGuid);
-                }
-                rec["K"] = kValue;
-            }
-            if (appNs && appNs != parentAppNs) {
-                rec["AppNS"] = appNs;
-            } else if (!appNs && !parentAppNs) {
-                rec["AppNS"] = _defaultAppNs;
-            }
-            if (!isLink) {
-                if (element.hasAttribute(_regionAttr)) {
-                    rec["Region"] = element.getAttribute(_regionAttr);
-                }
-                if (element.hasAttribute(_roleAttr)) {
-                    rec["Role"] = element.getAttribute(_roleAttr);
-                }
-                if (element.hasAttribute(_insertionPointAttr)) {
-                    rec = {
-                        T: _regionType,
-                        InsertId: element.getAttribute(_insertionPointAttr)
-                    };
-                }
-            }
-            return rec;
-        }
-        var _kValueRegex = /ID=(\w+),(\d+(?:\.\d+)*)/i;
-
-        function parseNamespacedKValue(h) {
-            if (!h)
-                return null;
-            var r = _kValueRegex.exec(h);
-            return r && r.length == 3 ? {
-                AppNS: r[1],
-                K: r[2]
-            } : null;
-        }
-    })(Instrumentation || (Instrumentation = {}));
-    _w['ThresholdInst'] = Instrumentation;; ///<reference path="..\..\..\..\Shared\Content\Content\Script\Declarations\Shared.d.ts" />
-    ///<reference path="..\..\..\..\Threshold\Src\Content\Script\Declarations\Instrumentation.d.ts" />
-    ///<reference path="Declarations\WindowsFeedbackProtocol.d.ts" />
-    ///<reference path="Core.ts" />
-    /*
-     * This module contains the protocol functions that are used to communicate with the feedback backend.
-     * Due to the large amount of data sent back (e.g. current HTML), the requests need to be split in chunks.
-     * Frontdoor v1 has a POST request limitation set to 200K. Once v2 is everywhere we can stop using chunks.
-     */
-    var WindowsFeedback;
-    (function(WindowsFeedback) {
-        "use strict";
-        var Protocol = (function() {
-            function Protocol() {
-                this.maxSizeBytes = 3500000;
-                this.feedbackUploadUrl = "/customerfeedback/queue/full/windows";
-                this.maxSendTries = 3;
-                this.requestTimeout = 10000;
-            }
-            Protocol.prototype.Send = function(obj, customDebugId, onSuccessCallback, onErrorCallback) {
-                if (customDebugId === void 0) {
-                    customDebugId = undefined;
-                }
-                if (onSuccessCallback === void 0) {
-                    onSuccessCallback = undefined;
-                }
-                if (onErrorCallback === void 0) {
-                    onErrorCallback = undefined;
-                }
-                var debugId = (typeof customDebugId === "undefined") ? Feedback.Core.GenerateString(8) : customDebugId;
-                return this.SendAttempt(obj, debugId, 1, onSuccessCallback, onErrorCallback);
-            };
-            Protocol.prototype.SendAttempt = function(obj, debugId, attemptCount, onSuccessCallback, onErrorCallback) {
-                var request = sj_gx();
-                request.open("POST", this.AppendParameter(this.feedbackUploadUrl, "debugid", debugId), true); // true means asynchronous
-                request.timeout = this.requestTimeout;
-                request.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
-                request.onreadystatechange = (function() {
-                    if (request.readyState == request.DONE) {
-                        if (request.status == 204) {
-                            // We have successfully sent the payload
-                            this.OnSendSuccess(obj, debugId, onSuccessCallback);
-                        } else {
-                            if (attemptCount >= this.maxSendTries) {
-                                this.OnOnlineSendFailure(obj, debugId, onSuccessCallback); // We have retried too many times, it's time to switch to offline mode
+            function InitializeFeedback(feedbackPackage, feedbackLinkId, checkPackageLoad, scrollToTop, disableFeedbackLink, appendFormAfterLink, startOnLoad) {
+                var element = _ge(feedbackLinkId);
+                disableFeedbackLink = (typeof disableFeedbackLink === 'undefined') ? false : disableFeedbackLink;
+                if (element !== null) {
+                    sj_be(element, 'click', function(e) {
+                        // disables feedback link after one click
+                        if (disableFeedbackLink && element.classList) {
+                            if (element.classList.contains('clicked')) {
+                                return false;
                             } else {
-                                if (typeof _G !== "undefined" && _G.IG) {
-                                    Log2.LogEvent("ClientInst", {
-                                        error: "Will need to retry sending the payload because not all of them reached the live bing.com servers"
-                                    }, "Feedback.Error", null, null, _G.IG);
-                                } else {
-                                    Log2.LogEvent("ClientInst", {
-                                        error: "_G.IG was not available when we wanted to log that we will resend the payload"
-                                    }, "Feedback.Error");
-                                }
-                                // Try resending the payload as it has failed to upload
-                                this.SendAttempt(obj, debugId, ++attemptCount, onSuccessCallback, onErrorCallback);
+                                element.classList.add('clicked');
                             }
                         }
-                    }
-                }).bind(this);
-                request.send(JSON.stringify(obj));
-            };
-            Protocol.prototype.OnSendSuccess = function(obj, debugId, onSuccessCallback) {
-                if (onSuccessCallback === void 0) {
-                    onSuccessCallback = undefined;
-                }
-                delete obj["html"]; // Delete the HTML from the object because it would be too big to store using ClientInst instrumentation
-                if (typeof _G !== "undefined" && _G.IG) {
-                    // Store online feedback item in SML using ClientInst - based on discussion with Cheng Bai
-                    Log2.LogEvent("ClientInst", JSON.stringify(obj), "Feedback.Online", null, null, _G.IG);
-                } else {
-                    Log2.LogEvent("ClientInst", {
-                        error: "_G.IG was not available when submitting feedback online"
-                    }, "Feedback.Error");
-                }
-                if (typeof onSuccessCallback !== "undefined") {
-                    onSuccessCallback(debugId);
-                }
-            };
-            Protocol.prototype.OnOnlineSendFailure = function(obj, debugId, onErrorCallback) {
-                if (onErrorCallback === void 0) {
-                    onErrorCallback = undefined;
-                }
-                // We have failed too many times, need to switch to offline storage
-                delete obj["html"]; // Delete the HTML from the object because it would be too big to store using ClientInst instrumentation
-                if (typeof _G !== "undefined" && _G.IG) {
-                    // Store offline feedback item in SML using ClientInst - based on discussion with Cheng Bai
-                    Log2.LogEvent("ClientInst", JSON.stringify(obj), "Feedback.Offline", null, null, _G.IG);
-                } else {
-                    Log2.LogEvent("ClientInst", {
-                        error: "_G.IG was not available when submitting feedback offline"
-                    }, "Feedback.Error");
-                }
-                if (typeof onErrorCallback !== "undefined") {
-                    onErrorCallback(debugId);
-                }
-            };
-            Protocol.prototype.AppendParameter = function(url, name, value) {
-                return url + (url.indexOf("?") >= 0 ? "&" : "?") + name + "=" + encodeURIComponent(value);
-            };
-            return Protocol;
-        })();
-        // Protocol singleton
-        _w["WindowsFeedbackProtocol"] = new Protocol();
-    })(WindowsFeedback || (WindowsFeedback = {}));; ///<reference path="..\Declarations\DOMCopyManipulator\NodeManipulator.d.ts" />
-    var Microsoft;
-    (function(Microsoft) {
-        var Search;
-        (function(Search) {
-            "use strict";
-            var InlineImagesManipulator = (function() {
-                function InlineImagesManipulator(documentFragment) {
-                    this.base64ImageBlobs = this.GetImageBlobsAsBase64(documentFragment);
-                }
-                InlineImagesManipulator.prototype.Manipulate = function(node) {
-                    if (node instanceof HTMLImageElement) {
-                        var image = node;
-                        if (image.src && this.base64ImageBlobs[image.src]) {
-                            image.src = this.base64ImageBlobs[image.src];
-                        }
-                    }
-                };
-                InlineImagesManipulator.prototype.GetImageBlobsAsBase64 = function(documentFragment) {
-                    var images = documentFragment.querySelectorAll("img[src^='blob:']"),
-                        result = {},
-                        image, canvas, context, base64, i;
-                    for (i = 0; i < images.length; i++) {
-                        image = images[i];
-                        // paints the image which contains the blob to a canvas
-                        canvas = document.createElement("canvas");
-                        // images rendered inline have 0 clientWidth and clientHeight, but width and height work as expected
-                        canvas.width = image.width;
-                        canvas.height = image.height;
-                        context = canvas.getContext("2d");
-                        context.drawImage(image, 0, 0);
-                        base64 = canvas.toDataURL();
-                        result[image.src] = base64;
-                    }
-                    return result;
-                };
-                return InlineImagesManipulator;
-            })();
-            Search.InlineImagesManipulator = InlineImagesManipulator;
-        })(Search = Microsoft.Search || (Microsoft.Search = {}));
-    })(Microsoft || (Microsoft = {}));;
-    var Microsoft;
-    (function(Microsoft) {
-        var Search;
-        (function(Search) {
-            "use strict";
-            var DOMCopyManipulator = (function() {
-                function DOMCopyManipulator(root) {
-                    this.DocumentFragment = document.createDocumentFragment();
-                    this.DocumentFragment.appendChild(root.cloneNode(true));
-                }
-                DOMCopyManipulator.prototype.ManipulateElementsBySelector = function(selector, nodeManipulators) {
-                    if (!nodeManipulators) {
-                        return;
-                    }
-                    var elements = this.DocumentFragment.querySelectorAll(selector);
-                    for (var i = 0, len = elements.length; i < len; i++) {
-                        var element = elements[i];
-                        for (var j = 0; j < nodeManipulators.length; j++) {
-                            var nodeManipulator = nodeManipulators[j];
-                            if (typeof element !== "undefined") {
-                                nodeManipulator.Manipulate(element);
-                            }
-                        }
-                    }
-                };
-                DOMCopyManipulator.prototype.DeleteElementsBySelector = function(selector) {
-                    var node;
-                    while (node = this.DocumentFragment.querySelector(selector)) {
-                        if (node) {
-                            node.parentNode.removeChild(node);
-                        }
-                    }
-                };
-                DOMCopyManipulator.prototype.SerializeToHtml = function() {
-                    return this.DocumentFragment.firstChild.outerHTML;
-                };
-                return DOMCopyManipulator;
-            })();
-            Search.DOMCopyManipulator = DOMCopyManipulator;
-        })(Search = Microsoft.Search || (Microsoft.Search = {}));
-    })(Microsoft || (Microsoft = {}));;
-    var Feedback;
-    (function(Feedback) {
-        "use strict";
-        var FeedbackFile = (function() {
-            function FeedbackFile(fileName, contentType) {
-                this.fileName = fileName;
-                this.contentType = contentType;
-            }
-            return FeedbackFile;
-        })();
-        Feedback.FeedbackFile = FeedbackFile;
-    })(Feedback || (Feedback = {}));; ///<reference path="..\..\..\..\Shared\Content\Content\Script\Declarations\Shared.d.ts" />
-    ///<reference path="..\..\..\..\Shared\Content\Content\Script\Declarations\Promise.d.ts" />
-    ///<reference path="..\..\..\..\Shared\Content\Content\Script\Declarations\Threshold.Utilities.d.ts" />
-    ///<reference path="..\..\..\..\Threshold\Src\Content\Script\Declarations\Instrumentation.d.ts" />
-    ///<reference path="..\..\..\..\Threshold\Src\Content\Script\Declarations\SearchAppWrapper.d.ts" />
-    ///<reference path="..\..\..\..\Threshold\Src\Content\Script\Declarations\CortanaSearch.d.ts" />
-    ///<reference path="..\..\..\..\Threshold\Src\Content\Script\Declarations\CortanaUtilities.d.ts" />
-    ///<reference path="..\..\..\..\Threshold\Src\Content\Script\Declarations\CortanaEnums.d.ts" />
-    ///<reference path="..\..\..\..\..\..\Serp\AppResources\Scripts\snr\LocStringManager.d.ts"/>
-    ///<reference path="Declarations\PageDebug.d.ts" />
-    ///<reference path="Declarations\WindowsFeedbackForm.d.ts" />
-    ///<reference path="DOMCopyManipulator\DOMCopyManipulator.ts" />
-    ///<reference path="WindowsFeedbackProtocol.ts" />
-    ///<reference path="Core.ts" />
-    ///<reference path="FeedbackFile.ts" />
-    var WindowsFeedback;
-    (function(WindowsFeedback) {
-        var FeedbackFile = Feedback.FeedbackFile;
-        "use strict";
-        var Form = (function() {
-            function Form() {
-                this.feedbackContainerId = "fdbkcontainer"; // Feedback container div
-                this.feedbackFormId = "fdbkfrm"; // Feedback form
-                this.privacyLinkId = "fdbkpplink"; // Feedback privacy link
-                this.learnMoreLinkId = "fdbklmlink"; // Feedback privacy link
-                this.verbatimId = "fdbkverbatim"; // id needed for resetting form
-                this.privacyPolicyUrl = "http://go.microsoft.com/fwlink/?LinkId=248686";
-                this.learnMoreLinkUrl = "http://go.microsoft.com/fwlink/?LinkID=618051";
-                this.internalCheckUrl = "/feedback/internal";
-                this.internalCheckRequestTimeout = 2000;
-                this.localStorage = Feedback.Core.FetchLocalStorage();
-            }
-            Form.prototype.GetFeedbackFile = function(index, file) {
-                try {
-                    file.getBase64ContentAsync().done(function(content) {
-                        var toUpload = new FeedbackFile(file.fileName, file.contentType);
-                        toUpload.base64Content = content;
-                        feedbackFiles[index] = toUpload;
+                        // prevents default click action
+                        sj_pd(e);
+                        // stop propagation (example - needed to capture AS feedback)
+                        sj_sp(e);
+                        StartFeedback(scrollToTop, feedbackPackage, checkPackageLoad, feedbackLinkId);
                     });
-                } catch (e) {
-                    Log2.LogEvent("ClientInst", {
-                        source: "GetFeedbackFile",
-                        type: "FeedbackFileFetchSingleError",
-                        error: "GetFeedbackFile: Could not get feedback file content"
-                    }, "Feedback.Error", null, null, _G.IG);
-                }
-            };
-            Form.prototype.GetFeedbackFiles = function() {
-                var self = this;
-                try {
-                    if (typeof CortanaApp !== "undefined" && CortanaApp.getFeedbackFilesAsync) {
-                        CortanaApp.getFeedbackFilesAsync().done(function(returnedFiles) {
-                            if (typeof returnedFiles === "undefined" || returnedFiles === null) {
-                                return;
-                            }
-                            feedbackFiles = new Array(returnedFiles.size);
-                            for (var i = 0; i < returnedFiles.size; i++) {
-                                var file = returnedFiles[i];
-                                self.GetFeedbackFile(i, file);
-                            }
+                    if (typeof CortanaApp !== "undefined" && CortanaApp.addEventListener) {
+                        CortanaApp.addEventListener("feedbackformrequested", function() {
+                            element.click();
                         });
                     }
-                } catch (e) {
-                    Log2.LogEvent("ClientInst", {
-                        source: "GetFeedbackFiles",
-                        type: "FeedbackFileFetchAllError",
-                        error: "Could not get feedback files"
-                    }, "Feedback.Error", null, null, _G.IG);
-                }
-            };
-            Form.prototype.Show = function() {
-                var feedbackForm = _ge(this.feedbackContainerId);
-                if (feedbackForm === null) {
-                    this.CreateShowForm();
                 } else {
-                    this.ResetShowForm();
-                }
-                this.GetFeedbackFiles();
-                sj_evt.fire("ajax.WindowsFeedback.Form.Shown");
-            };
-            Form.prototype.Hide = function() {
-                var feedbackForm = _ge(this.feedbackContainerId);
-                if (feedbackForm) {
-                    feedbackForm.style.display = "none";
-                }
-                if (typeof SearchAppWrapper !== "undefined" && SearchAppWrapper.CortanaApp) {
-                    if (SearchAppWrapper.CortanaApp.closeFeedbackPage) {
-                        SearchAppWrapper.CortanaApp.closeFeedbackPage();
+                    startOnLoad = (typeof startOnLoad === 'undefined') ? false : startOnLoad;
+                    if (startOnLoad) {
+                        StartFeedback(scrollToTop, feedbackPackage, checkPackageLoad, feedbackLinkId);
                     }
                 }
-            };
-            Form.prototype.CreateShowForm = function() {
-                // Create
-                var feedbackForm = sj_ce("form", this.feedbackFormId);
-                var formTitle = this.AddText(feedbackForm, "h1", this.GetLocString("WINDOWS_TITLE_TEXT"));
-                // Suggest, Like, Dislike radio buttons
-                var radioButtons = sj_ce("div");
-                var suggestRadioButton = this.AddLabeledInput(radioButtons, "radio", this.GetLocString("DIALOG_COMMENT_TYPE4"), "type", true, "1");
-                var likeRadioButton = this.AddLabeledInput(radioButtons, "radio", this.GetLocString("DIALOG_COMMENT_TYPE5"), "type", false, "2");
-                var dislikeRadioButton = this.AddLabeledInput(radioButtons, "radio", this.GetLocString("DIALOG_COMMENT_TYPE6"), "type", false, "3");
-                feedbackForm.appendChild(radioButtons);
-                var verbatimTextArea = this.AddTextArea(feedbackForm, this.verbatimId, this.GetLocString("DIALOG_COMMENT_TEXT"), true);
-                var includeScreenshotCheckbox = this.AddLabeledInput(feedbackForm, "checkbox", this.GetLocString("DIALOG_INCLUDE_SCREENSHOT"), "screenshot", true, undefined, "fdbkss");
-                // Check if we need to show the internal (CorpNet-only) portion of the form, which asks the user for their Microsoft alias
-                var internalAliasDiv = sj_ce("div", "fdbkinternal", "inputwrapper");
-                feedbackForm.appendChild(internalAliasDiv);
-                this.CheckInternal(internalAliasDiv);
-                var privacyLink = this.AddLink(feedbackForm, this.privacyLinkId, this.privacyPolicyUrl, this.GetLocString("PRIVACY_STATEMENT_LINK_TEXT"));
-                var learnMoreLink = this.AddLink(feedbackForm, this.learnMoreLinkId, this.learnMoreLinkUrl, this.GetLocString("LEARN_MORE_LINK_TEXT"));
-                var actionButtons = sj_ce("div");
-                actionButtons.className = "fdbkactionbtns";
-                var submitButton = this.AddButton(actionButtons, "submit", this.GetLocString("DIALOG_SUBMIT_BUTTON_TEXT"));
-                var closeButton = this.AddButton(actionButtons, "button", this.GetLocString("DIALOG_CANCEL_BUTTON_TEXT"));
-                sj_be(closeButton, "click", this.OnCloseForm.bind(this));
-                feedbackForm.appendChild(actionButtons);
-                // Add form to container and container to page
-                var feedbackContainer = sj_ce("div", this.feedbackContainerId);
-                sj_be(feedbackContainer, "submit", this.OnSubmitForm.bind(this)); // Add form submit event - runs when user presses Send
-                feedbackContainer.appendChild(feedbackForm);
-                _d.body.appendChild(feedbackContainer);
-                if (typeof TestHooksEnabled !== "undefined" && TestHooksEnabled === true) {
-                    feedbackForm.setAttribute("data-tag", "WindowsFeedback.Form");
-                    formTitle.setAttribute("data-tag", "WindowsFeedback.FormTitle");
-                    suggestRadioButton.setAttribute("data-tag", "WindowsFeedback.SuggestRadioButton");
-                    likeRadioButton.setAttribute("data-tag", "WindowsFeedback.LikeRadioButton");
-                    dislikeRadioButton.setAttribute("data-tag", "WindowsFeedback.DislikeRadioButton");
-                    verbatimTextArea.setAttribute("data-tag", "WindowsFeedback.VerbatimTextArea");
-                    includeScreenshotCheckbox.setAttribute("data-tag", "WindowsFeedback.IncludeScreenshotCheckbox");
-                    privacyLink.setAttribute("data-tag", "WindowsFeedback.PrivacyLink");
-                    learnMoreLink.setAttribute("data-tag", "WindowsFeedback.LearnMoreLink");
-                    submitButton.setAttribute("data-tag", "WindowsFeedback.SubmitButton");
-                    closeButton.setAttribute("data-tag", "WindowsFeedback.CloseButton");
-                    feedbackContainer.setAttribute("data-tag", "WindowsFeedback.FeedbackContainer");
-                }
-                return feedbackForm;
-            };
-            Form.prototype.CheckInternal = function(internalAliasDiv) {
-                var request = sj_gx();
-                request.open("HEAD", this.internalCheckUrl, true); // true means asynchronous
-                request.timeout = this.internalCheckRequestTimeout;
-                request.onreadystatechange = (function() {
-                    if (request.readyState === request.DONE) {
-                        if (request.status === 204) {
-                            this.AddInternalFormElements(internalAliasDiv);
+            }
+            Bootstrap.InitializeFeedback = InitializeFeedback;
+        })(Bootstrap = Feedback.Bootstrap || (Feedback.Bootstrap = {}));
+    })(Feedback || (Feedback = {}));; ///<reference path="..\..\..\..\Shared\Content\Content\Script\Declarations\Shared.d.ts" />
+    ///<reference path="..\..\..\..\Shared\Content\Content\Script\Declarations\jquery.d.ts" />
+    var Feedback;
+    (function(Feedback) {
+        var PackageLoad;
+        (function(PackageLoad) {
+            'use strict';
+            var cache = {};
+            PackageLoad.originalHTML = GetHTML();
+
+            function GetHTML() {
+                return _d.documentElement.outerHTML;
+            }
+            PackageLoad.GetHTML = GetHTML;
+            // This call needs to be made from the bootstrap JS
+            // Set checkPackageLoad to false for Cortana to make sure you load the package every time the call is made
+            function Load(packages, checkPackageLoad, feedbackLinkId) {
+                var id;
+                checkPackageLoad = (typeof checkPackageLoad === "undefined") ? true : checkPackageLoad;
+                feedbackLinkId = (typeof feedbackLinkId === "undefined") ? '' : feedbackLinkId;
+                for (id in packages) {
+                    if (checkPackageLoad) {
+                        // checks if package was previously loaded
+                        if (packages.hasOwnProperty(id) && typeof cache[id] === 'undefined') {
+                            LoadPkg(id, feedbackLinkId);
                         }
-                    }
-                }).bind(this);
-                request.send();
-            };
-            Form.prototype.AddInternalFormElements = function(internalAliasDiv) {
-                // Make the verbatim smaller so we can fit in the internal (CorpNet-only) form elements
-                var form = _ge(this.feedbackFormId),
-                    verbatim = _ge(this.verbatimId),
-                    privacyLink = _ge(this.privacyLinkId),
-                    learnMoreLink = _ge(this.learnMoreLinkId),
-                    screenshotCheckbox = form.elements["screenshot"],
-                    alias = this.GetAlias(); // User alias saved in localStorage in the past
-                verbatim.classList.add("smallverbatim");
-                if (privacyLink) {
-                    privacyLink.parentNode.removeChild(privacyLink); // Remove the Privacy Link to make space for the internal form elements
-                }
-                if (learnMoreLink) {
-                    learnMoreLink.parentNode.removeChild(learnMoreLink); // Remove the Privacy Link to make space for the internal form elements
-                }
-                if (screenshotCheckbox) {
-                    var screenshotCheckboxLabel = screenshotCheckbox.parentNode;
-                    var screenshotCheckboxDiv = screenshotCheckboxLabel.parentNode;
-                    screenshotCheckboxDiv.parentNode.removeChild(screenshotCheckboxDiv); // Remove the include screenshot checkbox to make space for the internal form elements
-                }
-                var microsoftInternal = this.AddText(internalAliasDiv, "div", this.GetLocString("DIALOG_MSFT_INTERNAL"), "medium"); // Microsoft internal
-                var sendMailLabel = this.GetLocString("DIALOG_SEND_EMAIL_LABEL").replace("{0}", "Bing") + " " + this.GetLocString("DIALOG_ALIAS_LABEL"); // "Send email to the Bing team and cc me at" label
-                var sendMailCheckbox = this.AddLabeledInput(internalAliasDiv, "checkbox", sendMailLabel, "sendmail", true, undefined, null, null, "medium");
-                var input = sj_ce("input");
-                input.type = "text";
-                input.name = "alias";
-                input.required = true;
-                if (alias != null) {
-                    input.value = alias;
-                }
-                input.placeholder = this.GetLocString("DIALOG_ALIAS_TEXT");
-                internalAliasDiv.appendChild(input);
-            };
-            Form.prototype.AddLabeledInput = function(targetElement, type, labelText, name, checked, value, wrapperClass, inputClass, labelClass, labelId) {
-                if (name === void 0) {
-                    name = undefined;
-                }
-                if (checked === void 0) {
-                    checked = undefined;
-                }
-                if (value === void 0) {
-                    value = undefined;
-                }
-                if (wrapperClass === void 0) {
-                    wrapperClass = "inputwrapper";
-                }
-                if (inputClass === void 0) {
-                    inputClass = null;
-                }
-                if (labelClass === void 0) {
-                    labelClass = null;
-                }
-                if (labelId === void 0) {
-                    labelId = null;
-                }
-                var wrapper = sj_ce("div", null, wrapperClass);
-                var input = sj_ce("input", labelId, inputClass);
-                input.type = type;
-                if (checked === true) {
-                    input.checked = true;
-                }
-                if (typeof name == "string") {
-                    input.name = name;
-                }
-                if (typeof value == "string") {
-                    input.value = value;
-                }
-                var label = sj_ce("label", null, labelClass);
-                label.appendChild(input); // Append input inside label because we stopped using ids for each radio button
-                label.appendChild(_d.createTextNode(labelText)); // Add the text of the label only after the actual radio button
-                wrapper.appendChild(label);
-                targetElement.appendChild(wrapper);
-                return input;
-            };
-            Form.prototype.AddLink = function(targetElement, id, url, anchorText) {
-                var link = sj_ce("a", id);
-                link.href = url;
-                link.target = "_blank";
-                link.innerText = anchorText;
-                targetElement.appendChild(link);
-                return link;
-            };
-            Form.prototype.AddTextArea = function(targetElement, id, placeholder, required) {
-                if (required === void 0) {
-                    required = true;
-                }
-                var area = sj_ce("textarea", id);
-                area.placeholder = placeholder;
-                area.required = true;
-                targetElement.appendChild(area);
-                return area;
-            };
-            Form.prototype.AddText = function(targetElement, tagType, text, className) {
-                var textTag = sj_ce(tagType);
-                textTag.innerText = text;
-                if (typeof className !== "undefined") {
-                    textTag.className = className;
-                }
-                targetElement.appendChild(textTag);
-                return textTag;
-            };
-            Form.prototype.AddButton = function(targetElement, buttonType, labelText) {
-                var button = sj_ce("input");
-                button.type = buttonType;
-                button.value = labelText;
-                targetElement.appendChild(button);
-                return button;
-            };
-            Form.prototype.OnSubmitForm = function(event) {
-                // prevents default click action
-                event.preventDefault();
-                if (typeof _w["PageDebug"] === "undefined") {
-                    _w["PageDebug"] = {};
-                }
-                var feedback = {
-                    url: location.href,
-                    width: _w.innerWidth,
-                    height: _w.innerHeight,
-                    source: (typeof _w["PageDebug"]["source"] === "undefined") ? "windows" : _w["PageDebug"]["source"],
-                    send_mail: true
-                };
-                // Internal CorpNet-only
-                var sendMail = this.GetFormValue("sendmail", "checked"); // Returns null if sendmail checkbox does not exist at all; Returns boolean if it exists.
-                if (sendMail !== null) {
-                    feedback.send_mail = sendMail;
-                }
-                // Internal CorpNet-only
-                var alias = this.GetFormValue("alias", "value");
-                if (alias) {
-                    feedback["alias"] = alias;
-                    this.SetAlias(alias);
-                }
-                // If the screenshot checkbox does not exist at all on the form assume it's set to true (when the user is internal we do not even show the checkbox)
-                // Or if it's on the form and it's checked
-                if (!this.FormElementExists("screenshot") || this.GetFormValue("screenshot", "checked")) {
-                    var manipulator = new Microsoft.Search.DOMCopyManipulator(_d.documentElement);
-                    manipulator.DeleteElementsBySelector("script"); // Remove all script tags
-                    manipulator.DeleteElementsBySelector("#aRmsDefer"); // Remove element with id = "aRmsDefer". The JS version of RMS hides a bunch of JS in there.
-                    manipulator.ManipulateElementsBySelector("img", [new Microsoft.Search.InlineImagesManipulator(manipulator.DocumentFragment)]); // Inline images as base64 blobs
-                    feedback["html"] = manipulator.SerializeToHtml();
-                    if (typeof feedbackFiles !== 'undefined' && feedbackFiles.length > 0) {
-                        // Verify that all of the feedback file contents have been returned
-                        var numberOfEmptyFiles = 0;
-                        var cleanedArray = new Array();
-                        for (var j = 0; j < feedbackFiles.length; j++) {
-                            if (typeof feedbackFiles[j] === 'undefined') {
-                                numberOfEmptyFiles++;
-                            } else {
-                                cleanedArray.push(feedbackFiles[j]);
-                            }
-                        }
-                        if (numberOfEmptyFiles > 0) {
-                            Log2.LogEvent("ClientInst", {
-                                source: "OnSubmitForm",
-                                type: "FeedbackFileTimeoutError",
-                                error: numberOfEmptyFiles + " feedback files not returned in time for feedback submit."
-                            }, "Feedback.Error", null, null, _G.IG);
-                        }
-                        if (cleanedArray.length > 0) {
-                            feedback["feedbackFiles"] = cleanedArray;
-                        }
+                    } else {
+                        LoadPkg(id, feedbackLinkId);
                     }
                 }
-                if (typeof _G !== "undefined") {
-                    if (_G.IG) {
-                        feedback["impression_guid"] = _G.IG;
-                    }
-                    if (_G.ST) {
-                        feedback["timeStamp"] = Feedback.Core.GetISODate(_G.ST);
-                    }
-                    if (_G.V) {
-                        feedback["vertical"] = _G.V;
-                    } else if (_G.P) {
-                        feedback["vertical"] = _G.P;
-                    }
+            }
+            PackageLoad.Load = Load;
+            // Loads the feedback package
+            function LoadPkg(id, feedbackLinkId) {
+                var request, ig = _G.IG,
+                    partner = (typeof _G.V === 'undefined') ? _G.P : _G.V,
+                    root = '/feedback/',
+                    url, matchResult;
+                // 'url' looks like '/feedback/page?ig=abc&p=serp'
+                url = root + id + '?ig=' + ig + '&p=' + partner;
+                // see if an iid has been defined for the package we're making the request for; if so, add it to the URL
+                if (typeof fbpkgiid !== 'undefined' && typeof fbpkgiid[id] !== 'undefined') {
+                    url += '&iid=' + fbpkgiid[id];
                 }
-                var query = this.DetermineQuery();
-                if (query) {
-                    feedback["query"] = query;
+                // add testhooks if present
+                if ((matchResult = location.href.match(/[?&]testhooks=[^?&#]*/i)) && matchResult[0]) {
+                    url += "&" + matchResult[0].substring(1);
                 }
-                if (typeof _w["PageDebug"] !== "undefined") {
-                    for (var i in _w["PageDebug"]) {
-                        feedback[i] = _w["PageDebug"][i];
-                    }
-                    if (_w["PageDebug"]["canvas"] !== "undefined") {
-                        feedback["vertical"] = _w["PageDebug"]["canvas"]; // Set vertical to canvas, if canvas set
-                    }
+                // add Cortana hooks if present
+                if ((matchResult = location.href.match(/[?&]hoseassistant=[^?&#]*/i)) && matchResult[0]) {
+                    url += "&" + matchResult[0].substring(1);
                 }
-                var comment = this.GetFormValue(this.verbatimId, "value");
-                if (typeof comment == "string") {
-                    feedback["text"] = comment;
+                if ((matchResult = location.href.match(/[?&]hose=[^?&#]*/i)) && matchResult[0]) {
+                    url += "&" + matchResult[0].substring(1);
                 }
-                feedback["type"] = this.DetermineFeedbackType();
-                if (_w["WindowsFeedbackProtocol"]) {
-                    WindowsFeedbackProtocol.Send(feedback);
+                if ((matchResult = location.href.match(/[?&]theme=[^?&#]*/i)) && matchResult[0]) {
+                    url += "&" + matchResult[0].substring(1);
                 }
-                this.Hide();
-                if (typeof _G !== "undefined" && _G.IG) {
-                    // Instrumentation for click on Submit button - based on discussion with Cheng Bai
-                    Log2.LogEvent("ClientInst", {
-                        target: "Submit"
-                    }, "Feedback.Click", null, null, _G.IG);
+                // add client hooks if present
+                if ((matchResult = location.href.match(/[?&]client=[^?&#]*/i)) && matchResult[0]) {
+                    url += "&" + matchResult[0].substring(1);
+                }
+                if ((matchResult = location.href.match(/[?&]clientversion=[^?&#]*/i)) && matchResult[0]) {
+                    url += "&" + matchResult[0].substring(1);
+                }
+                // add fb link id if present
+                if (typeof feedbackLinkId !== 'undefined' && feedbackLinkId !== '') {
+                    url += '&fid=' + encodeURIComponent(feedbackLinkId);
+                }
+                if (!shouldUseSharedAjax()) {
+                    $.ajax({
+                        url: url,
+                        success: AppendResponse
+                    });
                 } else {
-                    Log2.LogEvent("ClientInst", {
-                        type: "ImpressionSubmitError",
-                        error: "_G.IG was not available when clicking on Submit button"
-                    }, "Feedback.Error");
+                    request = Create("GET", url, true);
+                    request.onreadystatechange = function() {
+                        return ProcessResponse(request);
+                    };
+                    request.send();
                 }
-            };
-            Form.prototype.DetermineQuery = function() {
-                var query;
-                if (typeof ThresholdUtilities !== "undefined") {
-                    query = ThresholdUtilities.getDecodedQuery();
-                    if (typeof query == "string") {
-                        return query;
+                cache[id] = true;
+            }
+
+            function ProcessResponse(request) {
+                _ge('sb_feedback').removeAttribute('clicked');
+                if (request.readyState == 4 && request.status == 200) {
+                    AppendResponse(request.response);
+                }
+            }
+
+            function AppendResponse(response) {
+                $('body').append(response);
+            }
+
+            function shouldUseSharedAjax() {
+                var metas = _d.getElementsByTagName("meta");
+                for (var i = 0; i < metas.length; i++) {
+                    if (metas[i].name === "bing-headers") {
+                        return true;
                     }
-                }
-                if (typeof CortanaApp !== "undefined" && CortanaApp.searchBox && CortanaApp.searchBox.getQueryText) {
-                    return CortanaApp.searchBox.getQueryText().queryText;
-                }
-                return null;
-            };
-            Form.prototype.OnCloseForm = function(event) {
-                // prevents default click action
-                event.preventDefault();
-                this.Hide();
-                if (typeof _G !== "undefined" && _G.IG) {
-                    // Instrumentation for click on Cancel - based on discussion with Cheng Bai
-                    Log2.LogEvent("ClientInst", {
-                        target: "Cancel"
-                    }, "Feedback.Click", null, null, _G.IG);
-                } else {
-                    Log2.LogEvent("ClientInst", {
-                        type: "ImpressionCloseError",
-                        error: "_G.IG was not available when clicking on Cancel button"
-                    }, "Feedback.Error");
-                }
-            };
-            Form.prototype.DetermineFeedbackType = function() {
-                var form = _ge(this.feedbackFormId),
-                    radioButtons = form.elements["type"],
-                    type = 1;
-                for (var i = 0, len = radioButtons.length; i < len; i++) {
-                    if (radioButtons[i].checked) {
-                        type = +radioButtons[i].value; // + converts the string to number
-                        break;
-                    }
-                }
-                return type;
-            };
-            Form.prototype.GetFormValue = function(elementName, propertyName) {
-                var form = _ge(this.feedbackFormId),
-                    input = form.elements[elementName];
-                if (input) {
-                    return input[propertyName];
-                }
-                return null;
-            };
-            Form.prototype.FormElementExists = function(elementName) {
-                var form = _ge(this.feedbackFormId),
-                    input = form.elements[elementName];
-                if (input) {
-                    return true;
                 }
                 return false;
-            };
-            Form.prototype.ResetShowForm = function() {
-                var form = _ge(this.feedbackFormId),
-                    radioButtons = form.elements["type"],
-                    screenshotCheckbox = form.elements["screenshot"],
-                    sendmailCheckbox = form.elements["sendmail"],
-                    aliasField = form.elements["alias"],
-                    storedAlias = this.GetAlias();
-                form.reset(); // Reset form validation
-                for (var i = 0, len = radioButtons.length; i < len; i++) {
-                    if (i == 0) {
-                        radioButtons[i].checked = true;
-                    } else {
-                        radioButtons[i].checked = false;
-                    }
-                }
-                if (screenshotCheckbox) {
-                    screenshotCheckbox.checked = true;
-                }
-                if (sendmailCheckbox) {
-                    sendmailCheckbox.checked = true;
-                }
-                if (aliasField && storedAlias) {
-                    aliasField.value = storedAlias;
-                }
-                _ge(this.feedbackContainerId).style.display = "block"; // Show the form
-                // set focus on Suggest radio button
-                radioButtons[0].focus();
-            };
-            Form.prototype.GetLocString = function(name) {
-                return LocStringManager.getLocString({
-                    uiCulture: SearchAppWrapper.CortanaApp.uiLanguage,
-                    name: "LocStrings",
-                    namespace: "Feedback"
-                })[name];
-            };
-            Form.prototype.GetAlias = function() {
-                return localStorage ? localStorage.getItem("alias") : null;
-            };
-            Form.prototype.SetAlias = function(alias) {
-                if (localStorage) {
-                    localStorage.setItem("alias", alias);
-                }
-            };
-            return Form;
-        })();
-        // Form singleton
-        _w["WindowsFeedbackForm"] = new Form();
-        // Listen for Form Show event
-        if (typeof sj_evt !== "undefined") {
-            sj_evt.bind("WindowsFeedback.Form.Show", function() {
-                _w["WindowsFeedbackForm"].Show();
-            }, 1);
-            sj_evt.bind("WindowsFeedback.Form.Hide", function() {
-                _w["WindowsFeedbackForm"].Hide();
-            });
+            }
+            // Create an XMLHtmlRequest with set Hose headers in order request to be
+            // recognized by SnR.
+            function Create(method, url, async) {
+                var request = sj_gx();
+                request.open(method, url, async);
+                return request;
+            }
+        })(PackageLoad = Feedback.PackageLoad || (Feedback.PackageLoad = {}));
+    })(Feedback || (Feedback = {}));;; ///<reference path="..\..\..\..\Shared\Content\Content\Script\Declarations\Shared.d.ts" />
+    var MoveOnlineThresholdFeedbackBadge;
+    (function(MoveOnlineThresholdFeedbackBadge) {
+        'use strict';
+        var badge = _ge("fdbkbadge");
+        if (badge != null && _w.document.documentElement.scrollHeight >= _w.document.documentElement.clientHeight) {
+            badge.style.marginRight = "17px";
         }
-        if (typeof CortanaApp !== "undefined" && CortanaApp.addEventListener) {
-            CortanaApp.addEventListener("feedbackformrequested", function() {
-                _w["WindowsFeedbackForm"].Show();
-            });
+    })(MoveOnlineThresholdFeedbackBadge || (MoveOnlineThresholdFeedbackBadge = {}));;
+    var ConfigPageDebug = {
+        "client": "iphone",
+        "clientVersion": "UnknownIPhoneVersion",
+        "canvas": "Reactive"
+    };
+    if (typeof(PageDebug) !== 'undefined') {
+        for (var attrName in ConfigPageDebug) {
+            PageDebug[attrName] = ConfigPageDebug[attrName];
         }
-    })(WindowsFeedback || (WindowsFeedback = {}));;
+    } else {
+        var PageDebug = ConfigPageDebug;
+    }
+    var fbpkgiid = fbpkgiid || {};
+    fbpkgiid.page = 'SERP.5056';;
     _w.rms.js({
         'A:rms:answers:BoxModel:Framework': '\/rms\/Framework\/c\/98a1080c\/8f35ad43.js?bu=rms+answers+BoxModel+config.threshold%2crules%24rulesThresholdv2%2ccore%2cmodules%24scroll%2cmodules%24resize%2cmodules%24state%2cmodules%24mutation%2cmodules%24error%2cmodules%24network%2cmodules%24cursor%2cmodules%24keyboard%2cmodules%24bot'
     }, {
@@ -6484,19 +4908,7 @@ iOS 7.1+ (prefixed with -webkit-)
     <div id="aRmsDefer">
         <script type="text/rms">//
             <![CDATA[
-///<reference path="..\..\..\..\Shared\Content\Content\Script\Declarations\Shared.d.ts" />
-///<reference path="..\..\..\..\Feedback\Src\Content\Script\Declarations\PageDebug.d.ts" />  
-var BingInterests;
-(function (BingInterests) {
-    // Identify Notebook canvas for Threshold Feedback tool
-    if (typeof PageDebug === "undefined") {
-        PageDebug = {};
-    }
-    PageDebug["canvas"] = "Notebook";
-    // The Feedback badge renders only after this event is fired
-    sj_evt.fire("WindowsFeedback.Badge.Show");
-})(BingInterests || (BingInterests = {}));
-;
+LoadJQuery=function(){_w.rms.js({'rms:answers:Feedback:FeedbackJQuery':'http:\/\/www.bing.com\/rms\/rms%20answers%20Feedback%20CustomJQuery.min\/c\/370c6a3e\/ca6dc37d.js',d:1});};Feedback.Bootstrap.InitializeFeedback({page:true},"sb_feedback",0,0,1);;
 //]]>
         </script>
     </div>
@@ -6505,22 +4917,65 @@ var BingInterests;
     _G.HT = new Date;
     //]]>
     </script>
-    <script type="text/javascript" data-rms="1" src="/rms/Framework/c/98a1080c/8f35ad43.js?bu=rms+answers+BoxModel+config.threshold%2crules%24rulesThresholdv2%2ccore%2cmodules%24scroll%2cmodules%24resize%2cmodules%24state%2cmodules%24mutation%2cmodules%24error%2cmodules%24network%2cmodules%24cursor%2cmodules%24keyboard%2cmodules%24bot"></script>
+    <script type="text/javascript">
+    //<![CDATA[
+    RMS2 = new function() {
+        function s(n, t) {
+            for (var f = 6, r = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_", i = n ? n.split("") : [], e, u = ~~(t / f); i.length <= u;) i.push(r.charAt(0));
+            return e = r.indexOf(i[u]) | 1 << t % f, i[u] = r.charAt(e), i.join("")
+        }
+
+        function h(n) {
+            var t = sj_cook.get("RMS", n.n);
+            sj_cook.set("RMS", n.n, s(t, n.c), 0, "/", 0)
+        }
+
+        function c() {
+            _d.domain == r && (n.P && n.P(), o = new Date, i(0))
+        }
+
+        function i(r) {
+            var s = t[r],
+                e, c;
+            if (s) {
+                if (e = sj_gx(), !e) return;
+                e.open("get", s.u, !0), c = sb_st(function() {
+                    e[u] != 4 && (e[f] = function() {}, e.abort(), i(r + 1))
+                }, 5e3), e[f] = function() {
+                    e[u] == 4 && (sb_ct(c), h(t[r]), i(r + 1))
+                }, e.send(null)
+            } else n.I && n.I(o)
+        }
+        var t = [],
+            r = "",
+            u = "readyState",
+            f = "onreadystatechange",
+            e, o, n = _w.RmsConfig || {};
+        this.RegisterResources = function(n, i, u, f) {
+            r = _d.domain;
+            for (var o = 0; o < n.length; o++) t.push({
+                n: u,
+                u: n[o],
+                c: f[o]
+            });
+            e || (e = !0, sj_evt.bind("onP1", c, 1, 1e3))
+        }
+    };
+    //]]>
+    </script>
+    <script type="text/javascript" data-rms="1" src="http://www.bing.com/rms/Framework/c/98a1080c/8f35ad43.js?bu=rms+answers+BoxModel+config.threshold%2crules%24rulesThresholdv2%2ccore%2cmodules%24scroll%2cmodules%24resize%2cmodules%24state%2cmodules%24mutation%2cmodules%24error%2cmodules%24network%2cmodules%24cursor%2cmodules%24keyboard%2cmodules%24bot"></script>
     <script type="text/javascript" data-rms="1">
     //@ sourceURL=BingDynamicScript0.js
     //<![CDATA[
-    ///<reference path="..\..\..\..\Shared\Content\Content\Script\Declarations\Shared.d.ts" />
-    ///<reference path="..\..\..\..\Feedback\Src\Content\Script\Declarations\PageDebug.d.ts" />  
-    var BingInterests;
-    (function(BingInterests) {
-        // Identify Notebook canvas for Threshold Feedback tool
-        if (typeof PageDebug === "undefined") {
-            PageDebug = {};
-        }
-        PageDebug["canvas"] = "Notebook";
-        // The Feedback badge renders only after this event is fired
-        sj_evt.fire("WindowsFeedback.Badge.Show");
-    })(BingInterests || (BingInterests = {}));;
+    LoadJQuery = function() {
+        _w.rms.js({
+            'rms:answers:Feedback:FeedbackJQuery': 'http:\/\/www.bing.com\/rms\/rms%20answers%20Feedback%20CustomJQuery.min\/c\/370c6a3e\/ca6dc37d.js',
+            d: 1
+        });
+    };
+    Feedback.Bootstrap.InitializeFeedback({
+        page: true
+    }, "sb_feedback", 0, 0, 1);;
     //]]>
     </script>
 </body>
