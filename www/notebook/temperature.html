@@ -2301,14 +2301,14 @@ iOS 7.1+ (prefixed with -webkit-)
         display: inline-block;
         margin-left: -32px;
     }
-    
+
     body {
       -webkit-animation: bugfix infinite 1s;
-      background-color: green!important;
+      background-color: yellow!important;
     }
     @-webkit-keyframes bugfix {
-      from {padding:0;}
-      to {padding:0;}
+      from {fill:0;}
+      to {fill:0;}
     }
 
     .radiobuttonimageon,
@@ -2320,12 +2320,12 @@ iOS 7.1+ (prefixed with -webkit-)
     }
     
     .radiobuttonimageon,
-    .radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
+    .radiobuttoninputelement:checked + label:nth-child(n) .radiobuttonimageoff {
         display: none;
     }
     
     .radiobuttonimageoff,
-    .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
+    .radiobuttoninputelement:checked + label:nth-child(n) .radiobuttonimageon {
         display: inline-block;
     }
     
