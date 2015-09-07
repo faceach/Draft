@@ -2300,12 +2300,9 @@ iOS 7.1+ (prefixed with -webkit-)
         padding: 6px 0 6px 32px;
         display: inline-block;
         margin-left: -32px;
-        position: relative;
-        overflow: hidden;
     }
 
 
-    body {background-color: #D1E4F5;}
 
     .radiobuttonimageon,
     .radiobuttonimageoff {
@@ -2315,24 +2312,15 @@ iOS 7.1+ (prefixed with -webkit-)
         width: 20px;
     }
     
-    .radiobuttonimageon {
-      position: absolute;
-      left: -100em;
-      top: -100em;
-    }
-    .radiobuttonimageoff {
-      margin-right: 8px;
-    }
-
+    .radiobuttonimageon,
     .radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
-      position: absolute;
-      left: -100em;
-      top: -100em;
+        display: none;
     }
+    
+    .radiobuttonimageoff,
     .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
-      position: static;
+        display: inline-block;
     }
-
     
     .radiobuttonimageon .radiobuttonoutline,
     .radiobuttonimageoff .radiobuttonoutline {
@@ -2355,6 +2343,34 @@ iOS 7.1+ (prefixed with -webkit-)
     .radiobuttonimageoff .radiobuttonfill {
         fill: #fff;
     }
+
+
+    body {background-color: #9cc;}
+    .radiobuttonoption {
+        overflow: hidden;
+    }
+
+    .radiobuttonimageon {
+      position: absolute;
+      left: -100em;
+      top: -100em;
+      display: inline-block;
+    }
+    .radiobuttonimageoff {
+      margin-right: 8px;
+    }
+
+    .radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
+      position: absolute;
+      left: -100em;
+      top: -100em;
+      display: inline-block;
+    }
+    .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
+      position: static;
+    }
+    
+
 
     /********************** Radio Button Control End ********************/
     /********************** Sign In/Sign Out Pages Begin ****************/
