@@ -2311,15 +2311,19 @@ iOS 7.1+ (prefixed with -webkit-)
         height: 20px;
         width: 20px;
     }
-    
-    .radiobuttonimageon,
-    .radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
+    body {background-color: #C0F3C8;}
+    .radiobuttonimageon {
         display: none;
     }
-    
-    .radiobuttonimageoff,
-    .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
+    .radiobuttonimageoff {
         display: inline-block;
+    }
+
+    .radiobuttoninputelement:checked~.radiobuttonoptionlabel > .radiobuttonimageon {
+        display: inline-block;
+    }
+    .radiobuttoninputelement:checked~.radiobuttonoptionlabel > .radiobuttonimageoff {
+        display: none;
     }
     
     .radiobuttonimageon .radiobuttonoutline,
@@ -2344,19 +2348,6 @@ iOS 7.1+ (prefixed with -webkit-)
         fill: #fff;
     }
 
-    body {
-      -webkit-animation: bugfix infinite 1s;
-      animation: bugfix infinite 1s;
-      background-color: red!important;
-    }
-    @-webkit-keyframes bugfix {
-      from {padding:0;}
-      to {padding:0;}
-    }
-    @keyframes bugfix {
-      from {padding:0;}
-      to {padding:0;}
-    }
     /********************** Radio Button Control End ********************/
     /********************** Sign In/Sign Out Pages Begin ****************/
     
