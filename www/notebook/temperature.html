@@ -2311,12 +2311,16 @@ iOS 7.1+ (prefixed with -webkit-)
         height: 20px;
         width: 20px;
     }
-    body {background-color: #C0EBF3;}
+    body {background-color: #FDCABB;}
     .radiobuttonimageon {
         display: none;
     }
     .radiobuttonimageoff {
         display: inline-block;
+    }
+
+    input[type="radio"]:checked~.radiobuttonoptionlabel {
+        background-color: blue;
     }
 
     input[type="radio"]:checked~.radiobuttonoptionlabel > .radiobuttonimageoff {
