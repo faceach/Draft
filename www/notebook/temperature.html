@@ -2311,7 +2311,7 @@ iOS 7.1+ (prefixed with -webkit-)
         height: 20px;
         width: 20px;
     }
-    body {background-color: #FDCABB;}
+    body {background-color: #F6BBFD;}
     .radiobuttonimageon {
         display: none;
     }
@@ -2323,10 +2323,14 @@ iOS 7.1+ (prefixed with -webkit-)
         background-color: blue;
     }
 
-    input[type="radio"]:checked~.radiobuttonoptionlabel > .radiobuttonimageoff {
+    input[type="radio"]:checked~.radiobuttonoptionlabel > svg {
+        background-color: red;
+    }
+
+    input[type="radio"]:checked~.radiobuttonoptionlabel > svg.radiobuttonimageoff {
         display: none;
     }
-    input[type="radio"]:checked~.radiobuttonoptionlabel > .radiobuttonimageon {
+    input[type="radio"]:checked~.radiobuttonoptionlabel > svg.radiobuttonimageon {
         display: inline-block;
     }
     
