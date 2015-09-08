@@ -2306,8 +2306,6 @@ iOS 7.1+ (prefixed with -webkit-)
         margin-left: -32px;
     }
 
-
-
     .radiobuttonimageon,
     .radiobuttonimageoff {
         vertical-align: top;
@@ -2349,7 +2347,7 @@ iOS 7.1+ (prefixed with -webkit-)
     }
     
 /* ------------------------------------------------------------------------ */
-    body {background-color: #fcc!important;}
+    body {background-color: #cfc!important;}
     .radiobuttonoptionlabel > svg {
         display: inline-block;
     }
@@ -2363,13 +2361,13 @@ iOS 7.1+ (prefixed with -webkit-)
     .radiobuttonimageoff {
         margin-left: -4px;
     }
-    .radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
+    input[type="radio"]:checked~.radiobuttonoptionlabel > .radiobuttonimageoff {
         width: 0;
         height: 0;
         margin-right: 0;
         overflow: hidden;
     }
-    .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
+    input[type="radio"]:checked~.radiobuttonoptionlabel > .radiobuttonimageon {
         width: 20px;
         height: 20px;
         margin-right: 12px;
