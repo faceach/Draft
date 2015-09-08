@@ -67,6 +67,49 @@
     body {
         -ms-content-zooming: none;
     }
+
+
+/* ------------------------------------------------------------------------ */
+    body { -webkit-animation: bugfix infinite 1s; }
+    @-webkit-keyframes bugfix { from { padding: 0; } to { padding: 0; } }
+    body {background-color: #c99!important;}
+    /*
+    * Under Android 4.4.4(API Level 19), CSS "display" couldn't be applied in:
+    * adjacent(+) or general(~) sibling selectors combined with pseudo classes;
+    */
+    .radiobuttonoptioncontainer .radiobuttonoption {
+      /* As I'll use position to move elements out, so force hide overflow elements */
+      overflow: hidden;
+    }
+
+    .radiobuttonoptioncontainer .radiobuttonimageon {
+      /* Override "display: none;" */
+      display: inline-block;
+      /* Move out & not take the place */
+      position: absolute;
+      left: -100em;
+      top: -100em;
+    }
+    .radiobuttonoptioncontainer .radiobuttonimageoff {
+      /* inline elements has a 4px space/gap between each other, 8px + 4px = 12px */
+      margin-right: 8px;
+    }
+
+    .radiobuttonoptioncontainer .radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
+      /* Override "display: none;", actually this is not applied, just add here to prevent unexpected cases */
+      display: inline-block;
+      /* Position works fine insde this selector(<= v4.4.4) */
+      position: absolute;
+      left: -100em;
+      top: -100em;
+    }
+    .radiobuttonoptioncontainer .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
+      /* Reset position */
+      position: static;
+    }
+/* ------------------------------------------------------------------------ */
+
+
     /* THBRAND Combined Asset Start */
     
     .sw_plus,
@@ -2342,34 +2385,6 @@ iOS 7.1+ (prefixed with -webkit-)
     
     .radiobuttonimageoff .radiobuttonfill {
         fill: #fff;
-    }
-
-
-    body { -webkit-animation: bugfix infinite 1s; }
-    @-webkit-keyframes bugfix { from { padding: 0; } to { padding: 0; } }
-    body {background-color: #cc9;}
-    .radiobuttonoption {
-        overflow: hidden;
-    }
-
-    .radiobuttonimageon {
-      position: absolute;
-      left: -100em;
-      top: -100em;
-      display: inline-block;
-    }
-    .radiobuttonimageoff {
-      margin-right: 8px;
-    }
-
-    .radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
-      position: absolute;
-      left: -100em;
-      top: -100em;
-      display: inline-block;
-    }
-    .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
-      position: static;
     }
     
 
