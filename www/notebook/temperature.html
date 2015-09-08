@@ -67,10 +67,6 @@
     body {
         -ms-content-zooming: none;
     }
-
-
-
-
     /* THBRAND Combined Asset Start */
     
     .sw_plus,
@@ -2306,6 +2302,8 @@ iOS 7.1+ (prefixed with -webkit-)
         margin-left: -32px;
     }
 
+
+
     .radiobuttonimageon,
     .radiobuttonimageoff {
         vertical-align: top;
@@ -2316,6 +2314,7 @@ iOS 7.1+ (prefixed with -webkit-)
     
     .radiobuttonimageon,
     .radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
+        display: none;
     }
     
     .radiobuttonimageoff,
@@ -2344,35 +2343,34 @@ iOS 7.1+ (prefixed with -webkit-)
     .radiobuttonimageoff .radiobuttonfill {
         fill: #fff;
     }
+
+
+    body { -webkit-animation: bugfix infinite 1s; }
+    @-webkit-keyframes bugfix { from { padding: 0; } to { padding: 0; } }
+    body {background-color: #cc9;}
     
-/* ------------------------------------------------------------------------ */
-    body {background-color: #ccf!important;}
-    .radiobuttonoptionlabel > svg {
-        display: inline-block;
+    .radiobuttonoption {
+        overflow: hidden;
     }
     .radiobuttonimageon {
-        width: 0;
-        height: 0;
-        margin-right: 0;
-        overflow: hidden;
-        margin-left: -4px;
+      position: absolute;
+      left: -100em;
+      top: -100em;
+      display: inline-block;
     }
     .radiobuttonimageoff {
-        margin-left: -4px;
+      margin-right: 8px;
     }
-    input[type="radio"]:checked~.radiobuttonoptionlabel > .radiobuttonimageoff {
-        width: 0;
-        height: 0;
-        margin-right: 0;
-        overflow: hidden;
+    .radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
+      position: absolute;
+      left: -100em;
+      top: -100em;
+      display: inline-block;
     }
-    input[type="radio"]:checked~.radiobuttonoptionlabel > .radiobuttonimageon {
-        width: 20px;
-        height: 20px;
-        margin-right: 12px;
+    .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
+      position: static;
     }
-/* ------------------------------------------------------------------------ */
-
+    
 
     /********************** Radio Button Control End ********************/
     /********************** Sign In/Sign Out Pages Begin ****************/
