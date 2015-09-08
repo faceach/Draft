@@ -2349,7 +2349,7 @@ iOS 7.1+ (prefixed with -webkit-)
     }
     
 /* ------------------------------------------------------------------------ */
-    body {background-color: #cfc!important;}
+    body {background-color: #ccc!important;}
     .radiobuttonoption {
       overflow: hidden;
     }
@@ -2364,14 +2364,14 @@ iOS 7.1+ (prefixed with -webkit-)
       margin-right: 8px;
     }
 
+    .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
+      position: static;
+    }
     .radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
       position: absolute;
       left: -100em;
       top: -100em;
       display: inline-block;
-    }
-    .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
-      position: static;
     }
 /* ------------------------------------------------------------------------ */
 
