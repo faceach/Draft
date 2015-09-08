@@ -2349,29 +2349,30 @@ iOS 7.1+ (prefixed with -webkit-)
     }
     
 /* ------------------------------------------------------------------------ */
-    body {background-color: #ccc!important;}
-    .radiobuttonoption {
-      overflow: hidden;
+    body {background-color: #fcc!important;}
+    .radiobuttonoptionlabel > svg {
+        display: inline-block;
     }
-
     .radiobuttonimageon {
-      position: absolute;
-      left: -100em;
-      top: -100em;
-      display: inline-block;
+        width: 0;
+        height: 0;
+        margin-right: 0;
+        overflow: hidden;
+        margin-left: -4px;
     }
     .radiobuttonimageoff {
-      margin-right: 8px;
+        margin-left: -4px;
     }
-
-    .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
-      position: static;
+    input[type="radio"]:checked~.radiobuttonoptionlabel > .radiobuttonimageoff {
+        width: 0;
+        height: 0;
+        margin-right: 0;
+        overflow: hidden;
     }
-    .radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
-      position: absolute;
-      left: -100em;
-      top: -100em;
-      display: inline-block;
+    input[type="radio"]:checked~.radiobuttonoptionlabel > .radiobuttonimageon {
+        width: 20px;
+        height: 20px;
+        margin-right: 12px;
     }
 /* ------------------------------------------------------------------------ */
 
