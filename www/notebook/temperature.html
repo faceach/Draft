@@ -2349,39 +2349,28 @@ iOS 7.1+ (prefixed with -webkit-)
     }
     
 /* ------------------------------------------------------------------------ */
-    body {background-color: #ffc!important;}
-    /*
-    * Under Android 4.4.4(API Level 19), CSS "display" couldn't be applied in:
-    * adjacent(+) or general(~) sibling selectors combined with pseudo classes;
-    */
+    body {background-color: #cfc!important;}
     .radiobuttonoptioncontainer .radiobuttonoption {
-      /* As I'll use position to move elements out, so force hide overflow elements */
       overflow: hidden;
     }
 
     .radiobuttonoptioncontainer .radiobuttonimageon {
-      /* Override "display: none;" */
       display: inline-block;
-      /* Move out & not take the place */
       position: absolute;
       left: -100em;
       top: -100em;
     }
     .radiobuttonoptioncontainer .radiobuttonimageoff {
-      /* inline elements has a 4px space/gap between each other, 8px + 4px = 12px */
       margin-right: 8px;
     }
 
     .radiobuttonoptioncontainer .radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
-      /* Override "display: none;", actually this is not applied, just add here to prevent unexpected cases */
       display: inline-block;
-      /* Position works fine insde this selector(<= v4.4.4) */
       position: absolute;
       left: -100em;
       top: -100em;
     }
     .radiobuttonoptioncontainer .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
-      /* Reset position */
       position: static;
     }
 /* ------------------------------------------------------------------------ */
