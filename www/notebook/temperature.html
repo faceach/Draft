@@ -2363,13 +2363,13 @@ iOS 7.1+ (prefixed with -webkit-)
     .radiobuttonimageoff {
         margin-left: -4px;
     }
-    input[type="radio"]:checked~.radiobuttonoptionlabel > .radiobuttonimageoff {
+    .radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
         width: 0;
         height: 0;
         margin-right: 0;
         overflow: hidden;
     }
-    input[type="radio"]:checked~.radiobuttonoptionlabel > .radiobuttonimageon {
+    .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
         width: 20px;
         height: 20px;
         margin-right: 12px;
