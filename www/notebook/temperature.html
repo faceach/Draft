@@ -2310,6 +2310,7 @@ iOS 7.1+ (prefixed with -webkit-)
         margin-right: 12px;
         height: 20px;
         width: 20px;
+        margin-left: -4px;
     }
     
     
@@ -2338,24 +2339,20 @@ iOS 7.1+ (prefixed with -webkit-)
 
     body { -webkit-animation: bugfix infinite 1s; }
     @-webkit-keyframes bugfix { from { padding: 0; } to { padding: 0; } }
-    body {background-color: #cc9;}
+    body {background-color: #fcc;}
 
-    .radiobuttonoption {
-        overflow: hidden;
-    }
-    .radiobuttonimageoff {
-      margin-right: 8px;
-    }
     .radiobuttonimageon,
     .radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
-      position: absolute;
-      left: -100em;
-      top: -100em;
-      display: inline-block;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        margin-right: 0;
     }
     .radiobuttonimageoff,
     .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
-      position: static;
+        width: 20px;
+        height: 20px;
+        margin-right: 12px;
     }
     
 
