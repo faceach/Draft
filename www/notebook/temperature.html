@@ -2295,7 +2295,7 @@ iOS 7.1+ (prefixed with -webkit-)
         outline: 0;
         opacity: 0;
     }
-    
+/*
 .radiobuttonoptionlabel {
     padding: 6px 0 6px 32px;
     display: inline-block;
@@ -2319,8 +2319,34 @@ iOS 7.1+ (prefixed with -webkit-)
 .radiobuttoninputelement:checked ~ label .radiobuttonimageon {
     display: inline-block;
 }
-    
-    
+*/
+/*=========================================*/
+.radiobuttonoptionlabel {
+    padding: 6px 0 6px 32px;
+    display: inline-block;
+    margin-left: -32px;
+}
+
+.radiobuttonimageon,
+.radiobuttonimageoff {
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.radiobuttonimageon,
+.radiobuttoninputelement:checked ~ label .radiobuttonimageoff {
+    width: 0;
+    height: 0;
+    margin-right: 0;
+}
+
+.radiobuttonimageoff,
+.radiobuttoninputelement:checked ~ label .radiobuttonimageon {
+    height: 20px;
+    width: 20px;
+    margin-right: 12px;
+}
+/*=========================================*/
     .radiobuttonimageon .radiobuttonoutline,
     .radiobuttonimageoff .radiobuttonoutline {
         stroke-width: 2px;
