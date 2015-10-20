@@ -4658,17 +4658,19 @@ iOS 7.1+ (prefixed with -webkit-)
     .b_scopebar li {
         display: -webkit-inline-box;
         display: -webkit-inline-flex;
+        display: inline-box;
         display: inline-flex;
     }
     
     .b_scopebar li:last-child,
     .b_mystuff {
+        -webkit-box-flex: none;
         -webkit-flex: none;
         flex: none;
     }
     
     body {
-        background-color: pink!important;
+        background-color: yellow!important;
     }
     </style>
     <script type="text/javascript">
