@@ -3748,14 +3748,11 @@ iOS 7.1+ (prefixed with -webkit-)
 */
 .b_imagePair 
 {
-    display: -moz-box; /* Firefox */
-    display: -ms-flexbox; /* IE10 */
     display: -webkit-box; /* Safari */
     display: -webkit-flex; /* Chrome, WebKit */
     display: box;
     display: flexbox;
     display: flex;
-    width: 100%;
 	flex-flow: row;
 }
 
@@ -3768,6 +3765,7 @@ iOS 7.1+ (prefixed with -webkit-)
 .b_imagePair > *:last-child
 {
 
+	-webkit-box-flex: 1;      /* OLD - iOS 6-, Safari 3.1-6 */
 	-webkit-flex: 1;          /* Chrome */
 	flex: 1;                  /* NEW, Spec - Opera 12.1, Firefox 20+ */
 
@@ -3775,7 +3773,7 @@ iOS 7.1+ (prefixed with -webkit-)
 
 
 body {
-	background-color: yellow!important;
+	background-color: gray!important;
 }
 
     </style>
