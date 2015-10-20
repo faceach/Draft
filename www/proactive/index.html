@@ -3748,12 +3748,12 @@ iOS 7.1+ (prefixed with -webkit-)
 */
 .b_imagePair 
 {
-    display: -webkit-box; /* Safari */
-    display: -webkit-flex; /* Chrome, WebKit */
+    display: -webkit-box;
+    display: -webkit-flex;
     display: box;
     display: flexbox;
     display: flex;
-	flex-flow: row;
+    flex-flow: row;
 }
 
 .b_imagePair > * 
@@ -3762,18 +3762,65 @@ iOS 7.1+ (prefixed with -webkit-)
     flex-shrink: 0;
 }
 
-.b_imagePair > *:last-child
+.b_imagePair > *:last-child,
+.b_imagePair.reverse > *:first-child
 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 0 1 100%;
+}
 
-	-webkit-box-flex: 1;      /* OLD - iOS 6-, Safari 3.1-6 */
-	-webkit-flex: 1;          /* Chrome */
-	flex: 1;                  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+.b_imagePair.reverse > *:last-child
+{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 0 0 auto;
+}
 
+.b_imagePair.reverse > *:only-child
+{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 0 1 100%;
+}
+
+.b_imagePair > *:only-child
+{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 0 1 100%;
+}
+
+/*Cortana Actions*/
+.b_corActList
+{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: box;
+    display: flexbox;
+    display: flex;
+    flex-flow: row;
+}
+
+.b_corActList li
+{
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+.b_corActList li:only-child
+{
+    -webkit-box-flex: none;
+    -webkit-flex: none;
+    flex: none;
 }
 
 
 body {
-	background-color: gray!important;
+	background-color: yellow!important;
 }
 
     </style>
