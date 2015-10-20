@@ -3756,20 +3756,21 @@ iOS 7.1+ (prefixed with -webkit-)
     display: flexbox;
     display: flex;
     width: 100%;
+    overflow-x: hidden;
 	flex-flow: row;
 }
 
 .b_imagePair > * 
 {
-    -webkit-flex-shrink: 0;
-    flex-shrink: 0;
+    -webkit-flex-shrink: 1;
+    flex-shrink: 1;
 }
 
 .b_imagePair > *:last-child,
 .b_imagePair.reverse > *:first-child
 {
-    -webkit-flex: 0 1 100%;
-    flex: 0 1 100%;
+    -webkit-flex: 1 1 60%;
+    flex: 1 1 60%;
 }
 
 .b_imagePair.reverse > *:last-child
