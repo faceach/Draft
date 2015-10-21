@@ -16,7 +16,7 @@
     }
 
     /* Override Styles */
-    .cortana a {
+    .cortana :not(.b) > a {
         color: green;
     }
     </style>
@@ -25,28 +25,28 @@
 <body>
     <div class="cortana">
         <p>
-            <a href="#">
+            <a>
                 <span>Test link 001</span>
             </a>
         </p>
         <p>
-            <a href="#">
+            <a>
                 <span>Test link 002</span>
             </a>
         </p>
         <p>
-            <a href="#">
+            <a>
                 <span>Test link 003</span>
             </a>
         </p>
         <p>
-            <a href="#">
-                <strong class="b">Test link 004</strong>
+            <a>
+                <div class="b"><span>Test link 004</span></div>
             </a>
         </p>
         <p>
-            <a href="#">
-                <strong class="b">Test link 005</strong>
+            <a>
+                <span class="b">Test link 005</span>
             </a>
         </p>
     </div>
