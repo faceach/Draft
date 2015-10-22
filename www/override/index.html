@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Example Speech Web Search Markup Only</title>
+    <style type="text/css">
+    body {
+        margin: 0;
+        padding: 2em;
+        font: 20px/1.6 Arial;
+        background-color: pink;
+    }
+    
+    .b {
+        color: red;
+    }
+
+    /* Override Styles */
+    .cortana :not(.b) > a {
+        color: green;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="cortana">
+        <p>
+            <a>
+                <span>Test link 001</span>
+            </a>
+        </p>
+        <p>
+            <a>
+                <span>Test link 002</span>
+            </a>
+        </p>
+        <p>
+            <a>
+                <span>Test link 003</span>
+            </a>
+        </p>
+        <p>
+            <a>
+                <div class="b"><span>Test link 004</span></div>
+            </a>
+        </p>
+        <p>
+            <a>
+                <span class="b">Test link 005</span>
+            </a>
+        </p>
+    </div>
+</body>
+
+</html>
