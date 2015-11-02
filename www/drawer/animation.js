@@ -16,6 +16,11 @@
         if (expansion && expansion.length > 0) {
             sj_be(expansion[0], "click", toggleGlobalDrawer);
         }
+
+        var expansionAfter = drawer.getElementsByClassName("exp:after");
+        if (expansionAfter && expansionAfter.length > 0) {
+            sj_be(expansionAfter[0], "click", toggleGlobalDrawer);
+        }
     }
     sj_be(window, "load", function() {
         var globalDrawers = document.querySelectorAll(".actDrawer");
