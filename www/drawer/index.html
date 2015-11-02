@@ -25,6 +25,11 @@
         .exp:after {
             content: '...';
         }
+        .accessbility {
+            position: absolute;
+            left: -100em;
+            top: -100em;
+        }
     	.actContainer {
     		background-color: #e6e6e6;
     		padding: 0 12px;
@@ -53,10 +58,10 @@
 
 <body>
 	<div class="actDrawer">
-		<a class="exp" href="javascript:void(0);"></a>
+		<a class="exp" href="javascript:void(0);" aria-label="Expand"><span class="accessbility">See more</span></a>
 		<div class="actContainer b_hide">
 			<p>Title</p>
-			<ul style="background-color: orange;">
+			<ul style="background-color: white;">
 				<li>List 1</li>
 				<li>List 2</li>
 				<li>List 3</li>
