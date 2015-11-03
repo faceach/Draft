@@ -27,8 +27,9 @@
             content: '...';
         }
         .exp > span {
-            visibility: hidden;
             position: absolute;
+            left: -100em;
+            top: -100em;
         }
         .accessbility {
             position: absolute;
@@ -61,12 +62,10 @@
 
 <body>
 	<div class="actDrawer">
-		<a class="exp" href="javascript:void(0);" aria-label="Expand">
-            <span>Hello</span>
-        </a>
+		<a class="exp" href="javascript:void(0);" aria-label="Expand"><span>Hello</span></a>
 		<div class="actContainer b_hide">
 			<p>Title</p>
-			<ul style="background-color: yellow;">
+			<ul style="background-color: orange;">
 				<li>List 1</li>
 				<li>List 2</li>
 				<li>List 3</li>
