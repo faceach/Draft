@@ -21,15 +21,16 @@
     		top: 10px;
     		z-index: 1;
     		text-decoration: none;
-            overflow: hidden;
     	}
         .exp:after {
             content: '...';
         }
         .exp > span {
-            position: absolute;
-            left: -100em;
-            top: -100em;
+            overflow: hidden;
+            text-indent: -100em;
+            width: 0;
+            height: 0;
+            display: inline-block;
         }
         .accessbility {
             position: absolute;
@@ -62,8 +63,8 @@
 
 <body>
 	<div class="actDrawer">
-		<a class="exp" href="javascript:void(0);" aria-label="Expand">
-            <span>Hello</span>
+		<a class="exp" href="javascript:void(0);">
+            <span aria-label="Expand">Hello</span>
         </a>
 		<div class="actContainer b_hide">
 			<p>Title</p>
