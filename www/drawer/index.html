@@ -22,6 +22,19 @@
     		z-index: 1;
     		text-decoration: none;
     	}
+        .exp:after {
+            content: '\E70E';
+        }
+        .exp > span {
+            overflow: hidden;
+            text-indent: -100em;
+            width: 0;
+            height: 0;
+            display: inline-block;
+        }
+        .accessbility {
+            position: absolute;
+        }
     	.actContainer {
     		background-color: #e6e6e6;
     		padding: 0 12px;
@@ -50,10 +63,12 @@
 
 <body>
 	<div class="actDrawer">
-		<a class="exp" href="javascript:void(0);">...</a>
+		<a class="exp" href="javascript:void(0);">
+            <span aria-label="Expand">hello</span>
+        </a>
 		<div class="actContainer b_hide">
 			<p>Title</p>
-			<ul style="background-color: orange;">
+			<ul style="background-color: yellow;">
 				<li>List 1</li>
 				<li>List 2</li>
 				<li>List 3</li>
