@@ -988,7 +988,7 @@
 ! function() {
 	var elStyle = document.createElement('style');
 	document.head.appendChild(elStyle);
-	elStyle.innerText = 'ol.b_slideListUp {	background-color: #000;}ol.b_slideListUp li.b_ans {	transition: height 0.4s ease-out;}.actDrawer .b_hide {	display: block;}.actDrawer .b_hide .actContent {	display: none;}';
+	elStyle.innerText = 'ol.b_slideListUp {	background-color: #000;}ol.b_slideListUp li.b_ans {	border-radius: 4px; transition: height 0.2s ease-out;}.actDrawer .b_hide {	display: block;}.actDrawer .b_hide .actContent {	display: none;}';
 	var elPanels = Array.prototype.slice.call(document.querySelectorAll('.actDrawer'));
 	var elBars = elPanels.concat(Array.prototype.slice.call(document.querySelectorAll('ol.b_slideListUp li.b_ans > h2')));
 	for (var i = 0, iLens = elBars.length; i < iLens; i++) {
