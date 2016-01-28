@@ -1007,7 +1007,6 @@
 	var sortable = Sortable.create(document.getElementById('b_results'), {
 		group: "words",
 		delay: 100,
-		animation: 150,
-		draggable: ".actDrawer"
+		animation: 150
 	});
 }();
