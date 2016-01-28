@@ -990,11 +990,8 @@
 	document.head.appendChild(elStyle);
 	elStyle.innerText = 'ol.b_slideListUp {	background-color: #000;}ol.b_slideListUp li.b_ans {	border-radius: 4px; transition: height 0.2s ease-out;}.actDrawer .b_hide {	display: block;}.actDrawer .b_hide .actContent {	display: none;}';
 	var elPanels = Array.prototype.slice.call(document.querySelectorAll('.actDrawer'));
-	var elBars = elPanels.concat(Array.prototype.slice.call(document.querySelectorAll('ol.b_slideListUp li.b_ans > h2')));
-	for (var i = 0, iLens = elBars.length; i < iLens; i++) {
-		elBars[i].parentNode.dataset.height = elBars[i].parentNode.style.height = (elBars[i].parentNode.offsetHeight - 36) + 'px';
-		elBars[i].parentNode.style.overflow = 'hidden';
-		elBars[i].addEventListener("click", function(event) {
+	var elSuggestion = Array.prototype.slice.call(document.querySelectorAll('ol.b_slideListUp li.b_ans > h2'));
+	function accordion(event) {
 			var el = event.currentTarget;
 			var elParent = el.parentNode;
 			if (elParent.style.height === '0px') {
@@ -1002,7 +999,24 @@
 			} else {
 				elParent.style.height = '0px';
 			}
-		}, false);
+		}
+	for (var i = 0, iLens = elSuggestion.length; i < iLens; i++) {
+		// height things
+		elSuggestion[i].parentNode.dataset.height = elSuggestion[i].parentNode.style.height = (elSuggestion[i].parentNode.offsetHeight - 36) + 'px';
+		elSuggestion[i].parentNode.style.overflow = 'hidden';
+		//
+		elSuggestion[i].addEventListener("click", accordion);
+	}
+	for (var i = 0, iLens = elPanels.length; i < iLens; i++) {
+		// height things
+		elPanels[i].parentNode.dataset.height = elPanels[i].parentNode.style.height = (elPanels[i].parentNode.offsetHeight - 36) + 'px';
+		elPanels[i].parentNode.style.overflow = 'hidden';
+		//
+		var focusLabel = elPanels[i].parentNode.getElementsByClassName('b_focusLabel');
+		if(focusLabel && focusLabel.length > 0){
+		elPanels[i].getElementsByClassName('cardLabel')[0].innerText += ' - ' + focusLabel[0].innerText;
+	}
+		elPanels[i].addEventListener("click", accordion);
 	}
 	var sortable = Sortable.create(document.getElementById('b_results'), {
 		group: "words",
