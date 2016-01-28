@@ -1007,6 +1007,7 @@
 	//
 	var sortable = Sortable.create(document.getElementById('b_results'),{
 		group: "words",
+		delay: 800,
 		animation: 150,
 		onAdd: function (evt){ console.log('onAdd.foo:', [evt.item, evt.from]); },
 		onUpdate: function (evt){ console.log('onUpdate.foo:', [evt.item, evt.from]); },
