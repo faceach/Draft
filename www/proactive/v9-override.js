@@ -1005,5 +1005,14 @@
 		}, false);
 	}
 	//
-	var sortable = Sortable.create(document.getElementById('b_results'));
+	var sortable = Sortable.create(document.getElementById('b_results'),{
+		group: "words",
+		animation: 150,
+		onAdd: function (evt){ console.log('onAdd.foo:', [evt.item, evt.from]); },
+		onUpdate: function (evt){ console.log('onUpdate.foo:', [evt.item, evt.from]); },
+		onRemove: function (evt){ console.log('onRemove.foo:', [evt.item, evt.from]); },
+		onStart:function(evt){ console.log('onStart.foo:', [evt.item, evt.from]);},
+		onSort:function(evt){ console.log('onStart.foo:', [evt.item, evt.from]);},
+		onEnd: function(evt){ console.log('onEnd.foo:', [evt.item, evt.from]);}
+	});
 }();
