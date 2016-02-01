@@ -1021,6 +1021,6 @@
 	var sortable = Sortable.create(document.getElementById('b_results'), {
 		group: "words",
 		animation: 150,
-		handle: "li.b_ans > .actDrawer > .exp"
+		handle: ".exp"
 	});
 }();
