@@ -989,7 +989,7 @@
 	var elStyle = document.createElement('style');
 	document.head.appendChild(elStyle);
 	elStyle.innerText = 'ol.b_slideListUp {	background-color: #000;}ol.b_slideListUp li.b_ans {	border-radius: 4px; transition: height 0.2s ease-out;}.actDrawer .b_hide {	display: block;}.actDrawer .b_hide .actContent {	display: none;}ol.b_slideListUp .actDrawer .cardLabel {padding-top: 10px;padding-bottom: 14px;}';
-	var elPanels = Array.prototype.slice.call(document.querySelectorAll('.actDrawer'));
+	var elPanels = Array.prototype.slice.call(document.querySelectorAll('li.b_ans > .actDrawer'));
 	var elSuggestion = Array.prototype.slice.call(document.querySelectorAll('ol.b_slideListUp li.b_ans > h2'));
 	function accordion(event) {
 			var el = event.currentTarget;
@@ -1021,6 +1021,6 @@
 	var sortable = Sortable.create(document.getElementById('b_results'), {
 		group: "words",
 		animation: 150,
-		handle: ".exp"
+		handle: "li.b_ans > .actDrawer > .exp"
 	});
 }();
