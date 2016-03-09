@@ -1,0 +1,204 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//
+import "Inspectable.idl";
+import "Windows.Foundation.idl";
+#include <sdkddkver.h>
+
+namespace Cortana { namespace Spa {
+    
+    runtimeclass SpaDialogContext;
+    runtimeclass SpaDialogRuntime;
+    runtimeclass AudioStartedNotificationData;
+    runtimeclass CookiesNotificationData;
+    runtimeclass IntermediateResultNotificationData;
+    runtimeclass FinalResultNotificationData;
+    runtimeclass NlProgressNotification;
+
+    [version(NTDDI_WINTHRESHOLD), uuid(15A52FEC-3FDA-499C-883B-1F8F7B5FFE98)]
+    interface ISpaDialogContext : IInspectable
+    {
+        [propget] HRESULT CuInput([out, retval] HSTRING* text);
+    };
+
+    [version(NTDDI_WINTHRESHOLD), v1_enum]
+    typedef enum NlProgressNotificationType
+    {
+        AudioStarted = 0,
+        CookiesAvailable,
+        IntermediateResult,
+        FinalResult
+    } NlProgressNotificationType;
+
+    [version(NTDDI_WINTHRESHOLD), uuid(3851A146-0CEE-4A40-BE68-814ADCD86400)]
+    interface IAudioStartedNotificationData : IInspectable
+    {
+        [propget] HRESULT OperationId([out, retval] HSTRING* operationId);
+    };
+
+    [version(NTDDI_WINTHRESHOLD), uuid(538C1C54-D538-4F91-B1E5-6B30E59ECFDD)]
+    interface ICookiesNotificationData : IInspectable
+    {
+        [propget] HRESULT OperationId([out, retval] HSTRING* operationId);
+        [propget] HRESULT Cookies([out, retval] Windows.Foundation.Collections.IMap<HSTRING, HSTRING>** cookies);
+    };
+
+    [version(NTDDI_WINTHRESHOLD), uuid(1692A6CB-EDD3-4D2E-813F-2BC48539D1A7)]
+    interface IIntermediateResultNotificationData : IInspectable
+    {
+        [propget] HRESULT OperationId([out, retval] HSTRING* operationId);
+        [propget] HRESULT CuOutput([out, retval] HSTRING* cuOutput);
+    };
+
+    [version(NTDDI_WINTHRESHOLD), uuid(CB80B85C-5E90-43A3-B64E-BFECA6D499DD)]
+    interface IFinalResultNotificationData : IInspectable
+    {
+        [propget] HRESULT OperationHResult([out, retval] UINT32* hResult);
+        [propget] HRESULT OperationId([out, retval] HSTRING* operationId);
+        [propget] HRESULT CuOutput([out, retval] HSTRING* cuOutput);
+    };
+
+    [version(NTDDI_WINTHRESHOLD), uuid(FBC8C553-8155-4554-85F2-CAD4FA65E9B4)]
+    interface INlProgressNotification: IInspectable
+    {
+        [propget] HRESULT NotificationType ([out, retval] NlProgressNotificationType* notificationType);
+        [propget] HRESULT AudioStartedNotification([out, retval] IAudioStartedNotificationData** audioStartedNotification);
+        [propget] HRESULT CookiesNotification([out, retval] ICookiesNotificationData** cookiesNotification);
+        [propget] HRESULT IntermediateResultNotification([out, retval] IIntermediateResultNotificationData** intermediateResultNotification);
+        [propget] HRESULT FinalResultNotification([out, retval] IFinalResultNotificationData** finalResultsNotification);
+    };
+
+    [version(NTDDI_WINTHRESHOLD), v1_enum]
+    typedef enum NlDialogCompletionState
+    {
+        RetainUI = 0,
+        RelinquishUI,
+        Error
+    } NlDialogCompletionState;
+
+    [version(NTDDI_WINTHRESHOLD), v1_enum]
+    typedef enum CortanaUIState
+    {
+        Idle = 0,
+        Listening,
+        Speaking,
+        Thinking,
+        Error
+    } CortanaUIState;
+
+    [version(NTDDI_WINTHRESHOLD), v1_enum]
+    typedef enum SpaEarConType
+    {
+        None = 0,
+        StartListening,
+        StartListeningShort,
+        DoneListening,
+        DoneListeningShort,
+        DoneDisambigError,
+        DoneCancel,
+        Cancel,
+        Error,
+        Thinking,
+        ShowExamples,
+        Look,
+        Next,
+        Bleep,
+        Results
+    } SpaEarConType;
+
+    [version(NTDDI_WINTHRESHOLD), uuid(35E6BE12-87B3-4859-8793-6CE91140B5C7)]
+    interface ISpaUiInterface : IInspectable
+    {
+        HRESULT NotifySpaTransition([in] HSTRING dialogContext);
+        HRESULT NotifyMicrophoneButtonPressed();
+        HRESULT NotifyUIDismissed();
+    }
+
+    [version(NTDDI_WINTHRESHOLD), uuid(A25FB615-B470-4EB2-83C6-F1B9DADE18B5)]
+    interface ISpaDialogRuntime : IInspectable
+    {
+        // NL APIs
+        HRESULT StartLanguageUnderstandingFromVoiceAsync(
+            [in] HSTRING cuInput, 
+            [out, retval] Windows.Foundation.IAsyncOperationWithProgress<INlProgressNotification*, INlProgressNotification*> **operation);
+
+        HRESULT StartDictationAsync(
+            [in] HSTRING cuInput,
+            [out, retval] Windows.Foundation.IAsyncOperationWithProgress<INlProgressNotification*, INlProgressNotification*> **operation);
+
+        HRESULT EndpointAudio([in] HSTRING operationId);
+
+        HRESULT DialogComplete([in] HSTRING spaIdentifier, [in] NlDialogCompletionState completionState);
+
+        // TTS APIs
+        HRESULT PlayEarconAsync(
+            [in] SpaEarConType earConType, 
+            [out, retval] Windows.Foundation.IAsyncAction** operation);
+
+        HRESULT SpeakAsync(
+            [in] HSTRING ssmlData, 
+            [in] UINT32 trackingId, 
+            [out, retval] Windows.Foundation.IAsyncAction** operation);
+
+        // Events to SPA
+        [eventadd] HRESULT StartSpaDialog(
+            [in] Windows.Foundation.TypedEventHandler<ISpaDialogRuntime*, ISpaDialogContext*> *handler,
+            [out, retval] EventRegistrationToken *eventCookie);
+        [eventremove] HRESULT StartSpaDialog([in] EventRegistrationToken eventCookie);
+
+        [eventadd] HRESULT MicrophoneButtonPressed(
+            [in] Windows.Foundation.TypedEventHandler<ISpaDialogRuntime*, IInspectable*> *handler,
+            [out, retval] EventRegistrationToken *eventCookie);
+        [eventremove] HRESULT MicrophoneButtonPressed([in] EventRegistrationToken eventCookie);
+
+        // UI APIs
+
+        HRESULT UpdateTrex([in] HSTRING trexText, [in] boolean isFinal);
+        HRESULT UpdateGui([in] CortanaUIState uiState);
+        HRESULT ChangeSticMode([in] boolean isEnabled);
+
+    };
+
+    // runtime classes
+    [version(NTDDI_WINTHRESHOLD), activatable(NTDDI_WINTHRESHOLD)]
+    runtimeclass SpaDialogRuntime
+    {
+        [default] interface ISpaDialogRuntime;
+    }
+
+    [version(NTDDI_WINTHRESHOLD)]
+    runtimeclass SpaDialogContext
+    {
+        [default] interface ISpaDialogContext;
+    }
+
+    [version(NTDDI_WINTHRESHOLD)]
+    runtimeclass AudioStartedNotificationData
+    {
+        [default] interface IAudioStartedNotificationData;
+    }
+
+    [version(NTDDI_WINTHRESHOLD)]
+    runtimeclass CookiesNotificationData
+    {
+        [default] interface ICookiesNotificationData;
+    }
+
+    [version(NTDDI_WINTHRESHOLD)]
+    runtimeclass IntermediateResultNotificationData
+    {
+        [default] interface IIntermediateResultNotificationData;
+    }
+
+    [version(NTDDI_WINTHRESHOLD)]
+    runtimeclass FinalResultNotificationData
+    {
+        [default] interface IFinalResultNotificationData;
+    }
+
+    [version(NTDDI_WINTHRESHOLD)]
+    runtimeclass NlProgressNotification
+    {
+        [default] interface INlProgressNotification;
+    }
+}}
