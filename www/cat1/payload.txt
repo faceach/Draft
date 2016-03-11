@@ -25,27 +25,39 @@ Mozilla/5.0 (Windows NT 10.0; Win64; x64; Trident/7.0; Touch; rv:11.0; Cortana 1
 40.9 KB
 80.4 KB
 
-Mozilla/5.0 (Linux; Android 5.1.1; ZUK Z1 Build/LMY47V; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/44.0.2403.90 Mobile Safari/537.36 Cortana/6.0.0.0 VersionCode/99999 ROM/default
+======================================================================
 
-53.1 KB
-123 KB
+http://localhost/search?q=reminder&input=1&formcode=WNSGPH&cc=US&setlang=en-US&mkt=en-us
 
-
+----------------------------------------------------------------------
+Mozilla/5.0 (Windows NT 10.0; Win64; x64; Trident/7.0; Touch; rv:11.0; Cortana 1.7.3.14274; 10.0.0.0.14274.1000) like Gecko
+40.8 KB
+79.7 KB
+12 requests | 112 KB transferred
 
 Mozilla/5.0 (Windows NT 10.0; Win64; x64; Trident/7.0; Touch; rv:11.0; Cortana 1.7.4.14274; 10.0.0.0.14274.1000) like Gecko
-
-http://localhost/search?q=reminder&input=1&form=WNSGPH&cc=US&setlang=en-US
 40.7 KB
 80.4 KB
+8 requests | 106 KB transferred
 
-39.8 KB
-77.2 KB
+----------------------------------------------------------------------
+Mozilla/5.0 (Linux; Android 5.1.1; ZUK Z1 Build/LMY47V; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/44.0.2403.90 Mobile Safari/537.36 Cortana/6.0.0.0 VersionCode/99999 ROM/default
+54.9 KB
+131 KB
+25 requests | 205 KB transferred
 
+Mozilla/5.0 (Linux; Android 5.1.1; ZUK Z1 Build/LMY47V; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/44.0.2403.90 Mobile Safari/537.36 Cortana/7.0.0.0 VersionCode/99999 ROM/default
+54.5 KB
+129 KB
+16 requests | 161 KB transferred
 
+----------------------------------------------------------------------
 Mozilla/5.0 (iPhone; CPU iPhone OS 9_2_1 like Mac OS X; Cortana 1.4) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13D20
 49.2 KB
 111 KB
+25 requests | 199 KB transferred
 
 Mozilla/5.0 (iPhone; CPU iPhone OS 9_2_1 like Mac OS X; Cortana 2.4) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13D20
 48.7 KB
 109 KB
+15 requests | 155 KB transferred
