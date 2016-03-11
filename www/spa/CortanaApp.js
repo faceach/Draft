@@ -166,11 +166,11 @@ var WrapApi;
             cortanaObject.spaDialogRuntime = cortanaObject.spaDialogRuntime || {
                 // NL APIs
                 // Doing
-                startLanguageUnderstanding: function (cuInput) {
-                    cortanaObject.startLanguageUnderstanding(cuInput);
+                startLanguageUnderstandingFromVoiceAsync: function (cuInput) {
+                    cortanaObject.startLanguageUnderstandingFromVoiceSync(cuInput);
                 },
-                startDictation: function (cuInput) {
-                    cortanaObject.startDictation(cuInput);
+                startDictationAsync: function (cuInput) {
+                    cortanaObject.startDictationSync(cuInput);
                 },
                 endpointAudio: function (operationId) {
                     cortanaObject.endpointAudio(operationId);
@@ -201,12 +201,15 @@ var WrapApi;
                 },
                 // UI update APIs
                 // Doing
-                trexUpdate: function (trexText) {
-                    cortanaObject.trexUpdate(trexText);
+                updateTrex: function (trexText) {
+                    cortanaObject.updateTrex(trexText);
                 },
                 // Doing
-                personaUpdate: function (personaState) {
-                    cortanaObject.personaUpdate(personaState);
+                updateGui: function (uiState) {
+                    cortanaObject.updateGui(uiState);
+                },
+                changeSticMode: function(isEnabled) {
+                    cortanaObject.changeSticMode(isEnabled);
                 }
             };
 

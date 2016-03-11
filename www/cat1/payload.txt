@@ -1,0 +1,51 @@
+http://www.bing.com/search?q=create me to buy milk&client=windows&setflight=taskcompletion&p1=[SessionManager sessionId="201"]
+
+
+https://www.bing.com/search?input=1&cvid=b0d13069de514d349b0622b9c713e096&form=WNSGPH&nclid=0FF7D783639557825D5234778B683B91&q=set%20alarm&cc=US&setlang=en-US
+
+
+javascript:SearchAppWrapper.CortanaApp.launcher.launchUriAsync(location.protocol + '//' + location.hostname + '%2fsearch%3fq%3dweather%26FORM%3dWNSFC2' + (_G.nclid ? '&amp;nclid=' + _G.nclid : '')).done()
+
+
+
+/search?input=1&cvid=b0d13069de514d349b0622b9c713e096&form=WNSGPH&nclid=0FF7D783639557825D5234778B683B91&q=set%20alarm&cc=US&setlang=en-US
+
+
+Mozilla/5.0 (Windows NT 10.0; Win64; x64; Trident/7.0; Touch; rv:11.0; Cortana 1.7.4.14274; 10.0.0.0.14274.1000) like Gecko
+
+Mozilla/5.0 (iPhone; CPU iPhone OS 9_2_1 like Mac OS X; Cortana 1.4) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13D20
+
+
+{"Reminder":{"Condition":"LeavingLocation","Title":{"Value":"带电脑","ProfanityMasked":"带电脑","Uri":"entity:\/\/TextData","Version":"2.0"},"Location":[{"Name":"work","Geo":{"Longitude":"120.7288","Latitude":"31.2655","Uri":"entity:\/\/GeoCoordinates","Version":"1.0"},"Uri":"entity:\/\/Place","Version":"1.0"}],"UnresolvedLocation":{"Value":"办公室","ProfanityMasked":"办公室","Uri":"entity:\/\/TextData","Version":"2.0"},"Uri":"entity:\/\/Reminder","Version":"2.0"},"Uri":"action:\/\/Reminder\/Create","Version":"2.0"}
+
+
+
+Mozilla/5.0 (Windows NT 10.0; Win64; x64; Trident/7.0; Touch; rv:11.0; Cortana 1.7.4.14274; 10.0.0.0.14274.1000) like Gecko
+
+40.9 KB
+80.4 KB
+
+Mozilla/5.0 (Linux; Android 5.1.1; ZUK Z1 Build/LMY47V; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/44.0.2403.90 Mobile Safari/537.36 Cortana/6.0.0.0 VersionCode/99999 ROM/default
+
+53.1 KB
+123 KB
+
+
+
+Mozilla/5.0 (Windows NT 10.0; Win64; x64; Trident/7.0; Touch; rv:11.0; Cortana 1.7.4.14274; 10.0.0.0.14274.1000) like Gecko
+
+http://localhost/search?q=reminder&input=1&form=WNSGPH&cc=US&setlang=en-US
+40.7 KB
+80.4 KB
+
+39.8 KB
+77.2 KB
+
+
+Mozilla/5.0 (iPhone; CPU iPhone OS 9_2_1 like Mac OS X; Cortana 1.4) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13D20
+49.2 KB
+111 KB
+
+Mozilla/5.0 (iPhone; CPU iPhone OS 9_2_1 like Mac OS X; Cortana 2.4) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13D20
+48.7 KB
+109 KB
