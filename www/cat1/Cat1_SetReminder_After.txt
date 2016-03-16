@@ -1,0 +1,15 @@
+2016-03-16 11:59:38:348
+=== [1] Cat1 | Set reminder | OnMicrophone | ===
+
+2016-03-16 11:59:38:349
+=== [2] Cat1 | Set reminder | StartRecording | ===
+
+2016-03-16 11:59:38:352
+=== [3] Cat1 | Set reminder | OnIntent ===
+
+2016-03-16 11:59:42:795
+=== [4] Cat1 | Set reminder | Thinking ===
+
+2016-03-16 11:59:43:574
+=== [5] Cat1 | Set reminder | SendAction ===
+
