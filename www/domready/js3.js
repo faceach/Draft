@@ -1,0 +1,1 @@
+window.js3 = "js3";

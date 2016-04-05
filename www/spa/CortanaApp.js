@@ -76,6 +76,13 @@ var WrapApi;
                     resolve(headers);
                 });
             };
+            cortanaObject.processNLCommandAsync = function () {
+                return new Promise(function (resolve, reject) {
+                    var headerString = cortanaObject.getQueryHeadersSync();
+                    var headers = JSON.parse(headerString);
+                    resolve(headers);
+                });
+            };
             if (typeof cortanaObject.navigateWebViewSync === 'function') {
                 cortanaObject.navigateWebViewAsync = function (uri) {
                     return new Promise(function (resolve, reject) {
@@ -185,14 +192,14 @@ var WrapApi;
                         resolve(true);
                     });
                 },
-                // Done
+                // 
                 speakAsync: function (ssmlData) {
                     return new Promise(function (resolve, reject) {
                         cortanaObject.speakSync(ssmlData);
                         resolve(true);
                     });
                 },
-                // Done
+                // 
                 stopSpeakingAsync: function () {
                     return new Promise(function (resolve, reject) {
                         cortanaObject.stopSpeakingSync();
@@ -200,11 +207,11 @@ var WrapApi;
                     });
                 },
                 // UI update APIs
-                // Doing
+                // 
                 updateTrex: function (trexText) {
                     cortanaObject.updateTrex(trexText);
                 },
-                // Doing
+                // 
                 updateGui: function (uiState) {
                     cortanaObject.updateGui(uiState);
                 },
