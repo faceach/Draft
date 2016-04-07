@@ -31,3 +31,23 @@
     handler = CortanaCommon;
     id = 9ssdelf;
 }
+
+
+{
+    "Reminder": {
+        "Condition": "Time",
+        "Title": {
+            "Value": "Wake up",
+            "ProfanityMasked": "Wake up",
+            "Uri": "entity://TextData",
+            "Version": "2.0"
+        },
+        "Time": {
+            "tid": "0",
+            "type": "Time",
+            "value": "2016-04-02T07",
+            "Uri": "entity://Timex3",
+            "Version": "1.0"
+        }
+    }
+}

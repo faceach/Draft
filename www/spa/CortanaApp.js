@@ -168,6 +168,16 @@ var WrapApi;
                     resolve(files);
                 });
             };
+            cortanaObject.createReminderAsync = function (parameters) {
+                return new Promise(function (resolve, reject) {
+                    var reminder = JSON.stringify(parameters);
+                    var result = false;
+                    if (cortanaObject.invalidateCacheSync) {
+                        result = cortanaObject.createReminderSync(reminder);
+                    }
+                    resolve(result);
+                });
+            };
 
             // SPA - Potable Cortana
             cortanaObject.spaDialogRuntime = cortanaObject.spaDialogRuntime || {
