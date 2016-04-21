@@ -9,6 +9,16 @@
 /// <reference path="..\..\..\..\Shared\Content\Content\Script\Declarations\Threshold.Utilities.d.ts" />
 var WrapApi;
 (function (WrapApi) {
+    function completePromise(completionFunction) {
+        if (WrapApi.AndroidReturnAsync) {
+            // Set a timeout to finish resolution after the current call stack of execution finished.
+            sb_st(function () { return completionFunction(); }, 0);
+        }
+        else {
+            // To maintain current behavior, resolve synchronously.
+            completionFunction();
+        }
+    }
     // This method clones an object while providing a wrapMethod bridges between one implementation of a function and another.
     // We use it to make sure the object we get back from Cortana API calls can fall back to our mock implementations if Cortana APIs fail or are not implemented.
     function wrapAndroidApi(cortanaObject) {
@@ -27,7 +37,7 @@ var WrapApi;
                 launchUriAsync: function (uri, options) {
                     return new Promise(function (resolve, reject) {
                         var result = cortanaObject.launchUriSync(uri, options);
-                        resolve(result);
+                        completePromise(function () { return resolve(result); });
                     });
                 },
                 launchRAFAsync: function (rawQuery, formCode) {
@@ -36,7 +46,7 @@ var WrapApi;
                 startPhoneCallAsync: function (phoneNumber, displayName) {
                     return new Promise(function (resolve, reject) {
                         cortanaObject.startPhoneCallSync(phoneNumber, displayName);
-                        resolve(true);
+                        completePromise(function () { return resolve(true); });
                     });
                 },
                 navigateReactiveViewAsync: function (rawQuery, formCode) {
@@ -45,7 +55,7 @@ var WrapApi;
                         if (cortanaObject.navigateReactiveViewSync) {
                             result = cortanaObject.navigateReactiveViewSync(rawQuery, formCode);
                         }
-                        resolve(result);
+                        completePromise(function () { return resolve(result); });
                     });
                 }
             };
@@ -56,7 +66,7 @@ var WrapApi;
                         if (cortanaObject.invalidateCacheSync) {
                             result = cortanaObject.invalidateCacheSync();
                         }
-                        resolve(result);
+                        completePromise(function () { return resolve(result); });
                     });
                 },
                 perfMetrics: {
@@ -73,21 +83,14 @@ var WrapApi;
                 return new Promise(function (resolve, reject) {
                     var headerString = cortanaObject.getQueryHeadersSync();
                     var headers = JSON.parse(headerString);
-                    resolve(headers);
-                });
-            };
-            cortanaObject.processNLCommandAsync = function () {
-                return new Promise(function (resolve, reject) {
-                    var headerString = cortanaObject.getQueryHeadersSync();
-                    var headers = JSON.parse(headerString);
-                    resolve(headers);
+                    completePromise(function () { return resolve(headers); });
                 });
             };
             if (typeof cortanaObject.navigateWebViewSync === 'function') {
                 cortanaObject.navigateWebViewAsync = function (uri) {
                     return new Promise(function (resolve, reject) {
                         cortanaObject.navigateWebViewSync(uri);
-                        resolve(true);
+                        completePromise(function () { return resolve(true); });
                     });
                 };
             }
@@ -95,19 +98,19 @@ var WrapApi;
                 return new Promise(function (resolve, reject) {
                     var postDataStringified = JSON.stringify(parameters);
                     cortanaObject.navigateWebViewWithPostSync(uri, postDataStringified);
-                    resolve(true);
+                    completePromise(function () { return resolve(true); });
                 });
             };
             cortanaObject.navigateWebViewBackAsync = function (frameCount) {
                 return new Promise(function (resolve, reject) {
                     cortanaObject.navigateWebViewBackSync(frameCount);
-                    resolve(true);
+                    completePromise(function () { return resolve(true); });
                 });
             };
             cortanaObject.showWebViewAsync = function () {
                 return new Promise(function (resolve, reject) {
                     cortanaObject.showWebViewSync();
-                    resolve(true);
+                    completePromise(function () { return resolve(true); });
                 });
             };
             cortanaObject.launchExperienceByName = function (experienceName, parameters) {
@@ -145,7 +148,7 @@ var WrapApi;
                 var base64Content = content;
                 this.getBase64ContentAsync = function () {
                     return doneablePromise(function (resolve, reject) {
-                        resolve(base64Content);
+                        completePromise(function () { return resolve(base64Content); });
                     });
                 };
             };
@@ -153,7 +156,8 @@ var WrapApi;
                 return doneablePromise(function (resolve, reject) {
                     var data = JSON.parse(cortanaObject.getFeedbackFilesSync());
                     if (!data) {
-                        reject("Get feedback files failed.");
+                        completePromise(function () { return reject("Get feedback files failed."); });
+                        return;
                     }
                     var screenshots = data.screenshots;
                     var files = {};
@@ -161,15 +165,21 @@ var WrapApi;
                     var iLength = 0;
                     if (screenshots && screenshots.length > 0) {
                         for (i = 0, iLength = screenshots.length; i < iLength; i++) {
-                            files[i] = new Screenshot(screenshots[i].fileName, screenshots[i].content, screenshots[i].type);
+                                files[i] = new Screenshot(screenshots[i].fileName, screenshots[i].content, screenshots[i].type);
                         }
                     }
                     files['size'] = iLength;
-                    resolve(files);
+                    completePromise(function () { return resolve(files); });
                 });
             };
+            //TFS 52    27831: [CoA] In order to support proactive peek, implement cortanaApp.logMeasure() and cortanaApp.setNonAnimatingCortanaText(�)
+            cortanaObject.logMeasure = function () {
+            };
+            cortanaObject.setNonAnimatingCortanaText = function () {
+            };
+
             cortanaObject.createReminderAsync = function (parameters) {
-                return new Promise(function (resolve, reject) {
+                retu    rn new Promise(function (resolve, reject) {
                     var reminder = JSON.stringify(parameters);
                     var result = false;
                     if (cortanaObject.invalidateCacheSync) {
@@ -179,15 +189,50 @@ var WrapApi;
                 });
             };
 
+            cortanaObject.getCurrentState() {
+                cortanaObject.getCurrentState();
+            }
+            cortanaObject.logVerboseTrace(eventName, opCode, payloadName, payloadData, impressionId) {
+                cortanaObject.logVerboseTrace(eventName, opCode, payloadName, payloadData, impressionId);
+            }
+            cortanaObject.processNLCommandAsync(commandTaskFrame, impressionId) {
+                return new Promise(function (resolve, reject) {
+                    cortanaObject.processNLCommandSync(commandTaskFrame, impressionId);
+                    completePromise(function () { return resolve(true); });
+                });
+            }
+
+            cortanaObject.searchResultsView = {};
+            cortanaObject.searchResultsView.executeSearchAsync(query) {
+                return new Promise(function (resolve, reject) {
+                    cortanaObject.executeSearchSync(query);
+                    completePromise(function () { return resolve(true); });
+                });
+            }
+            cortanaObject.searchResultsView.deviceSearch = {};
+            cortanaObject.searchResultsView.deviceSearch.findAppsAsync(appIds) {
+                return new Promise(function (resolve, reject) {
+                    cortanaObject.findAppsSync(appIds);
+                    completePromise(function () { return resolve(true); });
+                });
+            }
+
+
             // SPA - Potable Cortana
             cortanaObject.spaDialogRuntime = cortanaObject.spaDialogRuntime || {
                 // NL APIs
                 // Doing
                 startLanguageUnderstandingFromVoiceAsync: function (cuInput) {
-                    cortanaObject.startLanguageUnderstandingFromVoiceSync(cuInput);
+                    return new Promise(function (resolve, reject) {
+                        cortanaObject.startLanguageUnderstandingFromVoiceSync(cuInput);
+                        completePromise(function () { return resolve(true); });
+                    });
                 },
                 startDictationAsync: function (cuInput) {
-                    cortanaObject.startDictationSync(cuInput);
+                    return new Promise(function (resolve, reject) {
+                        cortanaObject.startDictationSync(cuInput);
+                        completePromise(function () { return resolve(true); });
+                    });
                 },
                 endpointAudio: function (operationId) {
                     cortanaObject.endpointAudio(operationId);
@@ -199,21 +244,21 @@ var WrapApi;
                 playEarconAsync: function (earConType) {
                     return new Promise(function (resolve, reject) {
                         cortanaObject.playEarconSync(earConType);
-                        resolve(true);
+                        completePromise(function () { return resolve(true); });
                     });
                 },
                 // 
                 speakAsync: function (ssmlData) {
                     return new Promise(function (resolve, reject) {
                         cortanaObject.speakSync(ssmlData);
-                        resolve(true);
+                        completePromise(function () { return resolve(true); });
                     });
                 },
                 // 
                 stopSpeakingAsync: function () {
                     return new Promise(function (resolve, reject) {
                         cortanaObject.stopSpeakingSync();
-                        resolve(true);
+                        completePromise(function () { return resolve(true); });
                     });
                 },
                 // UI update APIs
@@ -227,6 +272,9 @@ var WrapApi;
                 },
                 changeSticMode: function(isEnabled) {
                     cortanaObject.changeSticMode(isEnabled);
+                },
+                changeSticStateAndInputMode: function(spaSticState, spaSticInputMode) {
+                    cortanaObject.changeSticStateAndInputMode(spaSticState, spaSticInputMode);
                 }
             };
 
