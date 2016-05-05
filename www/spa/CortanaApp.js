@@ -178,24 +178,11 @@ var WrapApi;
             cortanaObject.setNonAnimatingCortanaText = function () {
             };
 
-            cortanaObject.createReminderAsync = function (parameters) {
-                retu    rn new Promise(function (resolve, reject) {
-                    var reminder = JSON.stringify(parameters);
-                    var result = false;
-                    if (cortanaObject.invalidateCacheSync) {
-                        result = cortanaObject.createReminderSync(reminder);
-                    }
-                    resolve(result);
-                });
-            };
-
-            cortanaObject.getCurrentState() {
-                cortanaObject.getCurrentState();
-            }
-            cortanaObject.logVerboseTrace(eventName, opCode, payloadName, payloadData, impressionId) {
+            cortanaObject.currentState = cortanaObject.getCurrentState();
+            cortanaObject.logVerboseTrace = function (eventName, opCode, payloadName, payloadData, impressionId) {
                 cortanaObject.logVerboseTrace(eventName, opCode, payloadName, payloadData, impressionId);
             }
-            cortanaObject.processNLCommandAsync(commandTaskFrame, impressionId) {
+            cortanaObject.processNLCommandAsync = function (commandTaskFrame, impressionId) {
                 return new Promise(function (resolve, reject) {
                     cortanaObject.processNLCommandSync(commandTaskFrame, impressionId);
                     completePromise(function () { return resolve(true); });
@@ -203,20 +190,27 @@ var WrapApi;
             }
 
             cortanaObject.searchResultsView = {};
-            cortanaObject.searchResultsView.executeSearchAsync(query) {
+            cortanaObject.searchResultsView.executeSearchAsync = function (query) {
                 return new Promise(function (resolve, reject) {
                     cortanaObject.executeSearchSync(query);
                     completePromise(function () { return resolve(true); });
                 });
             }
             cortanaObject.searchResultsView.deviceSearch = {};
-            cortanaObject.searchResultsView.deviceSearch.findAppsAsync(appIds) {
+            cortanaObject.searchResultsView.deviceSearch.findAppsAsync = function (appIds) {
                 return new Promise(function (resolve, reject) {
-                    cortanaObject.findAppsSync(appIds);
-                    completePromise(function () { return resolve(true); });
+                    var appMapString = cortanaObject.findAppsSync(appIds);
+                    var appMap;
+                    if(appMapString) {
+                        try {
+                            appMap = JSON.parse(appMapString);
+                        } catch (e) {
+                            alert(e);
+                        }
+                    }
+                    completePromise(function () { return resolve(appMap); });
                 });
             }
-
 
             // SPA - Potable Cortana
             cortanaObject.spaDialogRuntime = cortanaObject.spaDialogRuntime || {
