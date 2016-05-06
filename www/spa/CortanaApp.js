@@ -212,6 +212,8 @@ var WrapApi;
                 });
             }
 
+            var spaEventListenerMap = {};
+
             // SPA - Potable Cortana
             cortanaObject.spaDialogRuntime = cortanaObject.spaDialogRuntime || {
                 // NL APIs
@@ -269,6 +271,17 @@ var WrapApi;
                 },
                 changeSticStateAndInputMode: function(spaSticState, spaSticInputMode) {
                     cortanaObject.changeSticStateAndInputMode(spaSticState, spaSticInputMode);
+                },
+                addEventListener: function (eventName, cb) {
+                    if (spaEventListenerMap[eventName] === undefined) {
+                        spaEventListenerMap[eventName] = [];
+                    }
+                    spaEventListenerMap[eventName].push(cb);
+                },
+                triggerEventListener: function (eventName) {
+                    if (spaEventListenerMap[eventName] !== undefined) {
+                        spaEventListenerMap[eventName].forEach(triggerElement);
+                    }
                 }
             };
 
