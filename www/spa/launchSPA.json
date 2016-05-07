@@ -1,0 +1,21 @@
+{
+	"CuAction": {
+		"Uri": "action://CuOutput",
+		"SystemAction": {
+			"Uri": "action://Conversation/LaunchSPA",
+			"Version": "1.0"
+		},
+		"ConversationId": "cea4dc63-122c-c7bf-5b09-62c0092037f4",
+		"TraceId": "0FD24AC8D32A4DB480F6C516FC781763",
+		"ImpressionId": "f81131fda41d8d55c3464df4c356c1da",
+		"LgObject": {
+			"Uri": "action://LgObject",
+			"Ssml": null,
+			"DisplayText": null,
+			"SuggestionText": null,
+			"SecondaryDisplayTextSmall": null,
+			"SecondaryDisplayTextMedium": null,
+			"SecondaryDisplayTextLarge": null
+		}
+	}
+}
