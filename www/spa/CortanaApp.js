@@ -40,11 +40,8 @@ var WrapApi;
                         completePromise(function () { return resolve(result); });
                     });
                 },
-                launchRAFAsync: function (rawQuery, formCode, instrumentationParams) {
-                    return new Promise(function (resolve, reject) {
-                        cortanaObject.launchRAFSync(rawQuery, formCode, instrumentationParams);
-                        completePromise(function () { return resolve(true); });
-                    });
+                launchRAFAsync: function (rawQuery, formCode) {
+                    cortanaObject.launchRAFSync(rawQuery, formCode);
                 },
                 startPhoneCallAsync: function (phoneNumber, displayName) {
                     return new Promise(function (resolve, reject) {
@@ -275,15 +272,14 @@ var WrapApi;
                 changeSticStateAndInputMode: function(spaSticState, spaSticInputMode) {
                     cortanaObject.changeSticStateAndInputMode(spaSticState, spaSticInputMode);
                 },
-                addEventListener: function (eventName, cb) {
+                addEventListener: function (eventName, handler) {
                     if (spaEventListenerMap[eventName] === undefined) {
-                        spaEventListenerMap[eventName] = [];
+                        spaEventListenerMap[eventName] = handler;
                     }
-                    spaEventListenerMap[eventName].push(cb);
                 },
-                triggerEventListener: function (eventName) {
+                removeEventListener: function (eventName, handler) {
                     if (spaEventListenerMap[eventName] !== undefined) {
-                        spaEventListenerMap[eventName].forEach(triggerElement);
+                        delete spaEventListenerMap[eventName];
                     }
                 }
             };
