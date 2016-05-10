@@ -19,3 +19,28 @@
 		}
 	}
 }
+
+/*
+shared_ptr<ActionObject> Conversation::ShowUrlContent::ProcessLaunchSpaRequest(shared_ptr<ActionConversationLaunchSpa> launchSPA, shared_ptr<CuOutput> cuOutput)
+{
+    ZTrace("LaunchSPA: %ws", launchSPA->SpaIdentifier.c_str());
+ 
+    auto transitionAction = ActionTransitionDialogToSpa::Create();
+    transitionAction->SpaIdentifier = launchSPA->SpaIdentifier;
+    
+    auto context  = ActionSpaDialogContext::Create();
+    context->CuInput = CuInput::Create();
+ 
+    context->CuInput->ConversationId = cuOutput->ConversationId;
+    transitionAction->ImpressionId = cuOutput->ImpressionId;
+    transitionAction->SnrConnectionUrl = cuOutput->SnrEndpoint;
+ 
+    context->CuInput->SystemProperties = SystemProperties::Create();
+    *(context->CuInput->SystemProperties) = _response->GetSystemState();
+ 
+    transitionAction->DialogContext = context;
+    _response->FlowComplete = true; // We're done and handing over control to the SPA.
+ 
+    return transitionAction;
+} 
+*/
