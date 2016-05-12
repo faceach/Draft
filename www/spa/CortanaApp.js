@@ -313,18 +313,24 @@ var WrapApi;
                     cortanaObject.changeSticStateAndInputMode(spaSticState, spaSticInputMode);
                 },
                 addEventListener: function(eventName, handler) {
-                    if (!eventName || spaEventListenerMap[eventName] !== undefined) {
+                    if (!eventName) {
                         return;
                     }
                     eventName = eventName.toLowerCase();
+                    if (spaEventListenerMap[eventName] !== undefined) {
+                        return;
+                    }
                     spaEventListenerMap[eventName] = handler;
                     cortanaObject.registerEventListener(eventName, "CortanaApp.spaDialogRuntime.triggerEventListener");
                 },
                 triggerEventListener: function(eventName, params) {
-                    if (!eventName || spaEventListenerMap[eventName] === undefined) {
+                    if (!eventName) {
                         return;
                     }
                     eventName = eventName.toLowerCase();
+                    if (spaEventListenerMap[eventName] === undefined) {
+                        return;
+                    }
                     var jsonParams = {};
                     try {
                         jsonParams = JSON.parse(params);
@@ -332,10 +338,13 @@ var WrapApi;
                     spaEventListenerMap[eventName](jsonParams);
                 },
                 removeEventListener: function(eventName, handler) {
-                    if (!eventName || spaEventListenerMap[eventName] === undefined) {
+                    if (!eventName) {
                         return;
                     }
                     eventName = eventName.toLowerCase();
+                    if (spaEventListenerMap[eventName] === undefined) {
+                        return;
+                    }
                     delete spaEventListenerMap[eventName];
                     cortanaObject.removeEventListener(eventName);
                 }
