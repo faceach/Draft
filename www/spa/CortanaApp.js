@@ -13,7 +13,8 @@ var WrapApi;
         if (WrapApi.AndroidReturnAsync) {
             // Set a timeout to finish resolution after the current call stack of execution finished.
             sb_st(function() {
-                return completionFunction(); }, 0);
+                return completionFunction();
+            }, 0);
         } else {
             // To maintain current behavior, resolve synchronously.
             completionFunction();
@@ -38,7 +39,8 @@ var WrapApi;
                     return new Promise(function(resolve, reject) {
                         var result = cortanaObject.launchUriSync(uri, options);
                         completePromise(function() {
-                            return resolve(result); });
+                            return resolve(result);
+                        });
                     });
                 },
                 launchRAFAsync: function(rawQuery, formCode) {
@@ -48,7 +50,8 @@ var WrapApi;
                     return new Promise(function(resolve, reject) {
                         cortanaObject.startPhoneCallSync(phoneNumber, displayName);
                         completePromise(function() {
-                            return resolve(true); });
+                            return resolve(true);
+                        });
                     });
                 },
                 navigateReactiveViewAsync: function(rawQuery, formCode) {
@@ -58,7 +61,8 @@ var WrapApi;
                             result = cortanaObject.navigateReactiveViewSync(rawQuery, formCode);
                         }
                         completePromise(function() {
-                            return resolve(result); });
+                            return resolve(result);
+                        });
                     });
                 }
             };
@@ -70,7 +74,8 @@ var WrapApi;
                             result = cortanaObject.invalidateCacheSync();
                         }
                         completePromise(function() {
-                            return resolve(result); });
+                            return resolve(result);
+                        });
                     });
                 },
                 perfMetrics: {
@@ -88,7 +93,8 @@ var WrapApi;
                     var headerString = cortanaObject.getQueryHeadersSync();
                     var headers = JSON.parse(headerString);
                     completePromise(function() {
-                        return resolve(headers); });
+                        return resolve(headers);
+                    });
                 });
             };
             if (typeof cortanaObject.navigateWebViewSync === 'function') {
@@ -96,7 +102,8 @@ var WrapApi;
                     return new Promise(function(resolve, reject) {
                         cortanaObject.navigateWebViewSync(uri);
                         completePromise(function() {
-                            return resolve(true); });
+                            return resolve(true);
+                        });
                     });
                 };
             }
@@ -105,21 +112,24 @@ var WrapApi;
                     var postDataStringified = JSON.stringify(parameters);
                     cortanaObject.navigateWebViewWithPostSync(uri, postDataStringified);
                     completePromise(function() {
-                        return resolve(true); });
+                        return resolve(true);
+                    });
                 });
             };
             cortanaObject.navigateWebViewBackAsync = function(frameCount) {
                 return new Promise(function(resolve, reject) {
                     cortanaObject.navigateWebViewBackSync(frameCount);
                     completePromise(function() {
-                        return resolve(true); });
+                        return resolve(true);
+                    });
                 });
             };
             cortanaObject.showWebViewAsync = function() {
                 return new Promise(function(resolve, reject) {
                     cortanaObject.showWebViewSync();
                     completePromise(function() {
-                        return resolve(true); });
+                        return resolve(true);
+                    });
                 });
             };
             cortanaObject.launchExperienceByName = function(experienceName, parameters) {
@@ -159,7 +169,8 @@ var WrapApi;
                 this.getBase64ContentAsync = function() {
                     return doneablePromise(function(resolve, reject) {
                         completePromise(function() {
-                            return resolve(base64Content); });
+                            return resolve(base64Content);
+                        });
                     });
                 };
             };
@@ -168,7 +179,8 @@ var WrapApi;
                     var data = JSON.parse(cortanaObject.getFeedbackFilesSync());
                     if (!data) {
                         completePromise(function() {
-                            return reject("Get feedback files failed."); });
+                            return reject("Get feedback files failed.");
+                        });
                         return;
                     }
                     var screenshots = data.screenshots;
@@ -182,7 +194,8 @@ var WrapApi;
                     }
                     files['size'] = iLength;
                     completePromise(function() {
-                        return resolve(files); });
+                        return resolve(files);
+                    });
                 });
             };
             //TFS 52    27831: [CoA] In order to support proactive peek, implement cortanaApp.logMeasure() and cortanaApp.setNonAnimatingCortanaText(�)
@@ -197,7 +210,8 @@ var WrapApi;
                 return new Promise(function(resolve, reject) {
                     cortanaObject.processNLCommandSync(commandTaskFrame, impressionId);
                     completePromise(function() {
-                        return resolve(true); });
+                        return resolve(true);
+                    });
                 });
             }
 
@@ -206,7 +220,8 @@ var WrapApi;
                 return new Promise(function(resolve, reject) {
                     cortanaObject.executeSearchSync(query);
                     completePromise(function() {
-                        return resolve(true); });
+                        return resolve(true);
+                    });
                 });
             }
             cortanaObject.searchResultsView.deviceSearch = {};
@@ -222,7 +237,8 @@ var WrapApi;
                         }
                     }
                     completePromise(function() {
-                        return resolve(appMap); });
+                        return resolve(appMap);
+                    });
                 });
             }
 
@@ -236,14 +252,16 @@ var WrapApi;
                     return new Promise(function(resolve, reject) {
                         cortanaObject.startLanguageUnderstandingFromVoiceSync(cuInput);
                         completePromise(function() {
-                            return resolve(true); });
+                            return resolve(true);
+                        });
                     });
                 },
                 startDictationAsync: function(cuInput) {
                     return new Promise(function(resolve, reject) {
                         cortanaObject.startDictationSync(cuInput);
                         completePromise(function() {
-                            return resolve(true); });
+                            return resolve(true);
+                        });
                     });
                 },
                 endpointAudio: function(operationId) {
@@ -257,7 +275,8 @@ var WrapApi;
                     return new Promise(function(resolve, reject) {
                         cortanaObject.playEarconSync(earConType);
                         completePromise(function() {
-                            return resolve(true); });
+                            return resolve(true);
+                        });
                     });
                 },
                 // 
@@ -265,7 +284,8 @@ var WrapApi;
                     return new Promise(function(resolve, reject) {
                         cortanaObject.speakSync(ssmlData);
                         completePromise(function() {
-                            return resolve(true); });
+                            return resolve(true);
+                        });
                     });
                 },
                 // 
@@ -273,7 +293,8 @@ var WrapApi;
                     return new Promise(function(resolve, reject) {
                         cortanaObject.stopSpeakingSync();
                         completePromise(function() {
-                            return resolve(true); });
+                            return resolve(true);
+                        });
                     });
                 },
                 // UI update APIs
@@ -292,39 +313,28 @@ var WrapApi;
                     cortanaObject.changeSticStateAndInputMode(spaSticState, spaSticInputMode);
                 },
                 addEventListener: function(eventName, handler) {
-                    if (spaEventListenerMap[eventName] === undefined) {
-                        spaEventListenerMap[eventName] = handler;
+                    if (!eventName || spaEventListenerMap[eventName] !== undefined) {
+                        return;
                     }
-
-                    switch (eventName.toLowerCase()) {
-                        case 'startspadialog':
-                            /*var strArgs = cortanaObject.startSpaDialog();
-                            var jsonArgs = {};
-                            try {
-                                jsonArgs = JSON.parse(strArgs);
-                            } catch (e) {}
-                            spaEventListenerMap[eventName](jsonArgs);*/
-                            cortanaObject.registerEventListener("startspadialog", "CortanaApp.spaDialogRuntime.triggerEventListener")
-                            break;
-                        case 'microphonebuttonpressed':
-                            break;
-                        default:
-                            break;
-                    }
+                    spaEventListenerMap[eventName] = handler;
+                    cortanaObject.registerEventListener(eventName.toLowerCase(), "CortanaApp.spaDialogRuntime.triggerEventListener");
                 },
                 triggerEventListener: function(eventName, params) {
-                    var jsonParams = {};
-                    if (spaEventListenerMap[eventName] !== undefined) {
-                        try {
-                            jsonParams = JSON.parse(params);
-                        } catch (e) {}
-                        spaEventListenerMap[eventName](jsonParams);
+                    if (!eventName || spaEventListenerMap[eventName] === undefined) {
+                        return;
                     }
+                    var jsonParams = {};
+                    try {
+                        jsonParams = JSON.parse(params);
+                    } catch (e) {}
+                    spaEventListenerMap[eventName](jsonParams);
                 },
                 removeEventListener: function(eventName, handler) {
-                    if (spaEventListenerMap[eventName] !== undefined) {
-                        delete spaEventListenerMap[eventName];
+                    if (!eventName || spaEventListenerMap[eventName] === undefined) {
+                        return;
                     }
+                    delete spaEventListenerMap[eventName];
+                    cortanaObject.removeEventListener(eventName.toLowerCase());
                 }
             };
 
