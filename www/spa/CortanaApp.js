@@ -298,17 +298,27 @@ var WrapApi;
 
                     switch (eventName.toLowerCase()) {
                         case 'startspadialog':
-                            var strArgs = cortanaObject.startSpaDialog();
+                            /*var strArgs = cortanaObject.startSpaDialog();
                             var jsonArgs = {};
                             try {
                                 jsonArgs = JSON.parse(strArgs);
-                                spaEventListenerMap[eventName](jsonArgs);
                             } catch (e) {}
+                            spaEventListenerMap[eventName](jsonArgs);*/
+                            cortanaObject.registerEventListener("startspadialog", "CortanaApp.spaDialogRuntime.triggerEventListener")
                             break;
                         case 'microphonebuttonpressed':
                             break;
                         default:
                             break;
+                    }
+                },
+                triggerEventListener: function(eventName, params) {
+                    var jsonParams = {};
+                    if (spaEventListenerMap[eventName] !== undefined) {
+                        try {
+                            jsonParams = JSON.parse(params);
+                        } catch (e) {}
+                        spaEventListenerMap[eventName](jsonParams);
                     }
                 },
                 removeEventListener: function(eventName, handler) {
