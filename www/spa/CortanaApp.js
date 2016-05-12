@@ -316,13 +316,15 @@ var WrapApi;
                     if (!eventName || spaEventListenerMap[eventName] !== undefined) {
                         return;
                     }
+                    eventName = eventName.toLowerCase();
                     spaEventListenerMap[eventName] = handler;
-                    cortanaObject.registerEventListener(eventName.toLowerCase(), "CortanaApp.spaDialogRuntime.triggerEventListener");
+                    cortanaObject.registerEventListener(eventName, "CortanaApp.spaDialogRuntime.triggerEventListener");
                 },
                 triggerEventListener: function(eventName, params) {
                     if (!eventName || spaEventListenerMap[eventName] === undefined) {
                         return;
                     }
+                    eventName = eventName.toLowerCase();
                     var jsonParams = {};
                     try {
                         jsonParams = JSON.parse(params);
@@ -333,8 +335,9 @@ var WrapApi;
                     if (!eventName || spaEventListenerMap[eventName] === undefined) {
                         return;
                     }
+                    eventName = eventName.toLowerCase();
                     delete spaEventListenerMap[eventName];
-                    cortanaObject.removeEventListener(eventName.toLowerCase());
+                    cortanaObject.removeEventListener(eventName);
                 }
             };
 
