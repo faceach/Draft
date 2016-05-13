@@ -225,9 +225,9 @@ var WrapApi;
                 });
             }
             cortanaObject.searchResultsView.deviceSearch = {};
-            cortanaObject.searchResultsView.deviceSearch.findAppsAsync = function(appIds) {
+            cortanaObject.searchResultsView.deviceSearch.findAppsAsync = function(appIds, impressionId) {
                 return new Promise(function(resolve, reject) {
-                    var appMapString = cortanaObject.findAppsSync(appIds);
+                    var appMapString = cortanaObject.findAppsSync(appIds, impressionId);
                     var appMap;
                     if (appMapString) {
                         try {
