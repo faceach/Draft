@@ -208,9 +208,9 @@ var WrapApi;
             }
             cortanaObject.processNLCommandAsync = function(commandTaskFrame, impressionId) {
                 return new Promise(function(resolve, reject) {
-                    cortanaObject.processNLCommandSync(commandTaskFrame, impressionId);
+                    var result = cortanaObject.processNLCommandSync(commandTaskFrame, impressionId);
                     completePromise(function() {
-                        return resolve(true);
+                        return resolve(result);
                     });
                 });
             }
@@ -218,9 +218,9 @@ var WrapApi;
             cortanaObject.searchResultsView = {};
             cortanaObject.searchResultsView.executeSearchAsync = function(query) {
                 return new Promise(function(resolve, reject) {
-                    cortanaObject.executeSearchSync(query);
+                    var result = cortanaObject.executeSearchSync(query);
                     completePromise(function() {
-                        return resolve(true);
+                        return resolve(result);
                     });
                 });
             }
