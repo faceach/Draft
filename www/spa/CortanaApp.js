@@ -335,7 +335,9 @@ var WrapApi;
                     try {
                         jsonParams = JSON.parse(params);
                     } catch (e) {}
-                    spaEventListenerMap[eventName](jsonParams);
+                    if (typeof spaEventListenerMap[eventName] === 'function') {
+                        spaEventListenerMap[eventName](jsonParams);
+                    }
                 },
                 removeEventListener: function(eventName, handler) {
                     if (!eventName) {
