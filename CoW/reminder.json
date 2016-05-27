@@ -1,0 +1,15 @@
+{
+	"Reminder": {
+		"Condition": "None",
+		"Title": {
+			"Value": "Tom like ice cream",
+			"ProfanityMasked": "Tom like ice cream",
+			"Uri": "entity:\/\/TextData",
+			"Version": "2.0"
+		},
+		"Uri": "entity:\/\/Reminder",
+		"Version": "2.0"
+	},
+	"Uri": "action:\/\/Reminder\/Create",
+	"Version": "2.0"
+}

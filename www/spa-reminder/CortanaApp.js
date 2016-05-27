@@ -28,32 +28,30 @@ var WrapApi;
         }
 
         function callNativeAsync(apiName) {
-            var defer = Promise.defer();
-            if (!apiName || typeof cortanaObject[apiName] !== 'function') {
-                completePromise(defer.reject);
-                return defer.promise;
-            }
-
-            // Cal native projected API
-            cortanaObject[apiName].apply(this, Array.prototype.slice.call(arguments, 1));
-
-            var eventName = 'callNativeAsync.' + apiName;
-
-            function eventHandler(jsonParams) {
-                removeEventListener(eventName, eventHandler);
-                if (!jsonParams) {
-                    return;
+            return new Promise(function(resolve, reject) {
+                if (!apiName || typeof cortanaObject[apiName] !== 'function') {
+                    completePromise(reject);
                 }
-                var result = jsonParams.result || null;
-                if (jsonParams.status === 'resolved') {
-                    defer.resolve(result);
-                } else {
-                    defer.reject(result);
+                var eventName = 'callNativeAsync_' + apiName;
+
+                function eventHandler(jsonParams) {
+                    removeEventListener(eventName, eventHandler);
+                    if (!jsonParams) {
+                        return;
+                    }
+                    var result = jsonParams.result || null;
+                    if (jsonParams.status === 'resolved') {
+                        resolve(result);
+                    } else {
+                        reject(result);
+                    }
                 }
-            }
-            // Add event listener
-            addEventListener(eventName, eventHandler);
-            return defer.promise;
+                // Add event listener
+                addEventListener(eventName, eventHandler);
+
+                // Cal native projected API
+                cortanaObject[apiName].apply(this, Array.prototype.slice.call(arguments, 1));
+            });
         }
 
         var nativeEventListenerMap = {};
@@ -67,7 +65,7 @@ var WrapApi;
                 return;
             }
             nativeEventListenerMap[eventName] = handler;
-            cortanaObject.registerEventListener(eventName, "CortanaApp.fromNative.triggerEventListener");
+            cortanaObject.registerEventListener(eventName, "CortanaApp.triggerEventListenerFromNative");
         }
 
         function removeEventListener(eventName, handler) {
@@ -82,7 +80,7 @@ var WrapApi;
             cortanaObject.removeEventListener(eventName);
         }
 
-        cortanaObject.fromNative.triggerEventListener = function (eventName, params) {
+        cortanaObject.triggerEventListenerFromNative = function(eventName, params) {
             if (!eventName) {
                 return;
             }
@@ -317,7 +315,7 @@ var WrapApi;
         }
 
         // SPA - Potable Cortana
-        cortanaObject.spaDialogRuntime = cortanaObject.spaDialogRuntime || {
+        cortanaObject.spaDialogRuntime = {
             // NL APIs
             // Doing
             startLanguageUnderstandingFromVoiceAsync: function(cuInput) {
