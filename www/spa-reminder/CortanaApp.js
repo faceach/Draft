@@ -28,6 +28,8 @@ var WrapApi;
         }
 
         function callNativeAsync(apiName) {
+            var params = Array.prototype.slice.call(arguments, 1);
+
             return new Promise(function(resolve, reject) {
                 if (!apiName || typeof cortanaObject[apiName] !== 'function') {
                     completePromise(reject);
@@ -50,7 +52,7 @@ var WrapApi;
                 addEventListener(eventName, eventHandler);
 
                 // Cal native projected API
-                cortanaObject[apiName].apply(this, Array.prototype.slice.call(arguments, 1));
+                cortanaObject[apiName].apply(cortanaObject, params);
             });
         }
 
