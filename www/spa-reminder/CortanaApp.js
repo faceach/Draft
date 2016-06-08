@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------------------
-// <copyright file="SearchAppAndroid.ts" company="Microsoft Corporation">
+// <copyright file="SearchAppAndroid.Async.ts" company="Microsoft Corporation">
 //     Copyright (c) Microsoft Corporation. All Rights Reserved.
 //     Information Contained Herein is Proprietary and Confidential.
 // </copyright>
@@ -22,14 +22,15 @@ var WrapApi;
     }
     // This method clones an object while providing a wrapMethod bridges between one implementation of a function and another.
     // We use it to make sure the object we get back from Cortana API calls can fall back to our mock implementations if Cortana APIs fail or are not implemented.
-    function wrapAndroidApi(cortanaObject) {
+    function wrapAndroidApiAsynchronousable(cortanaObject) {
         if (!cortanaObject) {
             return;
         }
-
+        // we don't implement the following as QF and device search are not part of CoA
+        // searchResultsView: ISearchResultsView;
+        // searchBox: ISearchBox;
         function callNativeAsync(apiName) {
             var params = Array.prototype.slice.call(arguments, 1);
-
             return new Promise(function(resolve, reject) {
                 if (!apiName || typeof cortanaObject[apiName] !== 'function') {
                     completePromise(reject);
@@ -50,12 +51,10 @@ var WrapApi;
                 }
                 // Add event listener
                 addEventListener(eventName, eventHandler);
-
                 // Cal native projected API
                 cortanaObject[apiName].apply(cortanaObject, params);
             });
         }
-
         var nativeEventListenerMap = {};
 
         function addEventListener(eventName, handler) {
@@ -81,27 +80,23 @@ var WrapApi;
             delete nativeEventListenerMap[eventName];
             cortanaObject.removeEventListener(eventName);
         }
-
         cortanaObject.triggerEventListenerFromNative = function(eventName, params) {
             if (!eventName) {
                 return;
             }
             eventName = eventName.toLowerCase();
-            if (nativeEventListenerMap[eventName] === undefined) {
+            var eventHandler = nativeEventListenerMap[eventName];
+            if (!eventHandler) {
                 return;
             }
             var jsonParams = {};
             try {
                 jsonParams = JSON.parse(params);
             } catch (e) {}
-            if (typeof nativeEventListenerMap[eventName] === 'function') {
-                nativeEventListenerMap[eventName](jsonParams);
+            if (typeof eventHandler === 'function') {
+                eventHandler.call(null, jsonParams);
             }
-        }
-
-        // we don't implement the following as QF and device search are not part of CoA
-        // searchResultsView: ISearchResultsView;
-        // searchBox: ISearchBox;
+        };
         cortanaObject.isCortanaEnabled = cortanaObject.getIsCortanaEnabled();
         cortanaObject.isBingEnabled = cortanaObject.getIsBingEnabled();
         cortanaObject.isMobile = cortanaObject.getIsMobile();
@@ -109,6 +104,9 @@ var WrapApi;
         cortanaObject.uiLanguage = cortanaObject.getUiLanguage(); // the language code for localized resources  
         cortanaObject.sessionId = cortanaObject.getSessionId(); // Logged in the Client to identify App open -> App close "sessions"  
         cortanaObject.impressionId = cortanaObject.getImpressionId(); // Produced by the client & logged by the server to identify each Keystroke  
+        if (typeof cortanaObject.getCurrentState === 'function') {
+            cortanaObject.currentState = cortanaObject.getCurrentState();
+        }
         cortanaObject.launcher = cortanaObject.launcher || {
             launchUriAsync: function(uri, options) {
                 return new Promise(function(resolve, reject) {
@@ -211,8 +209,11 @@ var WrapApi;
             var experienceDataStringified = JSON.stringify(parameters);
             cortanaObject.launchExperienceByNameSync(experienceName, experienceDataStringified);
         };
-
         var eventListenerMap = {};
+
+        function triggerElement(element, index, array) {
+            element();
+        };
         cortanaObject.addEventListener = function(eventName, cb) {
             if (eventListenerMap[eventName] === undefined) {
                 eventListenerMap[eventName] = [];
@@ -221,9 +222,7 @@ var WrapApi;
         };
         cortanaObject.triggerEventListener = function(eventName) {
             if (eventListenerMap[eventName] !== undefined) {
-                eventListenerMap[eventName].forEach(function triggerElement(element, index, array) {
-                    element();
-                });
+                eventListenerMap[eventName].forEach(triggerElement);
             }
         };
 
@@ -272,14 +271,9 @@ var WrapApi;
                 });
             });
         };
-        //TFS 52    27831: [CoA] In order to support proactive peek, implement cortanaApp.logMeasure() and cortanaApp.setNonAnimatingCortanaText(�)
+        //TFS 5227831: [CoA] In order to support proactive peek, implement cortanaApp.logMeasure() and cortanaApp.setNonAnimatingCortanaText(…)
         cortanaObject.logMeasure = function() {};
         cortanaObject.setNonAnimatingCortanaText = function() {};
-
-        cortanaObject.currentState = cortanaObject.getCurrentState();
-        cortanaObject.logVerboseTrace = function(eventName, opCode, payloadName, payloadData, impressionId) {
-            cortanaObject.logVerboseTrace(eventName, opCode, payloadName, payloadData, impressionId);
-        }
         cortanaObject.processNLCommandAsync = function(commandTaskFrame, impressionId) {
             return new Promise(function(resolve, reject) {
                 var result = cortanaObject.processNLCommandSync(commandTaskFrame, impressionId);
@@ -287,8 +281,7 @@ var WrapApi;
                     return resolve(result);
                 });
             });
-        }
-
+        };
         cortanaObject.searchResultsView = {};
         cortanaObject.searchResultsView.executeSearchAsync = function(query) {
             return new Promise(function(resolve, reject) {
@@ -297,7 +290,7 @@ var WrapApi;
                     return resolve(result);
                 });
             });
-        }
+        };
         cortanaObject.searchResultsView.deviceSearch = {};
         cortanaObject.searchResultsView.deviceSearch.findAppsAsync = function(appIds, impressionId) {
             return new Promise(function(resolve, reject) {
@@ -314,17 +307,16 @@ var WrapApi;
                     return resolve(appMap);
                 });
             });
-        }
-
+        };
         // SPA - Potable Cortana
-        cortanaObject.spaDialogRuntime = {
+        var spaEventListenerMap = {};
+        cortanaObject.spaDialogRuntime = cortanaObject.spaDialogRuntime || {
             // NL APIs
-            // Doing
             startLanguageUnderstandingFromVoiceAsync: function(cuInput) {
                 return new Promise(function(resolve, reject) {
-                    cortanaObject.startLanguageUnderstandingFromVoiceSync(cuInput);
+                    var result = cortanaObject.startLanguageUnderstandingFromVoiceSync(cuInput);
                     completePromise(function() {
-                        return resolve(true);
+                        return resolve(result);
                     });
                 });
             },
@@ -353,13 +345,7 @@ var WrapApi;
             },
             // 
             speakAsync: function(ssmlData) {
-                return callNativeAsync('speakSync', ssmlData);
-                /*return new Promise(function(resolve, reject) {
-                    cortanaObject.speakSync(ssmlData);
-                    completePromise(function() {
-                        return resolve(true);
-                    });
-                });*/
+                return callNativeAsync.call(null, 'speakSync', ssmlData);
             },
             // 
             stopSpeakingAsync: function() {
@@ -398,11 +384,10 @@ var WrapApi;
                 removeEventListener(eventName, handler);
             }
         };
-
         return cortanaObject;
     }
-    WrapApi.wrapAndroidApi = wrapAndroidApi;
+    WrapApi.wrapAndroidApiAsynchronousable = wrapAndroidApiAsynchronousable;
 })(WrapApi || (WrapApi = {}));
 var SearchAppWrapper = {
-    CortanaApp: (_w['CortanaApp'] ? WrapApi.wrapAndroidApi(_w['CortanaApp']) : _w['MockCortanaAppInstance'])
+    CortanaApp: (_w['CortanaApp'] ? WrapApi.wrapAndroidApiAsynchronousable(_w['CortanaApp']) : _w['MockCortanaAppInstance'])
 };
