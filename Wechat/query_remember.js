@@ -35,6 +35,66 @@
 //-----------------------------------------------------------
 
 {
+	"Reminder": {
+		"Condition": "None",
+		"Uri": "entity:\/\/Reminder",
+		"Version": "2.0"
+	},
+	"Uri": "action:\/\/Reminder\/Create",
+	"Version": "2.0"
+}
+
+//-----------------------------------------------------------
+// 记住
+{
+	"Reminder": {
+		"Condition": "None",
+		"Title": {
+			"Value": "记住我的车停在楼下",
+			"ProfanityMasked": "记住我的车停在楼下",
+			"Uri": "entity:\/\/TextData",
+			"Version": "2.0"
+		},
+		"Uri": "entity:\/\/Reminder",
+		"Version": "2.0"
+	},
+	"Uri": "action:\/\/Reminder\/Create",
+	"Version": "2.0"
+}
+// 提醒
+{
+	"Reminder": {
+		"Condition": "None",
+		"Title": {
+			"Value": "我车停在楼下",
+			"ProfanityMasked": "我车停在楼下",
+			"Uri": "entity:\/\/TextData",
+			"Version": "2.0"
+		},
+		"Uri": "entity:\/\/Reminder",
+		"Version": "2.0"
+	},
+	"Uri": "action:\/\/Reminder\/Create",
+	"Version": "2.0"
+}
+{
+	"Reminder": {
+		"Condition": "None",
+		"Title": {
+			"Value": "小明喜欢吃苹果",
+			"ProfanityMasked": "小明喜欢吃苹果",
+			"Uri": "entity:\/\/TextData",
+			"Version": "2.0"
+		},
+		"Uri": "entity:\/\/Reminder",
+		"Version": "2.0"
+	},
+	"Uri": "action:\/\/Reminder\/Create",
+	"Version": "2.0"
+}
+//-----------------------------------------------------------
+
+{
 	"Uri": "action://CuOutput",
 	"SystemAction": {
 		"Reminder": {
