@@ -1,7 +1,16 @@
 (function() {
+  CortanaApp = {};
+  CortanaApp.getAnswerAsync = function() {
+    return new Promise(function(resolve, reject) {
+      setTimeout(function() {
+        resolve('{"myData": 2}');
+      }, 3000);
+    });
+  };
+
   function isProactiveV2() {
     var pathname = location.pathname.toLowerCase();
-    return pathname === '/proactive/v2' || pathname === '/proactive/v2/';
+    return true; // pathname === '/proactive/v2' || pathname === '/proactive/v2/';
   }
 
   function isRequestAnswers(url) {
@@ -55,10 +64,22 @@
         });
         return;
       }
+      self.readyState = actualXHR.readyState;
+      self.status = actualXHR.status;
+      self.response = actualXHR.response;
       if (self.onreadystatechange) {
         return self.onreadystatechange();
       }
     };
+
+    // add all proxy getters - XMLHttpRequest.readyState properties
+    ["UNSENT", "OPENED", "HEADERS_RECEIVED", "LOADING", "DONE"].forEach(function(item) {
+      Object.defineProperty(self, item, {
+        get: function() {
+          return actualXHR[item];
+        }
+      });
+    });
 
     // add all proxy getters
     ["statusText", "responseType", "responseText", "responseXML", "upload"].forEach(function(item) {
@@ -97,6 +118,7 @@
     var xhr = new XMLHttpRequest,
       exp;
     xhr.open("GET", "/answers", !0);
+    //xhr.open("GET", "./answers.json", !0);
     xhr.onreadystatechange = function() {
       if (xhr.readyState === xhr.DONE) {
         var parsedResponse = null;
@@ -104,10 +126,10 @@
           try {
             parsedResponse = JSON.parse(xhr.response)
           } catch (exp) {
-            SharedLogHelper.LogError("DssError", "Could not parse the DSS response as JSON: " + xhr.response, exp);
+            console.log("Could not parse the DSS response as JSON: " + xhr.response, exp);
           }
         } else {
-          SharedLogHelper.LogError("DssError", "DSS responded with status code: " + xhr.status + "; message: " + xhr.response);
+          console.log("DSS responded with status code: " + xhr.status + "; message: " + xhr.response);
         }
         console.log(parsedResponse);
       }
