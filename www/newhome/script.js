@@ -25,21 +25,26 @@ document.getElementById('chevron_bar').style.position = 'static';
 			handleswipe = callback || function(swipedir) {};
 
 		touchsurface.addEventListener('touchstart', function(e) {
+			console.log('touch start.')
 			var touchobj = e.changedTouches[0];
 			swipedir = 'none';
 			startX = touchobj.pageX;
 			startY = touchobj.pageY;
 			startTime = new Date().getTime(); // record time when finger first makes contact with surface
-			//e.preventDefault()
+			if (!isScrollEnabled) {
+				e.preventDefault()
+			}
 		}, false)
 
 		touchsurface.addEventListener('touchmove', function(e) {
+			console.log('touch move.')
 			if (!isScrollEnabled) {
 				e.preventDefault() // prevent scrolling when inside DIVP
 			}
 		}, false)
 
 		touchsurface.addEventListener('touchend', function(e) {
+			console.log('touch end.')
 			var touchobj = e.changedTouches[0];
 			distX = touchobj.pageX - startX; // get horizontal dist traveled by finger while in contact with surface
 			distY = touchobj.pageY - startY; // get vertical dist traveled by finger while in contact with surface
