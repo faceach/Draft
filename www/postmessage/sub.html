@@ -21,7 +21,7 @@
         elConsole.appendChild(pNode);
     }
     window.addEventListener('message', function(event) {
-        if (event.origin !== localhost.origin) return;
+        if (event.origin !== location.origin) return;
         logToPage('Message received: ' + event.data);
         event.source.postMessage('Hello back!', event.origin);
     }, false);
