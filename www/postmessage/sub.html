@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Post Message</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+</head>
+
+<body>
+    This is sub page!
+    <script type="text/javascript">
+    //响应事件
+    window.addEventListener('message', function(event) {
+        if (event.origin !== 'https://faceach.github.io') return;
+        console.log('Message received: ', event.data, event);
+        event.source.postMessage('Hello back!', event.origin);
+    }, false);
+    </script>
+</body>
+
+</html>

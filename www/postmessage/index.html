@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Post Message</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+</head>
+
+<body>
+    This is main page!
+    <iframe id="myIFrame" src="./sub.html" sandbox="allow-same-origin allow-scripts allow-top-navigation"></iframe>
+    <script type="text/javascript">
+    /*
+                window.addEventListener("message", function (event) {
+                 …
+                }, true);
+
+                var message = 'ThirdParty:Ping:7';
+                window.postMessage(message, '*');
+                */
+
+
+    var domain = 'https://faceach.github.io';
+    var iframe = document.getElementById('myIFrame').contentWindow;
+
+    setInterval(function() {
+        var message = 'Hello! The time is: ' + (new Date().getTime());
+        console.log('Sending message: ', message);
+        //send the message and target URI
+        iframe.postMessage(message, domain);
+    }, 10000);
+
+    window.addEventListener('message', function(event) {
+        if (event.origin !== domain) return;
+        console.log('Received response: ', event.data);
+    }, false);
+    </script>
+</body>
+
+</html>
