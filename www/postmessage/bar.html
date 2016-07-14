@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <h2 style="color: blue;">This is main page without "allow-same-origin"!</h2>
+    <h2 style="color: red;">This is main page without "allow-same-origin"!</h2>
     <iframe 
     id="myIFrame" 
     src="https://faceach.github.io/Draft/www/postmessage/sub.html" 
@@ -46,7 +46,7 @@
         var message = 'Hello! The time is: ' + (new Date().getTime());
         logToPage('Sending message: ' + message);
         //send the message and target URI
-        window.postMessage(message, '*');
+        iframe.postMessage(message, '*');
     }, 10000);
 
     window.addEventListener('message', function(event) {
