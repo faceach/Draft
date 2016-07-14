@@ -46,7 +46,7 @@
         var message = 'Hello! The time is: ' + (new Date().getTime());
         logToPage('Sending message: ' + message);
         //send the message and target URI
-        window.postMessage(message, domain);
+        iframe.postMessage(message, domain);
     }, 10000);
 
     window.addEventListener('message', function(event) {
