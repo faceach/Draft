@@ -9,8 +9,13 @@
 
 <body>
     <h1>This is main page!</h1>
+    <iframe 
+    id="myIFrame" 
+    src="./sub.html" 
+    sandbox="allow-same-origin allow-scripts allow-top-navigation"
+    style="width: 100%;" 
+    ></iframe>
     <div id="console"></div>
-    <iframe id="myIFrame" src="./sub.html" sandbox="allow-same-origin allow-scripts allow-top-navigation"></iframe>
     <script type="text/javascript">
     /*
                         window.addEventListener("message", function (event) {
