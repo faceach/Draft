@@ -21,7 +21,7 @@
         elConsole.appendChild(pNode);
     }
     window.addEventListener('message', function(event) {
-        if (event.origin !== 'http://faceach.github.io') return;
+        if (event.origin !== 'https://faceach.github.io') return;
         logToPage('Message received: ' + event.data);
         event.source.postMessage('Hello back!', event.origin);
     }, false);
