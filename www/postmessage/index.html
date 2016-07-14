@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    This is main page!
+    <h1>This is main page!</h1>
     <div id="console"></div>
     <iframe id="myIFrame" src="./sub.html" sandbox="allow-same-origin allow-scripts allow-top-navigation"></iframe>
     <script type="text/javascript">
@@ -30,7 +30,7 @@
             return;
         }
         console.log(msg);
-        
+
         var elConsole = document.getElementById('console');
         var pNode = document.createElement("p");
         pNode.textContent = msg;
