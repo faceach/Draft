@@ -9,31 +9,42 @@
 
 <body>
     This is main page!
+    <div id="console"></div>
     <iframe id="myIFrame" src="./sub.html" sandbox="allow-same-origin allow-scripts allow-top-navigation"></iframe>
     <script type="text/javascript">
     /*
-                window.addEventListener("message", function (event) {
-                 …
-                }, true);
+                        window.addEventListener("message", function (event) {
+                         …
+                        }, true);
 
-                var message = 'ThirdParty:Ping:7';
-                window.postMessage(message, '*');
-                */
+                        var message = 'ThirdParty:Ping:7';
+                        window.postMessage(message, '*');
+                        */
 
 
     var domain = 'https://faceach.github.io';
     var iframe = document.getElementById('myIFrame').contentWindow;
 
+    function logToPage(msg) {
+        if (!msg) {
+            return;
+        }
+        var elConsole = document.getElementById('console');
+        var pNode = document.createElement("p");
+        pNode.textContent = msg;
+        elConsole.appendChild(pNode);
+    }
+
     setInterval(function() {
         var message = 'Hello! The time is: ' + (new Date().getTime());
-        console.log('Sending message: ', message);
+        logToPage('Sending message: ' + message);
         //send the message and target URI
         iframe.postMessage(message, domain);
     }, 10000);
 
     window.addEventListener('message', function(event) {
         if (event.origin !== domain) return;
-        console.log('Received response: ', event.data);
+        logToPage('Received response: ' + event.data);
     }, false);
     </script>
 </body>

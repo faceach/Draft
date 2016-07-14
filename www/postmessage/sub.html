@@ -9,11 +9,20 @@
 
 <body>
     This is sub page!
+    <div id="console"></div>
     <script type="text/javascript">
-    //响应事件
+    function logToPage(msg) {
+        if (!msg) {
+            return;
+        }
+        var elConsole = document.getElementById('console');
+        var pNode = document.createElement("p");
+        pNode.textContent = msg;
+        elConsole.appendChild(pNode);
+    }
     window.addEventListener('message', function(event) {
         if (event.origin !== 'https://faceach.github.io') return;
-        console.log('Message received: ', event.data, event);
+        logToPage('Message received: ' + event.data);
         event.source.postMessage('Hello back!', event.origin);
     }, false);
     </script>
