@@ -27,7 +27,7 @@
                         */
 
 
-    var domain = 'https://faceach.github.io';
+    var domain = location.origin;
     var iframe = document.getElementById('myIFrame').contentWindow;
 
     function logToPage(msg) {
@@ -46,7 +46,7 @@
         var message = 'Hello! The time is: ' + (new Date().getTime());
         logToPage('Sending message: ' + message);
         //send the message and target URI
-        iframe.postMessage(message, '*');
+        iframe.postMessage(message, domain);
     }, 10000);
 
     window.addEventListener('message', function(event) {
