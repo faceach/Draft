@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <h2 style="color: blue;">Main page with "allow-same-origin"! window.postMessage(message, '*')</h2>
+    <h2 style="color: red;">Main page with "allow-same-origin"! window.postMessage(message, '*')</h2>
     <iframe 
     id="myIFrame" 
     src="./sub.html?v=1" 
@@ -42,7 +42,6 @@
     }, 10000);
 
     window.addEventListener('message', function(event) {
-        if (event.origin !== domain) return;
         logToPage('Received response: ' + event.data);
     }, false);
     </script>
