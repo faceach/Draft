@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <h2 style="color: red;">Main page with "allow-same-origin"! window.postMessage(message, '*')</h2>
+    <h2 style="color: blue;">Main page with "allow-same-origin"! window.postMessage(message, '*')</h2>
     <iframe 
     id="myIFrame" 
     src="./sub.html" 
@@ -17,15 +17,6 @@
     ></iframe>
     <div id="console"></div>
     <script type="text/javascript">
-    /*
-                        window.addEventListener("message", function (event) {
-                         …
-                        }, true);
-
-                        var message = 'ThirdParty:Ping:7';
-                        window.postMessage(message, '*');
-                        */
-
 
     var domain = location.origin;
     var iframe = document.getElementById('myIFrame').contentWindow;

@@ -25,6 +25,9 @@
         logToPage('Message received: ' + event.data);
         event.source.postMessage('Hello back!', event.origin);
     }, false);
+    window.setTimeout(function() {
+        window.parent.postMessage('From sub page directly', location.origin);
+    }, 5000);
     </script>
 </body>
 
