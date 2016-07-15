@@ -28,7 +28,7 @@
     window.setTimeout(function() {
         var message = 'From sub page directly';
         logToPage('Sending message: ' + message);
-        window.parent.postMessage('From sub page directly', location.origin);
+        window.parent.postMessage('From sub page directly', *);
     }, 5000);
     </script>
 </body>
