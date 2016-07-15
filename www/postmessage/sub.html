@@ -26,6 +26,8 @@
         event.source.postMessage('Hello back! ' + event.data, event.origin);
     }, false);
     window.setTimeout(function() {
+        var message = 'From sub page directly';
+        logToPage('Sending message: ' + message);
         window.parent.postMessage('From sub page directly', location.origin);
     }, 5000);
     </script>
