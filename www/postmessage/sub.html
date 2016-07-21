@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Post Message</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+</head>
+
+<body>
+    <h2>This is sub page!</h2>
+    <div id="console"></div>
+    <script type="text/javascript">
+    function logToPage(msg) {
+        if (!msg) {
+            return;
+        }
+        var elConsole = document.getElementById('console');
+        var pNode = document.createElement("p");
+        pNode.textContent = msg;
+        elConsole.appendChild(pNode);
+    }
+    window.addEventListener('message', function(event) {
+        logToPage('Message received: ' + event.data);
+        event.source.postMessage('Hello back! ' + event.data, event.origin);
+    }, false);
+    window.setTimeout(function() {
+        var message = 'From sub page directly';
+        logToPage('Sending message: ' + message);
+        window.parent.postMessage('From sub page directly', '*');
+    }, 5000);
+    </script>
+</body>
+
+</html>
