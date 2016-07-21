@@ -23,19 +23,19 @@
   var originXMLHttpRequestSend = window.XMLHttpRequest.prototype.send;
 
   var openurl = '';
+  var isProactiveV2Send = false;
 
   window.XMLHttpRequest.prototype.open = function(method, url, async) {
     console.log("open");
     console.log(arguments);
+    // save openurl
     openurl = url;
-    if (isProactiveV2() && isRequestAnswers(openurl)) {
-      return;
-    }
     return originXMLHttpRequestOpen.apply(this, [].slice.call(arguments));
   };
   window.XMLHttpRequest.prototype.send = function() {
     console.log("send");
     if (isProactiveV2() && isRequestAnswers(openurl)) {
+      isProactiveV2Send = true;
       this.onreadystatechange();
       return;
     }
@@ -51,17 +51,17 @@
 
     // this is the actual handler on the real XMLHttpRequest object
     actualXHR.onreadystatechange = function() {
-      if (isProactiveV2() && isRequestAnswers(openurl)) {
+      if (isProactiveV2Send && self.onreadystatechange) {
         CortanaApp.getAnswerAsync().then(function answersCallback(response) {
           console.log('hook response');
           console.log(response);
           self.readyState = 4;
           self.status = 200;
           self.response = response;
-          if (self.onreadystatechange) {
-            return self.onreadystatechange();
-          }
+          self.onreadystatechange();
         });
+        // reset to make sure get answer only run one time
+        isProactiveV2Send = false;
         return;
       }
       self.readyState = actualXHR.readyState;
@@ -103,8 +103,8 @@
     });
 
     // add all pure proxy pass-through methods
-    ["addEventListener", "send", "open", "abort", "getAllResponseHeaders",
-      "getResponseHeader", "overrideMimeType", "setRequestHeader"
+    ["addEventListener", "abort", "getAllResponseHeaders",
+      "getResponseHeader", "overrideMimeType"
     ].forEach(function(item) {
       Object.defineProperty(self, item, {
         value: function() {
@@ -112,14 +112,26 @@
         }
       });
     });
+
+    // add all pure proxy pass-through methods
+    ["send", "open", "setRequestHeader"].forEach(function(item) {
+      self[item] = function() {
+        return actualXHR[item].apply(actualXHR, arguments);
+      }
+    });
   };
 
   setTimeout(function() {
     var xhr = new XMLHttpRequest,
       exp;
-    xhr.open("GET", "/answers", !0);
-    //xhr.open("GET", "./answers.json", !0);
+    //xhr.open("GET", "/answers", !0);
+    xhr.open("GET", "./answers.json", !0);
+    xhr.setRequestHeader("X-MSEdge-1", "1");
+    xhr.setRequestHeader("X-MSEdge-2", "2");
+    xhr.setRequestHeader("X-MSEdge-3", "3");
     xhr.onreadystatechange = function() {
+      console.log('xhr.readyState: ' + xhr.readyState);
+      console.log('xhr.status: ' + xhr.status);
       if (xhr.readyState === xhr.DONE) {
         var parsedResponse = null;
         if (xhr.status === 200) {
