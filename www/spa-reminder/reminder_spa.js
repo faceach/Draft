@@ -3,7 +3,13 @@
 var CUDialog;
 (function(CUDialog) {
     function sendAction(response) {
-        SearchAppWrapper.CortanaApp.sendAction(response.CuAction);
+        var cuAction;
+        if (_d.querySelectorAll(".b_cat3a").length > 0) {
+            cuAction = response.Cat3AAction;
+        } else {
+            cuAction = response.Cat3BAction;
+        }
+        SearchAppWrapper.CortanaApp.sendAction(cuAction);
     }
     CUDialog.sendAction = sendAction;
 })(CUDialog || (CUDialog = {}));; /// <reference path="..\..\..\..\Shared\Content\Content\Script\Declarations\Threshold.Utilities.d.ts" />
@@ -29,6 +35,8 @@ var DialogSPALib;
     var g_region = null;
     var g_isRequestFromBand = false;
     var g_sessionId;
+    var g_asyncResolutionTurnCount = 0;
+    var g_asyncResolutionInProgress = false;
     // Turn 0 input parameters to be cached
     var trumanEndpoint;
     var turn0CuInput;
@@ -37,11 +45,13 @@ var DialogSPALib;
     // Per turn variables
     var t_currentImpressionId;
     var t_isRequestSentToSNR;
-    var t_taskfFrameId;
+    var t_taskFrameId;
     // constants   
     var LOG_DIALOGSPA = "DialogSPA";
     var changeSticModeFunctionName = "changeSticStateAndInputMode";
     var spaDialogSjEvtName = "AJAX.sj_evt_startspadialog";
+    var dialogSpeechEndpoint = "/DialogPolicy?&isSpeech=1&version=2";
+    var dialogTextEndpoint = "/DialogPolicy?&isSpeech=0&version=2";
     sj_be(_w, 'load', initializeSPADialog);
     sj_be(_w, 'click', switchFromVoiceInputToText);
 
@@ -109,6 +119,47 @@ var DialogSPALib;
         DialogSPALib.logVerboseTrace("SPADialog: processResolutionActionInternal", 0 /* Info */ , "g_currentWebviewState: " + g_currentWebviewState + " currenUIState: " + g_currentUIState + " tf id: " + taskFrameId + " impression id: " + t_currentImpressionId, "callbackUrl: " + callBackUrl + ", cuRequestHeaders" + JSON.stringify(g_cuRequestHeaders));
         updateCortanaUIState(3 /* Thinking */ , 9 /* Thinking */ );
         ClientResolutionRequested.executeResolutionActions(projectedApis, callBackUrl, taskFrameId, sessionId, t_currentImpressionId, locale, g_cuRequestHeaders);
+    }
+
+    function processAsyncResolutionInternal(ssml, emotion, estimatedTimeToComplete) {
+        DialogSPALib.logVerboseTrace("SPADialog: processAsyncResolutionInternal", 0 /* Info */ , "g_currentWebviewState: " + g_currentWebviewState + " currenUIState: " + g_currentUIState + " timeToComplete: " + estimatedTimeToComplete, "emotion: " + emotion + ", ssml: " + ssml);
+        var asyncResolutionTtsComplete = "asyncResolutionTtsComplete";
+        if (g_spaDialogRuntime.changeSticStateAndInputMode) {
+            ThresholdUtilities.wrapSynchronousApiCall(g_spaDialogRuntime, changeSticModeFunctionName, "CSI", null, 1 /* Disabled */ , 0 /* Standard */ );
+        }
+        renderSPAUX(emotion);
+        if (g_isSpeechInput && !isStringNullOrEmpty(ssml) && (g_asyncResolutionTurnCount == 1)) {
+            updateCortanaUIState(2 /* Speaking */ , 0 /* None */ );
+            g_currentSpeakOperation = ThresholdUtilities.wrapApiCall(g_spaDialogRuntime, "speakAsync", "SA", null, ssml, g_ttsCounter++);
+            g_currentSpeakOperation.done(function() {
+                g_currentSpeakOperation = null;
+                if (g_isDialogTerminated) {
+                    return;
+                }
+                sj_evt.fire(asyncResolutionTtsComplete);
+            }, function() {
+                handoffDialogToCortana(2 /* Error */ );
+                g_currentSpeakOperation = null;
+                sj_evt.fire(asyncResolutionTtsComplete);
+            });
+        } else {
+            sj_evt.fire(asyncResolutionTtsComplete);
+        }
+
+        function asyncResolutionTtsCompleteAction() {
+            sj_evt.unbind(asyncResolutionTtsComplete, asyncResolutionTtsCompleteAction);
+            updateCortanaUIState(0 /* Idle */ , 0 /* None */ );
+            if (!g_isDialogTerminated) {
+                // set the UI to thinking state since this is just a status page
+                updateCortanaUIState(3 /* Thinking */ , 9 /* Thinking */ );
+                var callbackUrl = (g_isSpeechInput) ? dialogSpeechEndpoint : dialogTextEndpoint;
+                // call back into TCP after timeout
+                sb_st(function() {
+                    return ClientResolutionRequested.sendResolutionResultsToTCP({}, callbackUrl, t_taskFrameId, g_language, g_sessionId, g_cuRequestHeaders, ClientResolutionRequested.TurnTypePrimarySingleTask);
+                }, estimatedTimeToComplete);
+            }
+        }
+        sj_evt.bind(asyncResolutionTtsComplete, asyncResolutionTtsCompleteAction, true);
     }
 
     function processIntermediateTurnInternal(ssml, postssmlAction, emotion, dictationParam) {
@@ -184,6 +235,10 @@ var DialogSPALib;
                 g_currentSpeakOperation = ThresholdUtilities.wrapApiCall(g_spaDialogRuntime, "speakAsync", "SA", null, ssml, g_ttsCounter++);
                 var startTime = new Date();
                 g_currentSpeakOperation.done(function() {
+                    g_currentSpeakOperation = null;
+                    if (g_isDialogTerminated) {
+                        return;
+                    }
                     var endTime = new Date();
                     var elapsedTime = endTime.getTime() - startTime.getTime();
                     var remainingDismissTime = dismissAppTimeout;
@@ -207,24 +262,25 @@ var DialogSPALib;
                     } else {
                         handoffDialogToCortana(0 /* RetainUI */ );
                     }
-                    g_currentSpeakOperation = null;
                 }, function() {
                     handoffDialogToCortana(2 /* Error */ );
                     g_currentSpeakOperation = null;
                 });
             }
         }
-        if (!isStringNullOrEmpty(projectedApi)) {
-            callProjectedApi(projectedApi, projectedApiMethod, shouldHandoffDialogToCortana);
-        } else {
-            if (shouldHandoffDialogToCortana) {
-                handoffDialogToCortana(0 /* RetainUI */ );
+        if (!g_isDialogTerminated) {
+            if (!isStringNullOrEmpty(projectedApi)) {
+                callProjectedApi(projectedApi, projectedApiMethod, shouldHandoffDialogToCortana);
+            } else {
+                if (shouldHandoffDialogToCortana) {
+                    handoffDialogToCortana(0 /* RetainUI */ );
+                }
             }
         }
     }
 
     function executeFinalActionInternalMobile(ssml, emotion, secondaryTextSmall, secondaryTextMedium, secondaryTextLarge, projectedApi, projectedApiMethod) {
-        var ttsCompleteEvent = "ttsComplete";
+        var finalActionTtsCompleteMobile = "finalActionTtsCompleteMobile";
         DialogSPALib.logVerboseTrace("SPADialog: executeFinalActionInternalMobile", 0 /* Info */ , "g_currentWebviewState: " + g_currentWebviewState + " g_currentUIState: " + g_currentUIState + " g_isRequestFromBand: " + g_isRequestFromBand, "projectedApi: " + projectedApi);
         renderSPAUX(emotion);
         if (!isStringNullOrEmpty(ssml) && g_isSpeechInput) {
@@ -232,36 +288,40 @@ var DialogSPALib;
                 if (g_spaDialogRuntime.sendSsmlToSpeechApp) {
                     ThresholdUtilities.wrapSynchronousApiCall(g_spaDialogRuntime, "sendSsmlToSpeechApp", "SSA", null, ssml, secondaryTextSmall, secondaryTextMedium, secondaryTextLarge, true);
                 }
-                sj_evt.fire(ttsCompleteEvent);
+                sj_evt.fire(finalActionTtsCompleteMobile);
             } else {
                 updateCortanaUIState(2 /* Speaking */ , 0 /* None */ );
                 g_currentSpeakOperation = ThresholdUtilities.wrapApiCall(g_spaDialogRuntime, "speakAsync", "SA", null, ssml, g_ttsCounter++);
                 g_currentSpeakOperation.done(function() {
-                    if (g_spaDialogRuntime.changeSticStateAndInputMode) {
-                        ThresholdUtilities.wrapSynchronousApiCall(g_spaDialogRuntime, changeSticModeFunctionName, "CSI", null, 0 /* Enabled */ , 0 /* Standard */ );
-                    }
-                    updateCortanaUIState(0 /* Idle */ , 0 /* None */ );
                     g_currentSpeakOperation = null;
-                    sj_evt.fire(ttsCompleteEvent);
+                    if (!g_isDialogTerminated) {
+                        if (g_spaDialogRuntime.changeSticStateAndInputMode) {
+                            ThresholdUtilities.wrapSynchronousApiCall(g_spaDialogRuntime, changeSticModeFunctionName, "CSI", null, 0 /* Enabled */ , 0 /* Standard */ );
+                        }
+                        updateCortanaUIState(0 /* Idle */ , 0 /* None */ );
+                    }
+                    sj_evt.fire(finalActionTtsCompleteMobile);
                 }, function() {
                     handoffDialogToCortana(2 /* Error */ );
                     g_currentSpeakOperation = null;
-                    sj_evt.fire(ttsCompleteEvent);
+                    sj_evt.fire(finalActionTtsCompleteMobile);
                 });
             }
         } else {
-            sj_evt.fire(ttsCompleteEvent);
+            sj_evt.fire(finalActionTtsCompleteMobile);
         }
 
         function ttsCompleteAction() {
-            sj_evt.unbind(ttsCompleteEvent, ttsCompleteAction);
-            if (!isStringNullOrEmpty(projectedApi)) {
-                callProjectedApi(projectedApi, projectedApiMethod, true);
-            } else {
-                handoffDialogToCortana(0 /* RetainUI */ );
+            sj_evt.unbind(finalActionTtsCompleteMobile, ttsCompleteAction);
+            if (!g_isDialogTerminated) {
+                if (!isStringNullOrEmpty(projectedApi)) {
+                    callProjectedApi(projectedApi, projectedApiMethod, true);
+                } else {
+                    handoffDialogToCortana(0 /* RetainUI */ );
+                }
             }
         }
-        sj_evt.bind(ttsCompleteEvent, ttsCompleteAction, true);
+        sj_evt.bind(finalActionTtsCompleteMobile, ttsCompleteAction, true);
     }
     // Sets emotion, udate cortana webview
     function renderSPAUX(emotion) {
@@ -531,7 +591,7 @@ var DialogSPALib;
         g_currentEventHandlers = {};
     }
 
-    function initializeTurn(inputQueryType, cuRequestHeaders, sessionId, taskFrameId) {
+    function initializeTurn(inputQueryType, cuRequestHeaders, sessionId, taskFrameId, isAsyncResolutionTurn) {
         if (cuRequestHeaders === void 0) {
             cuRequestHeaders = null;
         }
@@ -541,16 +601,31 @@ var DialogSPALib;
         if (taskFrameId === void 0) {
             taskFrameId = null;
         }
+        if (isAsyncResolutionTurn === void 0) {
+            isAsyncResolutionTurn = false;
+        }
         // unregister all event handlers from previous turn
         unregisterAllEventHandlers();
         g_isSpeechInput = isSpeechQuery(inputQueryType);
         g_currentWebviewState = g_cortanaApp.currentState;
         g_cuRequestHeaders = cuRequestHeaders;
+        if (isAsyncResolutionTurn) {
+            if (g_asyncResolutionInProgress) {
+                // async turn already in progress; increment the async resolution count
+                g_asyncResolutionTurnCount++;
+            } else {
+                g_asyncResolutionInProgress = true;
+                g_asyncResolutionTurnCount = 0;
+            }
+        } else {
+            g_asyncResolutionInProgress = false;
+            g_asyncResolutionTurnCount = 0;
+        }
         if (!g_isSpeechInput) {
             setRequestDataHeader();
         }
         g_sessionId = sessionId;
-        t_taskfFrameId = taskFrameId;
+        t_taskFrameId = taskFrameId;
         t_currentImpressionId = createCUImpressionId();
     }
 
@@ -627,12 +702,31 @@ var DialogSPALib;
         sj_evt.bind(spaDialogSjEvtName, evtAction, true);
     }
     DialogSPALib.processIntermediateTurn = processIntermediateTurn;
+
+    function processAsyncResolution(ssml, postssmlAction, emotion, cuRequestHeaders, sessionId, estimatedTimeToComplete, inputQueryType) {
+        function evtAction() {
+            try {
+                sj_evt.unbind(spaDialogSjEvtName, evtAction);
+                initializeTurn(inputQueryType, cuRequestHeaders, sessionId, null, true);
+                if (g_asyncResolutionTurnCount > 10) {
+                    // exceeded max number of retries
+                    handoffDialogToCortana(2 /* Error */ );
+                } else {
+                    processAsyncResolutionInternal(ssml, emotion, estimatedTimeToComplete);
+                }
+            } catch (error) {
+                DialogSPALib.logVerboseTrace("SPADialog: processAsyncResolution", 0 /* Info */ , "estimatedTimeToComplete: " + estimatedTimeToComplete, "Exception: " + error.message + ", inputQueryType: " + inputQueryType + ", postSsmlAction: " + postssmlAction, true);
+                handoffDialogToCortana(2 /* Error */ );
+            }
+        }
+        sj_evt.bind(spaDialogSjEvtName, evtAction, true);
+    }
+    DialogSPALib.processAsyncResolution = processAsyncResolution;
     // This function passes back confirmation accept as a string 'yes' until there is support
     // in TCP to pass back structured data
     function processConfirmationAccept() {
         switchFromVoiceInputToText();
         updateCortanaUIState(3 /* Thinking */ , 9 /* Thinking */ );
-        console.log("TaskFrameId: " + t_taskfFrameId + " SessionId: " + g_sessionId);
         var multimodalSlots = {};
         multimodalSlots["intent:confirm"] = encodeURIComponent("true".replace(/\"/g, "\\\""));
         sendMultimodalAction(multimodalSlots);
@@ -643,16 +737,33 @@ var DialogSPALib;
     function processConfirmationReject() {
         switchFromVoiceInputToText();
         updateCortanaUIState(3 /* Thinking */ , 9 /* Thinking */ );
-        console.log("TaskFrameId: " + t_taskfFrameId + " SessionId: " + g_sessionId);
         var multimodalSlots = {};
         multimodalSlots["intent:reject"] = encodeURIComponent("true".replace(/\"/g, "\\\""));
         sendMultimodalAction(multimodalSlots);
     }
     DialogSPALib.processConfirmationReject = processConfirmationReject;
+    // This function passes back selection index data using "ux:position_ref" slot
+    function processSelectionData(selectedIndex) {
+        if (selectedIndex) {
+            switchFromVoiceInputToText();
+            updateCortanaUIState(3 /* Thinking */ , 9 /* Thinking */ );
+            var multimodalSlots = {};
+            multimodalSlots["ux:position_ref"] = encodeURIComponent(selectedIndex.replace(/\"/g, "\\\""));
+            sendMultimodalAction(multimodalSlots);
+        } else {
+            DialogSPALib.logVerboseTrace("SPADialog: processSelectionData", 0 /* Info */ , "SlotName: " + "ux:position_ref", "SlotValue found to be null or whitespace", true);
+        }
+    }
+    DialogSPALib.processSelectionData = processSelectionData;
+    // This function passes back all multimodal inputs that are to be passed to TCP
+    function processAjaxCalls(multimodalSlots) {
+        sendMultimodalAction(multimodalSlots);
+    }
+    DialogSPALib.processAjaxCalls = processAjaxCalls;
     // this function sends client structured data back to TCP
     // multimodalSlots are IStringMap of slot and value specified by TCP form
     function sendMultimodalAction(multimodalSlots) {
-        ClientResolutionRequested.sendResolutionResultsToTCP(multimodalSlots, "/DialogPolicy?&isSpeech=0&version=1", t_taskfFrameId, "en-us", g_sessionId, g_cuRequestHeaders, ClientResolutionRequested.TurnTypePrimary);
+        ClientResolutionRequested.sendResolutionResultsToTCP(multimodalSlots, dialogTextEndpoint, t_taskFrameId, g_language, g_sessionId, g_cuRequestHeaders, ClientResolutionRequested.TurnTypePrimary);
     }
     // This function passes back time duration as a string until there is support from TCP to send
     // structured time data back
@@ -674,13 +785,13 @@ var DialogSPALib;
             g_currentLuOperation = null;
         }
         updateCortanaUIState(3 /* Thinking */ , 9 /* Thinking */ );
-        var hours = (isStringNullOrEmpty(hoursId.value) || (hoursId.value == hoursId.defaultValue)) ? "" : (hoursId.value + "%20hours");
-        var minutes = (isStringNullOrEmpty(minutesId.value) || (minutesId.value == minutesId.defaultValue)) ? "" : ("%20" + minutesId.value + "%20minutes");
-        var seconds = (isStringNullOrEmpty(secondsId.value) || (secondsId.value == secondsId.defaultValue)) ? "" : ("%20" + secondsId.value + "%20seconds");
-        var timeUrl = "/search?input=1&q=" + hours + minutes + seconds;
-        ClientResolutionRequested.callEndPointGet(timeUrl, t_currentImpressionId, g_cuRequestHeaders, function(innerHtml) {
-            ClientResolutionRequested.render(innerHtml);
-        });
+        var json = JSON.parse("{}");
+        json.Hours = hoursId.value;
+        json.Minutes = minutesId.value;
+        json.Seconds = secondsId.value;
+        var multimodalSlots = {};
+        multimodalSlots["duration_ux"] = encodeURIComponent(JSON.stringify(json).replace(/\"/g, "\\\""));
+        sendMultimodalAction(multimodalSlots);
     }
     DialogSPALib.processTimePickerData = processTimePickerData;
 
@@ -1131,9 +1242,9 @@ var ClientApiWrapper;
     }
 })(ClientApiWrapper || (ClientApiWrapper = {}));;
 var cuRequestHeaders = [
-    ["X-BM-Theme", "FFFFFF;08517b"],
+    ["X-BM-Theme", "000000;1ba0e1"],
 ];
-DialogSPALib.processIntermediateTurn("\u003cspeak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"http://www.w3.org/2001/mstts\" xml:lang=\"en-US\"\u003e\u003cmark name=\"TtsService\"/\u003e\u003cmstts:audiosegment data=\"+PnZcAAAAACwoAAAbRMAAKcrdPeo7knl4CNwQ6crdPepnKei3r8/pyt096mUM6ea5a2Ppyt094Q2lAWcKt23pyt096mcp6Levz+nOLSxFGJnyi7V2SkAXJyBMDt/KgRXpLbUcHtRLU1PJ1d8dzebiH0nDF+1ASjHJ718riww+UWTtiiu33kHt5MwHWWSJddBkNYG92W9NHK++5i4rfdnek4RedPWF31YQCB3uNeISAyIuWdMr2f8ovsHZPhCexGolv1zeXX0aaeO1rJN/7eIlYOAFnUlgK1Hr7n1zwxdTNyNRa4E7gzyhKq2rFSHfGo/oSOdtOk2gat6z0gkduUW69lMf7pS72AI/hTmr4Phqf8qgpujslEMPCSSCdvBn+ZOhbgPWOL2lrvzW5avUy+6AMza3y3On2YqhV8b41N6yCZJVn/u7BbNwxK0o30/2ZnfBwmrBphYG0eGvbT23zmJDKgKeJ8XYBlw6ar5zkybfWpqzJsrRpM9SHgcvkQ0fOKPgAqAgWV9wN3D7QYflvYRPpJt765HSIv8YQ6kdzcmaqcfJx+Mxuyf2J3OXzYj3mLcIqBRAQWUJT+QxXDmT7wOC2bj95Y54aIz5RsKunJ040NGhzVE2DNNv5KIkNkdCjA6LG44lqWEHqauCXgI1rD3biDFpP+RraY84kDon8BgdBCA8YCClfPXtk9mgcKMtHei+y+/lHUDxck3n77ks6HhYdVpvCa/9de0+V/mpjRCmiYDPqjfWudsZ+7qdbj/ldEy5DuNG3UuiOpJCG6slMcCL8GLCJz9mWigJl9Fu4chEj/k4EsH+YCwDbN7lExEv5eI7vJK/FEeKtcnE8IfQymOcZkKmdecFg213Q15g6NngMTysqfLwAeaUFXzmQmYxvz+IYO0zBuo16aVILVyUTSrbboCp5HTmyMZ1Yp5EJp/dwVXKMEcdY4bNEsOWb8zABMoXp6YcFOmfTzQvMIR4AjPLRYIk+bkdOTILNpxkKzRNUEFV7s9W++EK7VESkPDihhz/mpHsZza0FshIpvFYUXJzhDreTrz4pI3wjGdNpVvO7aUkw4oXMOy3qKLVOUFdeHIKreFsbSfHAHzv6C3KKYIpGy9WN6tsymTn7Vw0vptSsym6qJGR5CIkpRSDFee8GOsTjIU3YBUCPtEP4yPv57o4jmZhy0byP17WIe5EzvZlVudNfDx9hWoxKGRyKjRiD9ddvgCF+4QEVBNye2cs6Hvux4uXqHfttbvR9KuD1DvQLXDZmS3CCDqrkMpAIl+L5NCCskIx/kyaL2fnboeVWPpTjzghUoEiYsCOEyac01MaxwvrhgUKYgsQZ/WL8koOZz/nVCkPXU8YGNnV/CQog6XpFmIy9m9qGwX1Up6f2jvtSGw1+7Z0Pi6nPVpLUOZiFiOFx2LodzwM4ADcpnXqGp2fAbVxUspszyDXGzPoC0depXIX5o1h+O6PNfvF3M43S/1sl4KzxEDvlR6AagsSXvkQWDv2BlJz8zDy3szn+KU97eXfZWIJEkeRCVE+vv+YVQV8CSRRi0HMZ4kbCndRNWti4aDrX5R35MLUkLnlqHWKFSuikxj+O1ZH+2jbiPW/cdqgczEXh4pvfAeVLi5WHxrk9ulB9aGwpiDas2Mit8GnL/kfUPNXSKiP5oKKQ+NEObImKqAOwvuFHZfjo6l6Oe7Izah6Q7wTwyvkPTtMWf2H2CFxWBwU3aZ1bHpsJuQp4+9/1tIR05Pi5ivLsU9FXr19sKyt37VmNte4ubf8qLSULPTvnsVDSeTEJ+iUN1gUP18qkhIpIvIcYXs4olqc37UmikXCK+8fDhTehByzKhq6tkwTBxCJNWo4WM2OmAUiPKd4A98qb+FQvYSSajyjVsQvV7bXQGjqggl0bvUcP1s7jXxh1J6wcbrrKMbRvxexh7HY5mFO+TqIuT48ggkpWW93c7rQJg/QqDshxtnNbVwA56eytRbdX2fuq93SIe4sgQkPdovhM+Nw+okaSLAzgQHCtAsE14IkgG6GleFMB9DlTI7INagV/0t/3XcN/j8PyxUkX8KVu1tDmxDlOYBdyzTHRX/Wr4hjBD8BF0gD6mQBH/RRyEFhGbXEmqiXlz1Gf+nPgl5nMlSWuGmEfJG2F+Kx7unK3T14ySfjXQu/6crdPXjJJ+NdC7/pyt09eMkn410Lv+nK3T148Ohy9zo+6crdPXkP0fYseTWpyt09eMkn410Lv+nK3T3qZynot6/P6crdPeplDOnmuWtj6crdPeENpQFnCrdt6crdPepnKei3r8/pyt096mcp6Levz+nOBFE55JYDJF0pejlvC3ZNRGYqMyMpWaGm7eAW95I16y2UudCQfDMNryxYwWcTfU0/lyAg8ls1j26T/Zg81mmEBjpHqdOIZaeplguVIc225zm/4tCUlW9w3sbarSmRnlyGb+EG4No1ur3K66c7b7cq/ZEAYzWdeysuFxZnJ4qidW92w1GyiQE+E+TlsqHGU/XsThiDOwcpzxtjNu8+6+wq5ib+uBnWdI0iIk3ETx20iUYM3/MAJHPmgiIW2R2Qc9V350iDHyxPnyIAuJkMxS2iru72psOunPEafJkZl9cV6jmBJXlDNmFZmDBeR3MGuIHhkLfK7CvnKyI8uvd1kGl6hINYc6dqClHzxlcf47PwT8pGE/vUTgbFlDv0831jRYl0oMawX+cbQAcMSGK8YhrZPbbKwjUrMAnvr9itm5F9S6VgE46O4+TvUhtSTlISrS/mO462BbJ6FRqlc0fwH2o0PdNhYOxQL6T6NQhh0H22lxbayFY8N25WWvmXvnaLiKjh0+NakNfxo0n7fS9R5k4SqL6K0YtR61Tb9muMRvCHRgwLokhwFL/inmmJlNad4Xb4Wftn4jtBAd3DsXl3PuiIeVL30f6hgIZnIc/iLhnf+4vGanLeI8kyspn1b/d6DD7ZtPqNxv/GtPmBBlJAI22hv1Y66TYkqd/uT8dI6SvO3ANcB/DrsuuBRIE/bX3DbvNryw7PSu7Xs+8780SPzlbCl6qAE5HnEr3EGCRuXnb4mrACvreld6M16Qpv1d/RlNvJI5yYkOhIjWY8HyILLZfkzU/mZnoaNusrcgA+4Ta89WTRFbYltkYQY2rS2hT8duiklQoelOPK5mZ0gXZHbmJHnzo4DrM05zLhOpKod/2il1lgbftzJlTOu3gcOQ2+WtTgZhko5duwusCfstjLHEvlGL/mGrIz/OTkgLoXBNCQY+pnFt79a6JfkEOJ+BK+gZrk0+YarL+Xi03S15xeVziAlyjW+E5njP9sGOWoKY/ODNDwFjMcShY3aCUK0jf4JcqqRP5XsR5qv+A32WU740GNjqKZehyxuegtumBMZyGGZBfu5hqzflvlTvcVS7/VOluAN0qd7FnM+/elsbNYopNJGw2H4cCpeDG+aOzu5VXNEsaHS+Pn5aDGtqCrh+vkdhjkaPPRlIjBXRyyF/imYl8/I0baNpMGI2nPRlqThifBfWiBYuW84rxUkd/C/9xCzQeKUIbt7hI9rZ6hzc55f8hyWtTK4j8cD0GiLqhw71SRI/0D8JhP4tp94kHID6qdg8GlvCK0foNewanA/wLOZeAKJUgkvEKYAs5lZeGJnczoU+xvZTofz3B9zOBv5TjhOgtXWHPvCblVVShU1nrIpQ6mgdgrBbPMwuI5Hckvdw5wOuHw/fFy9GYm8IJLi/iSH3jNRKPgla8sBkYeq4383mtCLLG3gm9gQF0ONGfEc+poO0C9U2cdBTb3H+avZQ+1vWTZp8/1QDX1jpaAb5USj5sxUaRzwX9apO9gSOhE8vh3Wly6V+a/oKfz63H+M7lYz5VPlKwykNppC9Di+c7QARFh0vNKlPimQOfnI7rPsD1zUlwqXmdTjgd+2XTv6zD3VE4CHuzHQU1sh9Mb0hqwHjLnB6o9EQgh/eVgOUUqiLNSlhLDprOTxRtPwjJGgK1RmC5FP9+JjGnacLkpK0Gj1Nn2et9pz+WWAqqqJ5HFTU2jvpSk7h07EQn/09IJc7SSOWDAzxyP+FwEW6o1nuXNv5VTKOMyxyhA9vhxT2tw5yHzWjfrUxQVsx7nOlbUVNNbOrCob/nmDMHidDIUvV7TfXMqPXlkX+bPdxozLzFMjgHbo5F4fY+iqKbedyuZcMuNyt1RITRKOxMomgve7bYsNQLj4WR92M/ugZ7U3nCE924fl4su9TcD54eS1h/uOb0BNt5UabZDTfwebwtBgOD7/3BEEui3K3jMZhbzpqB540WFOhY/WWENCuNMBIPd+8i+AV1+X+LgRVmALz7BKonCN2vHqRIWz7gmDZ6nfujIXcOYNyiTaYrcrdn10+sy8pU9VSpf1HQEagek3+Xjeoxakcn2bsP4T028LDar9Q7e3S3tQcZrBYLyx7LmMSV0G9zZKR/mZnYsCRVVQfcbIaOwEVrJTMQpuRwDV+IIvk+e3FXROYj+B+YbMQwDog1EA4GIijVyZ4Lh2CFhVSYpEJDcHEcJSknmB+UZIREYoqqtIf86XCWw58MhyGSQPma7s94QLzBobg4Lc4blTmRI6JY3zb5esFMos/UhOWUYUpF1ZMBn8umafeEhtt+gLYfSep6+UX3u5zta5EQLlhDJZo36dM6/1EhZQuYeni8qwRMJqNVGw8+pGI/sokWaTL6vc5Gomx/sbCAcA9gf44GHKP/y9bYUAo8UWYW3ylMhegRpcBeIFYEjQTpOIxNp4F7rFCjJ4VwGw2thNXaPRxLHGrLkoKRxhv//7Soy2De52rpCePeNSkd5H5oEtVGJ7/NOXq26XSy+7PMSSBGF5Qv7E1RaE+SiIEQzd6H/+gO5jagXZ7KRUv9g4acj2GHEhfHbL08bPjcOHaELgUyACNkySF/kesDyBIEVf4X4i9rV+XBgHLmjU3K+Ea3C8Cn2djWew8EpcW41RTbuzb9kwMESh7fNtRzleW9Z+3tAxuFFAsrnoCZlovfu4uVynRF94dctuBbBX+Q+q5Yib8oZPHZ+uHbgap5LpCjvJxZfvpbV1wZ6S7fu7G0bk63b25T93Z2eCM/Zy3p7M9PeYrsGBhF+dFxebDQ3lBurSU+OMbd/YRemVszzODMPQ1UwS6qXt8P8qWsSLyRId+MjAiEojAtaST4h3RgQlBg8hlx8994DKksaQP1FS76uFSuDEFfuzZcnqdivR4YafJvl/KTGUNI4yTSYFToXHLmlWF8wViZIUhr56y0/cOgfoYJBGe5POCWkfsGugUm09QImB+UjlswSLWYc/tKAvxh6lfJzoKWoCmMptQHPaM0CQb1uEXnubpof5hz+pqeOtnWx7BfFW/UL37H0xM6SUUXQFtOctlUP0Mv6m1sd6UYbb+Yx6x5xI7tZiVHw3R1PtdlVhSk3hJhM8xhOMo1B8mfo/qXGwfSwuWM5YjEnVl71aYuOxMZ10+auIjfX75P+K8GA9Ck3KBLrBN2tFyKws4G38JzeEfi7SdeYRxzAe0MOUeCVloPhYhnwuzEOT+ab2Avf2XQD5b+ZITOPZvBzbPxMQ5SFUfSG8xGEG7otphccPx5n8dohzTQP5jKCxt7GhPgD2iMyBnvlbGmrU0eImE4ZQ0SMpEJgD4D17MgkDfR2lTfxaEjzsKWkExPOXcX0nrlee6wlZVMfyVwXKhIxBiljzzgiRm7udfJyOCqaSRy5mD5f5JJDgjxmlCx+DfIbuoS/vWABO8g3/XPGfIVAoaTm7ZfSJrJkawN7YTAkmf2L9u5IaFKMohJgkmlkDnY2p+4B54xllQyMin6v6QmenKPEbab53D3/T0k/WKEJIy/kkgQ9j/u3O7PNDqe81bP1krq6epT51fn8X4DEdiUXlaqsPOGOZfuM8D/hQCANq4K/0DM7TJIXVri09RB/kPOEpUCCvcMcKigCL60Vl4bw0mJvDbzVUwtJ5spoPUN5bSDydCxPADu0vWV6ef+OSnr5exkFpYv5Zj8Oz2iCasYC8xrnuFTizWxX5RyzVC/Q7tLOfkiYeRRbxo+nCc1mMY8/vfzrkINwHH4d1snQ34TozA2n5QkvYeLIBr5RIdx/HCTUX6VGZSIE6nbe/rnZq9y9R3qMOaR4ZVu5jB8cWuvk1JwNRWgprU2+oEpZh53l8Ib8DBub+hfVCmgoo209KREoGpCnGz7mbyyUkI5kDCR75RGa67lveZnDuOM/1ivG1QrwWLw89t4ube7W86tTib20Bvmr+xbXI/vff+SXzqES6t4tGTzEPRaBDUoNVpMGic7Zop65XyLZ4zn6nJtiGceLxmjCi6izTvZ8SQ5/7Qu1qIYbRXM3TcqLcGKEE9kM5dO7rEMQB+Z6M7W+O5pX2B5SBmKH64H0/P2D07LkpwJSV3ReeXZEujuxC8YXltJ2yOtrNOGf4m/q74G7Tvt8Z5pg69+irS0P/ZNUi5lj6TcDdsxCI7PUuN+Da405O+htAV1+4jeSBToYVUbNKqx3Jlklc7sm7+1zWrxjOuiYn+376MAEe9LkEXu6KcPKDrwuHyx3IFKJ45Lf4RyNkWpsUGqfi4zOGXF0nFwT0rEloKZ9kuSOXYoStFK2VjW4VFT1lveYfjqv9Aif6+wqTNmnHe/prO51I7x3W7vUBChCxXNvOpwlG4JJ7CXZ/+tCcAnN/8JsWqHGt0HfSmc6bH1zTdv\"\u003eSure thing, When do you wanna be reminded?\u003c/mstts:audiosegment\u003e\u003c/speak\u003e", "waitforuserinput", "Calm", "{ \"TypeId\" : \"eef2491d-6e30-44b1-962b-7a07c36d654f\", \"Topic\" : \"Short Form\", \"PrecedingContext\" : \"\",\t\"FollowingContext\" : \"\",\"Mode\" : \"OneResponse\",\t\"ApplicationName\" : \"SPA Dialog\", \"ApplicationId\" : \"e58db793-6728-4534-bbc2-726d5a449be8\",\t\"CompleteTimeout\" : 1000,\t\"IncompleteTimeout\" : 1000, \"InitialSilenceTimeout\" : 3000}", "SpeechQuery", cuRequestHeaders, "fb1e5682-6772-caa7-12c8-750130d14511");
+DialogSPALib.processIntermediateTurn("\u003cspeak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"http://www.w3.org/2001/mstts\" xml:lang=\"en-US\"\u003e\u003cmark name=\"TtsService\"/\u003e\u003cmstts:audiosegment data=\"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\"\u003eWhat was your reminder?\u003c/mstts:audiosegment\u003e\u003c/speak\u003e", "waitforuserinput", "Sensitive", "{ \"TypeId\" : \"eef2491d-6e30-44b1-962b-7a07c36d654f\", \"Topic\" : \"Short Form\", \"PrecedingContext\" : \"\",\t\"FollowingContext\" : \"\",\"Mode\" : \"OneResponse\",\t\"ApplicationName\" : \"SPA Dialog\", \"ApplicationId\" : \"e58db793-6728-4534-bbc2-726d5a449be8\",\t\"CompleteTimeout\" : 1000,\t\"IncompleteTimeout\" : 1000, \"InitialSilenceTimeout\" : 3000}", "SpeechQuery", cuRequestHeaders, "52173f4c-795f-69c5-10c0-8083187df6ad");
 if (SearchAppWrapper.CortanaApp.isAmbientMode) {
     sb_de.classList.add("CortanaSPA_ambient");
 };

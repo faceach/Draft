@@ -20,16 +20,24 @@ var WrapApi;
         // we don't implement the following as QF and device search are not part of CoA
         // searchResultsView: ISearchResultsView;
         // searchBox: ISearchBox;
+
+        var uniqueEventId = 1;
+
+        function getRandomId() {
+            return uniqueEventId++;
+        }
+
         function callNativeAsync(apiName) {
             console.log('----------------------');
-            console.log('callNativeAsync: %s', apiName);
+            console.log('callNativeAsync 1: %s', apiName);
 
             var params = Array.prototype.slice.call(arguments, 1);
             return new Promise(function(resolve, reject) {
                 if (!apiName || typeof cortanaObject[apiName] !== 'function') {
                     completePromise(reject);
                 }
-                var eventName = 'callNativeAsync_' + apiName;
+                var eventId = getRandomId();
+                var eventName = 'callNativeAsync_' + apiName + '_' + eventId;
 
                 function eventHandler(jsonParams) {
                     removeEventListener(eventName, eventHandler);
@@ -45,25 +53,33 @@ var WrapApi;
                 }
                 // Add event listener
                 addEventListener(eventName, eventHandler);
+                console.log('----------------------');
+                console.log('callNativeAsync 2: %s', apiName);
                 // Cal native projected API
+                params.push(eventName);
                 cortanaObject[apiName].apply(cortanaObject, params);
+                console.log('----------------------');
+                console.log('callNativeAsync 3: %s', apiName);
             });
         }
         var nativeEventListenerMap = {};
 
         function addEventListener(eventName, handler) {
             console.log('----------------------');
-            console.log('addEventListener: %s', eventName);
+            console.log('addEventListener 1: %s', eventName);
 
             if (!eventName) {
                 return;
             }
-            eventName = eventName.toLowerCase();
+            console.log('----------------------');
+            console.log('addEventListener 2: %s', eventName);
             if (nativeEventListenerMap[eventName] !== undefined) {
                 return;
             }
+            console.log('----------------------');
+            console.log('addEventListener 3: %s', eventName);
             nativeEventListenerMap[eventName] = handler;
-            cortanaObject.registerEventListener(eventName, "CortanaApp.triggerEventListenerFromNative");
+            cortanaObject.registerEventListener(eventName, "CortanaApp.triggerCortanaEventListenerFromNative");
         }
 
         function removeEventListener(eventName, handler) {
@@ -73,20 +89,18 @@ var WrapApi;
             if (!eventName) {
                 return;
             }
-            eventName = eventName.toLowerCase();
             if (nativeEventListenerMap[eventName] === undefined) {
                 return;
             }
             delete nativeEventListenerMap[eventName];
             cortanaObject.removeEventListener(eventName);
         }
-        cortanaObject.triggerEventListenerFromNative = function(eventName, params) {
+        cortanaObject.triggerCortanaEventListenerFromNative = function(eventName, params) {
             console.log('----------------------');
-            console.log('triggerEventListenerFromNative: %s', eventName);
+            console.log('triggerCortanaEventListenerFromNative: %s', eventName);
             if (!eventName) {
                 return;
             }
-            eventName = eventName.toLowerCase();
             var eventHandler = nativeEventListenerMap[eventName];
             if (!eventHandler) {
                 return;
