@@ -1,3 +1,3 @@
-(()=>{
-	console.log('Hello world');
-})();
+export default log = (msg = '') => {
+	console && console.log(`=== ${msg} ===`);
+};
