@@ -6,3 +6,6 @@ platforms/
 plugins/
 
 .DS_Store
+
+.zip
+.psd
